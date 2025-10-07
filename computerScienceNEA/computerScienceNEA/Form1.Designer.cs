@@ -42,7 +42,7 @@ namespace computerScienceNEA
             this.buttonRight = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
             this.buttonStop = new System.Windows.Forms.Button();
-            this.buttonInsert = new System.Windows.Forms.Button();
+            this.buttonRegister = new System.Windows.Forms.Button();
             this.buttonSQLSearch = new System.Windows.Forms.Button();
             this.listBoxOutput = new System.Windows.Forms.ListBox();
             this.textBoxDatabaseFirstName = new System.Windows.Forms.TextBox();
@@ -177,16 +177,16 @@ namespace computerScienceNEA
             this.buttonStop.UseVisualStyleBackColor = true;
             this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
             // 
-            // buttonInsert
+            // buttonRegister
             // 
-            this.buttonInsert.Location = new System.Drawing.Point(805, 13);
-            this.buttonInsert.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonInsert.Name = "buttonInsert";
-            this.buttonInsert.Size = new System.Drawing.Size(159, 28);
-            this.buttonInsert.TabIndex = 22;
-            this.buttonInsert.Text = "Inert into database";
-            this.buttonInsert.UseVisualStyleBackColor = true;
-            this.buttonInsert.Click += new System.EventHandler(this.buttonInsert_Click);
+            this.buttonRegister.Location = new System.Drawing.Point(805, 13);
+            this.buttonRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRegister.Name = "buttonRegister";
+            this.buttonRegister.Size = new System.Drawing.Size(159, 28);
+            this.buttonRegister.TabIndex = 22;
+            this.buttonRegister.Text = "Inert into database";
+            this.buttonRegister.UseVisualStyleBackColor = true;
+            this.buttonRegister.Click += new System.EventHandler(this.buttonRegister_Click);
             // 
             // buttonSQLSearch
             // 
@@ -281,7 +281,7 @@ namespace computerScienceNEA
             this.Controls.Add(this.textBoxDatabaseFirstName);
             this.Controls.Add(this.listBoxOutput);
             this.Controls.Add(this.buttonSQLSearch);
-            this.Controls.Add(this.buttonInsert);
+            this.Controls.Add(this.buttonRegister);
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonLeft);
             this.Controls.Add(this.buttonRight);
@@ -318,7 +318,7 @@ namespace computerScienceNEA
         private System.Windows.Forms.Button buttonRight;
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.Button buttonStop;
-        private System.Windows.Forms.Button buttonInsert;
+        private System.Windows.Forms.Button buttonRegister;
         private System.Windows.Forms.Button buttonSQLSearch;
         private System.Windows.Forms.ListBox listBoxOutput;
         private System.Windows.Forms.TextBox textBoxDatabaseFirstName;

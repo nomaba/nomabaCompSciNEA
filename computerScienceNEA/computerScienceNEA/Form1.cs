@@ -140,7 +140,7 @@ namespace computerScienceNEA
         // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        private void buttonInsert_Click(object sender, EventArgs e)
+        private void buttonRegister_Click(object sender, EventArgs e)
         {
             //link database
             SQLiteConnection myConnection; //created new vatiable callled my connection
