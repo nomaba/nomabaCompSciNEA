@@ -106,7 +106,7 @@ const int statePin = 41;
 //
 
 // MAX7219 LED Dot Matrix Module
-LedControl lc = LedControl(48, 52, 50, 1); // Created variable called ledMatrix that contains the location of the pins for the module // LedControl(DIN pin, CLK pin, CS pin, number of matrixes);)
+LedControl lc = LedControl(52, 48, 50, 2); // Created variable called ledMatrix that contains the location of the pins for the module // LedControl(DIN pin, CLK pin, CS pin, number of matrixes);)
 
 //
 //
@@ -194,8 +194,11 @@ void setup()
 
   
   lc.shutdown(0, false); // Wake up the MAX7219 from power-saving mode
-  lc.setIntensity(0, 0); // Set brightness level (0 is min, 15 is max)
+  lc.setIntensity(0, 15); // Set brightness level (0 is min, 15 is max)
   lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.shutdown(1, false); // Wake up the MAX7219 from power-saving mode
+  lc.setIntensity(1, 15); // Set brightness level (0 is min, 15 is max)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
   
   //
   //
@@ -208,7 +211,7 @@ void setup()
     Serial.println("OK");
 
     // Set volume to maximum (0 to 30).
-    player.volume(30);
+    player.volume(15);
     // Play the "0001.mp3" in the "mp3" folder on the SD card
     player.playMp3Folder(3); // spongebon
 
@@ -472,6 +475,7 @@ void stopMotors() {
 void drawFrame(const uint8_t frame[8]) {
   for (int row = 0; row < 8; row++) {
     lc.setRow(0, row, frame[row]);
+    lc.setRow(1, row, frame[row]);
   }
 }
 
