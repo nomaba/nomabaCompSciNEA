@@ -193,10 +193,11 @@ void checkForIR()
     delay(600);
   }
   else{
-    //delay(50);
-    stopMotors();
+    
   }
 }
+
+
 
 void translateIR() // takes action based on IR code received
 // describing Remote IR codes 
