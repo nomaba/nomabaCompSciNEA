@@ -314,14 +314,67 @@ const int framesNumLoading = sizeof(LOADING) / sizeof(LOADING[0]);
 //
 //
 //
-//
-//
 
 const uint8_t SMILE[][8] = {
 {
   0b00000000,0b00000000,0b00100100,0b00100100,0b00000000,0b01000010,0b00111100,0b00000000
 }};
 const int frameNumSmile = sizeof(SMILE);
+
+//
+//
+//
+
+const uint8_t HAPPY[][8] = {
+{
+  0b01111110,0b11111111,0b11100111,0b11000011,0b11011011,0b11100111,0b11111111,0b01111110
+}};
+const int frameNumHappy = sizeof(HAPPY)/8;
+
+//
+//
+//
+
+const uint8_t FACINGFORWARD[][8] = {
+{
+  0b01111110,0b11111111,0b11100111,0b11000011,0b11000011,0b11100111,0b11111111,0b01111110
+}};
+const int frameNumFacingForward = sizeof(FACINGFORWARD)/8;
+
+//
+//
+//
+
+const uint8_t LOOKINGLEFT[][8] = {
+{
+  0b01111110,0b11111111,0b10011111,0b00001111,0b00001111,0b10011111,0b11111111,0b01111110
+}};
+const int frameNumLookingLeft = sizeof(LOOKINGLEFT)/8;
+
+//
+//
+//
+
+const uint8_t LOOKINGRIGHT[][8] = {
+{
+  0b01111110,0b11111111,0b11111001,0b11110000,0b11110000,0b11111001,0b11111111,0b01111110
+}};
+const int frameNumLookingRight = sizeof(LOOKINGRIGHT)/8;
+
+//
+//
+//
+
+const uint8_t SLEEPING[][8] = {
+{
+  0b01111110,0b11111111,0b11111111,0b10000001,0b11000011,0b11111111,0b01111111,0b01111110
+}};
+const int frameNumSleeping = sizeof(SLEEPING)/8;
+
+//
+//
+//
+
 
 // ////////////////////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////////////////////
@@ -393,6 +446,38 @@ void matrixBoredFace()
 }
 
 void matrixTiredFace()
+{
+  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
+
+  drawFrame(SMILE[0]);
+}
+
+void matrixLookingAroundFace()
+{
+  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
+
+  drawFrame(SMILE[0]);
+}
+
+void matrixLookingLeft()
+{
+  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
+
+  drawFrame(SMILE[0]);
+}
+
+void matrixLookingRight()
+{
+  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
+
+  drawFrame(SMILE[0]);
+}
+
+void matrixSleepingFace()
 {
   lc.clearDisplay(0); // Clear the display (turn off all LEDs)
   lc.clearDisplay(1); // Clear the display (turn off all LEDs)
