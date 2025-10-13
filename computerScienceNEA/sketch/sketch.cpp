@@ -327,9 +327,19 @@ const int frameNumSmile = sizeof(SMILE);
 
 const uint8_t HAPPY[][8] = {
 {
-  0b01111110,0b11111111,0b11100111,0b11000011,0b11011011,0b11100111,0b11111111,0b01111110
+  0b01111110,0b11111111,0b11100111,0b11000011,0b11011011,0b11111111,0b11111111,0b01111110
 }};
 const int frameNumHappy = sizeof(HAPPY)/8;
+
+//
+//
+//
+
+const uint8_t SAD[][8] = {
+{
+  0b01111110,0b11111111,0b11111111,0b11000011,0b11000011,0b11100111,0b11111111,0b01111110
+}};
+const int frameNumSad = sizeof(SAD)/8;
 
 //
 //
@@ -397,7 +407,7 @@ void drawFrame(const uint8_t frame[8]) {
 
 // Facial expressions for the MAX7219 LED Dot Matrix Module
 
-void matrixLoading()
+void matrixLoading() //done
 {
   lc.clearDisplay(0); // Clear the display (turn off all LEDs)
   lc.clearDisplay(1); // Clear the display (turn off all LEDs)
@@ -405,7 +415,7 @@ void matrixLoading()
   drawFrame(LOADING[8]);
 }
 
-void matrixHappyFace()
+void matrixHappyFace() //done
 {
   lc.clearDisplay(0); // Clear the display (turn off all LEDs)
   lc.clearDisplay(1); // Clear the display (turn off all LEDs)
@@ -413,7 +423,7 @@ void matrixHappyFace()
   drawFrame(SMILE[0]);
 }
 
-void matrixIdleFace()
+void matrixIdleFace() 
 {
   lc.clearDisplay(0); // Clear the display (turn off all LEDs)
   lc.clearDisplay(1); // Clear the display (turn off all LEDs)
