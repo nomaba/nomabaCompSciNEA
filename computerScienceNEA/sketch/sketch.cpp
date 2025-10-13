@@ -349,7 +349,7 @@ void matrixLoading()
   lc.clearDisplay(0); // Clear the display (turn off all LEDs)
   lc.clearDisplay(1); // Clear the display (turn off all LEDs)
 
-  drawFrame(SMILE[0]);
+  drawFrame(LOADING[8]);
 }
 
 void matrixHappyFace()
@@ -360,9 +360,45 @@ void matrixHappyFace()
   drawFrame(SMILE[0]);
 }
 
+void matrixIdleFace()
+{
+  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
 
+  drawFrame(SMILE[0]);
+}
 
+void matrixSadFace()
+{
+  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
 
+  drawFrame(SMILE[0]);
+}
+
+void matrixAngryFace()
+{
+  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
+
+  drawFrame(SMILE[0]);
+}
+
+void matrixBoredFace()
+{
+  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
+
+  drawFrame(SMILE[0]);
+}
+
+void matrixTiredFace()
+{
+  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
+  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
+
+  drawFrame(SMILE[0]);
+}
 
 
 // ////////////////////////////////////////////////////////////////////////////////////////////
