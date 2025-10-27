@@ -1,3 +1,6 @@
 {
-    "editor.scrollbar.horizontal": "hidden"
+    "editor.scrollbar.horizontal": "hidden",
+    "editor.errorDecoration": "none",
+    "editor.warningDecoration": "none",
+    "editor.lightbulb.enabled": "off"
 }

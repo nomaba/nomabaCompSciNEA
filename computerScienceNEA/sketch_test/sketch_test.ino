@@ -194,10 +194,10 @@ void setup()
 
   
   lc.shutdown(0, false); // Wake up the MAX7219 from power-saving mode
-  lc.setIntensity(0, 15); // Set brightness level (0 is min, 15 is max)
+  lc.setIntensity(0, 1); // Set brightness level (0 is min, 15 is max)
   lc.clearDisplay(0); // Clear the display (turn off all LEDs)
   lc.shutdown(1, false); // Wake up the MAX7219 from power-saving mode
-  lc.setIntensity(1, 15); // Set brightness level (0 is min, 15 is max)
+  lc.setIntensity(1, 1); // Set brightness level (0 is min, 15 is max)
   lc.clearDisplay(1); // Clear the display (turn off all LEDs)
   
   //
@@ -211,7 +211,7 @@ void setup()
     Serial.println("OK");
 
     // Set volume to maximum (0 to 30).
-    player.volume(15);
+    player.volume(20);
     // Play the "0001.mp3" in the "mp3" folder on the SD card
     player.playMp3Folder(3); // spongebon
 

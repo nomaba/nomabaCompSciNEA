@@ -37,6 +37,8 @@ namespace computerScienceNEA
             this.textBoxDatabaseBirthDay = new System.Windows.Forms.TextBox();
             this.textBoxDatabaseBirthMonth = new System.Windows.Forms.TextBox();
             this.textBoxDatabaseBirthYear = new System.Windows.Forms.TextBox();
+            this.textBoxDatabaseFavouriteColour = new System.Windows.Forms.TextBox();
+            this.textBoxDatabaseFavouriteFood = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBoxDatabasePassword
@@ -68,13 +70,14 @@ namespace computerScienceNEA
             // 
             // buttonInsert
             // 
-            this.buttonInsert.Location = new System.Drawing.Point(300, 287);
+            this.buttonInsert.Location = new System.Drawing.Point(300, 337);
             this.buttonInsert.Margin = new System.Windows.Forms.Padding(4);
             this.buttonInsert.Name = "buttonInsert";
             this.buttonInsert.Size = new System.Drawing.Size(159, 28);
             this.buttonInsert.TabIndex = 28;
             this.buttonInsert.Text = "Inert into database";
             this.buttonInsert.UseVisualStyleBackColor = true;
+            this.buttonInsert.Click += new System.EventHandler(this.buttonInsert_Click);
             // 
             // textBoxDatabaseUsername
             // 
@@ -112,11 +115,31 @@ namespace computerScienceNEA
             this.textBoxDatabaseBirthYear.TabIndex = 35;
             this.textBoxDatabaseBirthYear.Text = "Year";
             // 
+            // textBoxDatabaseFavouriteColour
+            // 
+            this.textBoxDatabaseFavouriteColour.Location = new System.Drawing.Point(300, 281);
+            this.textBoxDatabaseFavouriteColour.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxDatabaseFavouriteColour.Name = "textBoxDatabaseFavouriteColour";
+            this.textBoxDatabaseFavouriteColour.Size = new System.Drawing.Size(159, 20);
+            this.textBoxDatabaseFavouriteColour.TabIndex = 36;
+            this.textBoxDatabaseFavouriteColour.Text = "Favourite Colour";
+            // 
+            // textBoxDatabaseFavouriteFood
+            // 
+            this.textBoxDatabaseFavouriteFood.Location = new System.Drawing.Point(300, 309);
+            this.textBoxDatabaseFavouriteFood.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxDatabaseFavouriteFood.Name = "textBoxDatabaseFavouriteFood";
+            this.textBoxDatabaseFavouriteFood.Size = new System.Drawing.Size(159, 20);
+            this.textBoxDatabaseFavouriteFood.TabIndex = 37;
+            this.textBoxDatabaseFavouriteFood.Text = "Favourite Food";
+            // 
             // FormAccountRegister
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.textBoxDatabaseFavouriteFood);
+            this.Controls.Add(this.textBoxDatabaseFavouriteColour);
             this.Controls.Add(this.textBoxDatabaseBirthYear);
             this.Controls.Add(this.textBoxDatabaseBirthMonth);
             this.Controls.Add(this.textBoxDatabaseBirthDay);
@@ -142,5 +165,7 @@ namespace computerScienceNEA
         private System.Windows.Forms.TextBox textBoxDatabaseBirthDay;
         private System.Windows.Forms.TextBox textBoxDatabaseBirthMonth;
         private System.Windows.Forms.TextBox textBoxDatabaseBirthYear;
+        private System.Windows.Forms.TextBox textBoxDatabaseFavouriteColour;
+        private System.Windows.Forms.TextBox textBoxDatabaseFavouriteFood;
     }
 }

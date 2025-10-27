@@ -81,6 +81,7 @@ namespace computerScienceNEA
             this.comboBoxPorts.Name = "comboBoxPorts";
             this.comboBoxPorts.Size = new System.Drawing.Size(293, 21);
             this.comboBoxPorts.TabIndex = 10;
+            this.comboBoxPorts.Text = "COM port";
             // 
             // lightOff
             // 
