@@ -57,7 +57,6 @@ namespace computerScienceNEA
             this.textBoxDatabasePassword.Name = "textBoxDatabasePassword";
             this.textBoxDatabasePassword.Size = new System.Drawing.Size(159, 20);
             this.textBoxDatabasePassword.TabIndex = 31;
-            this.textBoxDatabasePassword.Text = "Password";
             // 
             // textBoxDatabaseLastName
             // 
@@ -66,7 +65,6 @@ namespace computerScienceNEA
             this.textBoxDatabaseLastName.Name = "textBoxDatabaseLastName";
             this.textBoxDatabaseLastName.Size = new System.Drawing.Size(159, 20);
             this.textBoxDatabaseLastName.TabIndex = 30;
-            this.textBoxDatabaseLastName.Text = "Last Name";
             // 
             // textBoxDatabaseFirstName
             // 
@@ -75,7 +73,6 @@ namespace computerScienceNEA
             this.textBoxDatabaseFirstName.Name = "textBoxDatabaseFirstName";
             this.textBoxDatabaseFirstName.Size = new System.Drawing.Size(159, 20);
             this.textBoxDatabaseFirstName.TabIndex = 29;
-            this.textBoxDatabaseFirstName.Text = "First Name";
             // 
             // buttonInsert
             // 
@@ -95,7 +92,6 @@ namespace computerScienceNEA
             this.textBoxDatabaseUsername.Name = "textBoxDatabaseUsername";
             this.textBoxDatabaseUsername.Size = new System.Drawing.Size(159, 20);
             this.textBoxDatabaseUsername.TabIndex = 32;
-            this.textBoxDatabaseUsername.Text = "Username";
             // 
             // textBoxDatabaseBirthDay
             // 
@@ -104,7 +100,6 @@ namespace computerScienceNEA
             this.textBoxDatabaseBirthDay.Name = "textBoxDatabaseBirthDay";
             this.textBoxDatabaseBirthDay.Size = new System.Drawing.Size(47, 20);
             this.textBoxDatabaseBirthDay.TabIndex = 33;
-            this.textBoxDatabaseBirthDay.Text = "Day";
             this.textBoxDatabaseBirthDay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDatabaseBirthDay_KeyPress);
             // 
             // textBoxDatabaseBirthMonth
@@ -114,7 +109,6 @@ namespace computerScienceNEA
             this.textBoxDatabaseBirthMonth.Name = "textBoxDatabaseBirthMonth";
             this.textBoxDatabaseBirthMonth.Size = new System.Drawing.Size(47, 20);
             this.textBoxDatabaseBirthMonth.TabIndex = 34;
-            this.textBoxDatabaseBirthMonth.Text = "Month";
             this.textBoxDatabaseBirthMonth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDatabaseBirthMonth_KeyPress);
             // 
             // textBoxDatabaseBirthYear
@@ -124,7 +118,6 @@ namespace computerScienceNEA
             this.textBoxDatabaseBirthYear.Name = "textBoxDatabaseBirthYear";
             this.textBoxDatabaseBirthYear.Size = new System.Drawing.Size(47, 20);
             this.textBoxDatabaseBirthYear.TabIndex = 35;
-            this.textBoxDatabaseBirthYear.Text = "Year";
             this.textBoxDatabaseBirthYear.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxDatabaseBirthYear_KeyPress);
             // 
             // textBoxDatabaseFavouriteColour
@@ -134,7 +127,6 @@ namespace computerScienceNEA
             this.textBoxDatabaseFavouriteColour.Name = "textBoxDatabaseFavouriteColour";
             this.textBoxDatabaseFavouriteColour.Size = new System.Drawing.Size(159, 20);
             this.textBoxDatabaseFavouriteColour.TabIndex = 36;
-            this.textBoxDatabaseFavouriteColour.Text = "Favourite Colour";
             // 
             // textBoxDatabaseFavouriteFood
             // 
@@ -143,7 +135,6 @@ namespace computerScienceNEA
             this.textBoxDatabaseFavouriteFood.Name = "textBoxDatabaseFavouriteFood";
             this.textBoxDatabaseFavouriteFood.Size = new System.Drawing.Size(159, 20);
             this.textBoxDatabaseFavouriteFood.TabIndex = 37;
-            this.textBoxDatabaseFavouriteFood.Text = "Favourite Food";
             // 
             // textBoxFavouriteFoodColour
             // 
@@ -152,7 +143,6 @@ namespace computerScienceNEA
             this.textBoxFavouriteFoodColour.Name = "textBoxFavouriteFoodColour";
             this.textBoxFavouriteFoodColour.Size = new System.Drawing.Size(159, 20);
             this.textBoxFavouriteFoodColour.TabIndex = 38;
-            this.textBoxFavouriteFoodColour.Text = "Favourite Food Colour";
             // 
             // label1
             // 

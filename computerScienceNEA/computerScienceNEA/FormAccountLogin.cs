@@ -16,5 +16,10 @@ namespace computerScienceNEA
         {
             InitializeComponent();
         }
+
+        private void FormAccountLogin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

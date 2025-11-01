@@ -22,3 +22,4 @@ D:\computerScienceNEA\computerScienceNEA\computerScienceNEA\bin\Debug\System.Dat
 D:\computerScienceNEA\computerScienceNEA\computerScienceNEA\bin\Debug\System.Data.SQLite.xml
 D:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.csproj.CopyComplete
 D:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.FormAccountRegister.resources
+D:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.FormAccountLogin.resources

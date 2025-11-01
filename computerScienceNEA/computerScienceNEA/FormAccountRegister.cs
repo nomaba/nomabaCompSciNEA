@@ -20,19 +20,57 @@ namespace computerScienceNEA
 
         private void buttonInsert_Click(object sender, EventArgs e)
         {
-            bool validUserInput = false;
+            string firstName = textBoxDatabaseFirstName.Text;
+            string lastName = textBoxDatabaseLastName.Text;
+            string password = textBoxDatabasePassword.Text;
+            string username = textBoxDatabaseUsername.Text;
+            int birthDay = int.Parse(textBoxDatabaseBirthDay.Text);
+            int birthMonth = int.Parse(textBoxDatabaseBirthMonth.Text);
+            int birthYear = int.Parse(textBoxDatabaseBirthYear.Text);
+            string favouriteColour = textBoxDatabaseFavouriteColour.Text;
+            string favouriteFood = textBoxDatabaseFavouriteFood.Text;
+            string favouriteFoodColour = textBoxDatabaseFavouriteFood.Text;
 
-            if (validUserInput == false)
-            {
-
-            }
-            else
-            {
-
-            }
             //link database
             SQLiteConnection myConnection; //created new vatiable callled my connection
             myConnection = new SQLiteConnection("Data Source=database.db"); // Connect to the database at this location
+
+            
+            bool validUserInput = false;
+
+            if (int.Parse(textBoxDatabaseBirthDay.Text) >= 1 &&
+                int.Parse(textBoxDatabaseBirthDay.Text) <= 31 &&
+                int.Parse(textBoxDatabaseBirthMonth.Text) >= 1 &&
+                int.Parse(textBoxDatabaseBirthMonth.Text) <= 12)
+            {
+                //Date inputted is valid
+
+
+
+
+                string queryCheckUsernameExists = "SELECT accountID FROM accounts WHERE username = @username AND password = @password";
+                SQLiteCommand myCommmandCheckUsernameExists = new SQLiteCommand(queryCheckUsernameExists, myConnection);
+
+                myConnection.Open();
+
+                myCommmandCheckUsernameExists.Parameters.AddWithValue("@username", username);
+
+                SQLiteDataReader result = myCommmandCheckUsernameExists.ExecuteReader();
+                if (result.Read())
+                {
+                    MessageBox.Show("This username is used by someone else"); // just read the text behind me
+                }
+                else
+                {
+                    // Username is not used by someone else
+
+
+                }
+            }
+
+
+
+           
 
 
 
@@ -55,42 +93,44 @@ namespace computerScienceNEA
             string queryCheckColourExists = "SELECT colourName FROM colours WHERE colourName = @favColour";
             SQLiteCommand myCommmandCheckColourExists = new SQLiteCommand(queryCheckColourExists, myConnection); // Created new variable that stores the query
             myCommmandCheckColourExists.Parameters.AddWithValue("@favColour", textBoxDatabaseFavouriteColour.Text);
-            myConnection.Open();
             SQLiteDataReader resultCheckColourExists = myCommmandCheckColourExists.ExecuteReader();
             if (resultCheckColourExists.Read())
             {
-                
+                System.Threading.Thread.Sleep(5000);
             }
             else
             {
+                System.Threading.Thread.Sleep(5000);
                 string queryColours = "INSERT INTO colours(colourName) values (@favColour)";
                 SQLiteCommand myCommmandColours = new SQLiteCommand(queryColours, myConnection); // Created new variable that stores the query
                 myCommmandColours.Parameters.AddWithValue("@favColour", textBoxDatabaseFavouriteColour.Text);
                 myCommmandColours.ExecuteNonQuery();          
             }
-            myConnection.Close();
+
+
             //above works dont touch
 
             //works dont touch
-            string queryCheckFoodExists = "SELECT colourName FROM colours WHERE colourName = @favColour";
+            string queryCheckFoodExists = "SELECT foodID FROM foods WHERE foodName = @favFood";
             SQLiteCommand myCommmandCheckFoodExists = new SQLiteCommand(queryCheckFoodExists, myConnection); // Created new variable that stores the query
-            myCommmandCheckFoodExists.Parameters.AddWithValue("@favColour", textBoxDatabaseFavouriteColour.Text);
-            myConnection.Open();
+            myCommmandCheckFoodExists.Parameters.AddWithValue("@favFood", textBoxDatabaseFavouriteColour.Text);
             SQLiteDataReader resultCheckFoodExists = myCommmandCheckFoodExists.ExecuteReader();
+            System.Threading.Thread.Sleep(5000);
             if (resultCheckFoodExists.Read())
             {
-
+                // do nothing
             }
             else
             {
                 string queryAddNewFood = "INSERT INTO foods(foodName, foodColour) values (@foodName, @foodColour)";
-                SQLiteCommand myCommmandColours = new SQLiteCommand(queryColours, myConnection); // Created new variable that stores the query
-                myCommmandColours.Parameters.AddWithValue("@favColour", textBoxDatabaseFavouriteColour.Text);
-                myCommmandColours.ExecuteNonQuery();
-            }
-            myConnection.Close();
-            //above works dont touch
+                SQLiteCommand myCommmandFood = new SQLiteCommand(queryAddNewFood, myConnection); // Created new variable that stores the query
+                myCommmandFood.Parameters.AddWithValue("@foodName", textBoxDatabaseFavouriteFood.Text);
+                //.Parameters.AddWithValue("@foodColour", textBoxFavouriteFoodColour.Text);
+                myCommmandFood.ExecuteNonQuery();
+                System.Threading.Thread.Sleep(5000);
 
+            }
+            //above works dont touch
 
 
 
@@ -100,18 +140,8 @@ namespace computerScienceNEA
 
 
             //elecute command
-            myConnection.Open();
 
-            string firstName = textBoxDatabaseFirstName.Text;
-            string lastName = textBoxDatabaseLastName.Text;
-            string password = textBoxDatabasePassword.Text;
-            string username = textBoxDatabaseUsername.Text;
-            int birthDay = int.Parse(textBoxDatabaseBirthDay.Text);
-            int birthMonth = int.Parse(textBoxDatabaseBirthMonth.Text);
-            int birthYear = int.Parse(textBoxDatabaseBirthYear.Text);
-            string favouriteColour = textBoxDatabaseFavouriteColour.Text;
-            string favouriteFood = textBoxDatabaseFavouriteFood.Text;
-            string favouriteFoodColour = textBoxDatabaseFavouriteFood.Text;
+            
 
 
             myCommmandAccounts.Parameters.AddWithValue("@firstName", firstName);
@@ -128,9 +158,18 @@ namespace computerScienceNEA
             myCommmandAccounts.ExecuteNonQuery();
             myConnection.Close();
 
-            textBoxDatabaseLastName.Text = "";
+
+
             textBoxDatabaseFirstName.Text = "";
+            textBoxDatabaseLastName.Text = "";
             textBoxDatabasePassword.Text = "";
+            textBoxDatabaseUsername.Text = "";
+            textBoxDatabaseBirthDay.Text = "";
+            textBoxDatabaseBirthMonth.Text = "";
+            textBoxDatabaseBirthYear.Text = "";
+            textBoxDatabaseFavouriteColour.Text = "";
+            textBoxDatabaseFavouriteFood.Text = "";
+            textBoxDatabaseFavouriteFood.Text = "";
         }
 
         private void textBoxDatabaseBirthDay_KeyPress(object sender, KeyPressEventArgs e)
@@ -158,3 +197,20 @@ namespace computerScienceNEA
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
