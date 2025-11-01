@@ -20,13 +20,84 @@ namespace computerScienceNEA
 
         private void buttonInsert_Click(object sender, EventArgs e)
         {
+            bool validUserInput = false;
+
+            if (validUserInput == false)
+            {
+
+            }
+            else
+            {
+
+            }
             //link database
             SQLiteConnection myConnection; //created new vatiable callled my connection
             myConnection = new SQLiteConnection("Data Source=database.db"); // Connect to the database at this location
 
+
+
+
+
+
+
+
+
+
+
             //write query
-            string query = "INSERT INTO accounts(firstName, lastName, password) values (@firstName, @lastName, @password)";
-            SQLiteCommand myCommmand = new SQLiteCommand(query, myConnection); // Created new variable that stores the query
+            string queryAccounts = "INSERT INTO accounts(firstName, lastName, password, username, birthDay, birthMonth, birthYear, favColour, favFood) values (@firstName, @lastName, @password, @username, @birthDay, @birthMonth, @birthYear, @favColour, @favFood)";
+            SQLiteCommand myCommmandAccounts = new SQLiteCommand(queryAccounts, myConnection); // Created new variable that stores the query
+
+            
+
+
+            //works dont touch
+            string queryCheckColourExists = "SELECT colourName FROM colours WHERE colourName = @favColour";
+            SQLiteCommand myCommmandCheckColourExists = new SQLiteCommand(queryCheckColourExists, myConnection); // Created new variable that stores the query
+            myCommmandCheckColourExists.Parameters.AddWithValue("@favColour", textBoxDatabaseFavouriteColour.Text);
+            myConnection.Open();
+            SQLiteDataReader resultCheckColourExists = myCommmandCheckColourExists.ExecuteReader();
+            if (resultCheckColourExists.Read())
+            {
+                
+            }
+            else
+            {
+                string queryColours = "INSERT INTO colours(colourName) values (@favColour)";
+                SQLiteCommand myCommmandColours = new SQLiteCommand(queryColours, myConnection); // Created new variable that stores the query
+                myCommmandColours.Parameters.AddWithValue("@favColour", textBoxDatabaseFavouriteColour.Text);
+                myCommmandColours.ExecuteNonQuery();          
+            }
+            myConnection.Close();
+            //above works dont touch
+
+            //works dont touch
+            string queryCheckFoodExists = "SELECT colourName FROM colours WHERE colourName = @favColour";
+            SQLiteCommand myCommmandCheckFoodExists = new SQLiteCommand(queryCheckFoodExists, myConnection); // Created new variable that stores the query
+            myCommmandCheckFoodExists.Parameters.AddWithValue("@favColour", textBoxDatabaseFavouriteColour.Text);
+            myConnection.Open();
+            SQLiteDataReader resultCheckFoodExists = myCommmandCheckFoodExists.ExecuteReader();
+            if (resultCheckFoodExists.Read())
+            {
+
+            }
+            else
+            {
+                string queryAddNewFood = "INSERT INTO foods(foodName, foodColour) values (@foodName, @foodColour)";
+                SQLiteCommand myCommmandColours = new SQLiteCommand(queryColours, myConnection); // Created new variable that stores the query
+                myCommmandColours.Parameters.AddWithValue("@favColour", textBoxDatabaseFavouriteColour.Text);
+                myCommmandColours.ExecuteNonQuery();
+            }
+            myConnection.Close();
+            //above works dont touch
+
+
+
+
+
+
+
+
 
             //elecute command
             myConnection.Open();
@@ -40,24 +111,50 @@ namespace computerScienceNEA
             int birthYear = int.Parse(textBoxDatabaseBirthYear.Text);
             string favouriteColour = textBoxDatabaseFavouriteColour.Text;
             string favouriteFood = textBoxDatabaseFavouriteFood.Text;
+            string favouriteFoodColour = textBoxDatabaseFavouriteFood.Text;
 
 
-            myCommmand.Parameters.AddWithValue("@firstName", firstName);
-            myCommmand.Parameters.AddWithValue("@lastName", lastName);
-            myCommmand.Parameters.AddWithValue("@password", password);
-            myCommmand.Parameters.AddWithValue("@password", username);
-            myCommmand.Parameters.AddWithValue("@password", birthDay);
-            myCommmand.Parameters.AddWithValue("@password", birthMonth);
-            myCommmand.Parameters.AddWithValue("@password", birthYear);
-            myCommmand.Parameters.AddWithValue("@password", favouriteColour);
-            myCommmand.Parameters.AddWithValue("@password", favouriteFood);
+            myCommmandAccounts.Parameters.AddWithValue("@firstName", firstName);
+            myCommmandAccounts.Parameters.AddWithValue("@lastName", lastName);
+            myCommmandAccounts.Parameters.AddWithValue("@password", password);
+            myCommmandAccounts.Parameters.AddWithValue("@username", username);
+            myCommmandAccounts.Parameters.AddWithValue("@birthDay", birthDay);
+            myCommmandAccounts.Parameters.AddWithValue("@birthMonth", birthMonth);
+            myCommmandAccounts.Parameters.AddWithValue("@birthYear", birthYear);
+            myCommmandAccounts.Parameters.AddWithValue("@favColour", favouriteColour);
+            myCommmandAccounts.Parameters.AddWithValue("@favFood", favouriteFood);
+            myCommmandAccounts.Parameters.AddWithValue("@favFoodColour", favouriteFoodColour);
 
-            myCommmand.ExecuteNonQuery();
+            myCommmandAccounts.ExecuteNonQuery();
             myConnection.Close();
 
             textBoxDatabaseLastName.Text = "";
             textBoxDatabaseFirstName.Text = "";
             textBoxDatabasePassword.Text = "";
+        }
+
+        private void textBoxDatabaseBirthDay_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxDatabaseBirthMonth_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBoxDatabaseBirthYear_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

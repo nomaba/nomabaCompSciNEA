@@ -25,6 +25,11 @@ namespace computerScienceNEA
         private void RobotControls_Load(object sender, EventArgs e)
         {
             comboBoxPorts.Items.AddRange(SerialPort.GetPortNames());
+
+
+            FormAccountRegister FormAccountRegister = new FormAccountRegister();
+            this.Hide();
+            FormAccountRegister.Show();
         }
 
 
