@@ -1,0 +1,10 @@
+D:\computerScienceNEA\testfiles\create database test\bin\Debug\create database test.exe.config
+D:\computerScienceNEA\testfiles\create database test\bin\Debug\create database test.exe
+D:\computerScienceNEA\testfiles\create database test\bin\Debug\create database test.pdb
+D:\computerScienceNEA\testfiles\create database test\bin\Debug\System.Data.SQLite.dll
+D:\computerScienceNEA\testfiles\create database test\bin\Debug\System.Data.SQLite.xml
+D:\computerScienceNEA\testfiles\create database test\obj\Debug\create database test.csproj.AssemblyReference.cache
+D:\computerScienceNEA\testfiles\create database test\obj\Debug\create database test.csproj.CoreCompileInputs.cache
+D:\computerScienceNEA\testfiles\create database test\obj\Debug\create database test.csproj.CopyComplete
+D:\computerScienceNEA\testfiles\create database test\obj\Debug\create database test.exe
+D:\computerScienceNEA\testfiles\create database test\obj\Debug\create database test.pdb
