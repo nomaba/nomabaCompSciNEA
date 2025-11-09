@@ -34,6 +34,7 @@ namespace computerScienceNEA
             this.buttonConnect = new System.Windows.Forms.Button();
             this.comboBoxPorts = new System.Windows.Forms.ComboBox();
             this.textBoxOutput = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -75,16 +76,27 @@ namespace computerScienceNEA
             // 
             // textBoxOutput
             // 
-            this.textBoxOutput.Location = new System.Drawing.Point(434, 41);
+            this.textBoxOutput.Location = new System.Drawing.Point(367, 46);
+            this.textBoxOutput.Multiline = true;
             this.textBoxOutput.Name = "textBoxOutput";
-            this.textBoxOutput.Size = new System.Drawing.Size(293, 20);
+            this.textBoxOutput.Size = new System.Drawing.Size(293, 232);
             this.textBoxOutput.TabIndex = 20;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(364, 28);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.TabIndex = 21;
+            this.label2.Text = "Serial Monitor";
             // 
             // ConnectToRobot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.textBoxOutput);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonStartRobot);
@@ -105,5 +117,6 @@ namespace computerScienceNEA
         private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.ComboBox comboBoxPorts;
         private System.Windows.Forms.TextBox textBoxOutput;
+        private System.Windows.Forms.Label label2;
     }
 }

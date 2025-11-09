@@ -35,10 +35,10 @@ namespace computerScienceNEA
             List<string> comPorts = new List<string>(COMPortNames);
 
             int i = 0;
-            foreach (string port in comPorts)
+            foreach (string tempCOMName in comPorts)
             {
+                // port is the same as comPort[i] because its storing the same thign
                 int numberOfPorts = comPorts.Count;
-                string tempCOMName = comPorts[i];
                 RobotConnectionUserInput RobotConnectionUserInput = new RobotConnectionUserInput(tempCOMName, 9600, "\r\n", false);
                 RobotConnectionUserInput.createCOMPortsVariablesInheritance(i, tempCOMName);
 
@@ -46,13 +46,53 @@ namespace computerScienceNEA
                 {
                     MessageBox.Show("You have no COM ports. Please connect the robot using bluetooth before opening this app");
                 }
-                else if (i == 0)
+                else if (i == numberOfPorts)
                 {
-                    RobotConnection COMPort0 = new RobotConnection(comPorts[0], 9600, "\r\n", false);
+
                 }
-
-
-                
+                else
+                {
+                    if (i == 0)
+                    {
+                        RobotConnection COMPort0 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                    else if (i == 1)
+                    {
+                        RobotConnection COMPort1 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                    else if (i == 2)
+                    {
+                        RobotConnection COMPort2 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                    else if (i == 3)
+                    {
+                        RobotConnection COMPort3 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                    else if (i == 4)
+                    {
+                        RobotConnection COMPort4 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                    else if (i == 5)
+                    {
+                        RobotConnection COMPort5 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                    else if (i == 6)
+                    {
+                        RobotConnection COMPort6 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                    else if (i == 7)
+                    {
+                        RobotConnection COMPort7 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                    else if (i == 8)
+                    {
+                        RobotConnection COMPort8 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                    else if (i == 9)
+                    {
+                        RobotConnection COMPort9 = new RobotConnection(tempCOMName, 9600, "\r\n", false);
+                    }
+                }
                 //i++;
             }
         }
@@ -66,31 +106,21 @@ namespace computerScienceNEA
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
-            if (comboBoxPorts.SelectedItem != null) // if the comboBox(the menu to select your port) is not empty
+            if (!(comboBoxPorts.SelectedItem == null)) // if the comboBox(the menu to select your port) is not empty
             {
                 if (serialPort.IsOpen) // If the port is open, close it first
                 {
                     serialPort.Close();
                 }
 
-                serialPort.PortName = comboBoxPorts.SelectedItem.ToString(); // Convert the port the user selected to a string and store it in serialPort.PortName
-                serialPort.BaudRate = 9600;
-                serialPort.NewLine = "\r\n";
-                serialPort.DataReceived += SerialPort_DataReceived;
+                string tempPortName = comboBoxPorts.SelectedItem.ToString(); // Convert the port the user selected to a string and store it in serialPort.PortName
+                int tempBaudRate = 9600;
+                string tempNewLine = "\r\n";
 
-                try
-                {
-                    serialPort.Open();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error opening serial port: " + ex.Message);
-                }
+                RobotConnection finalisedCOMPorts = new RobotConnection(tempPortName, tempBaudRate, tempNewLine, true);
 
-                if (serialPort.IsOpen)
-                {
-                    MessageBox.Show("Serial Port Connected Successfully");
-                }
+
+                finalisedCOMPorts.connectToRobot(); // run the sub in connectToRobot class using object orentated programming
             }
             else
             {
@@ -100,19 +130,6 @@ namespace computerScienceNEA
 
         
 
-        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            string data = serialPort.ReadLine(); // Read line from Arduino
-            this.Invoke(new MethodInvoker(delegate {
-                if (data.Trim() == "clear") //.Trim avoids conflicts with other things send in the serialMonitor
-                {
-                    textBoxOutput.Text = "";
-                }
-                else
-                {
-                    textBoxOutput.AppendText(data + Environment.NewLine);
-                }
-            }));
-        }
+        
     }
 }
