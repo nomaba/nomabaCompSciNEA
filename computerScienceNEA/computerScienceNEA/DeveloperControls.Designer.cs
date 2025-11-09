@@ -82,6 +82,7 @@ namespace computerScienceNEA
             this.comboBoxPorts.Size = new System.Drawing.Size(293, 21);
             this.comboBoxPorts.TabIndex = 10;
             this.comboBoxPorts.Text = "COM port";
+            this.comboBoxPorts.SelectedIndexChanged += new System.EventHandler(this.comboBoxPorts_SelectedIndexChanged);
             // 
             // lightOff
             // 
@@ -111,6 +112,7 @@ namespace computerScienceNEA
             this.label1.Size = new System.Drawing.Size(142, 13);
             this.label1.TabIndex = 15;
             this.label1.Text = "Please select your COM Port";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBoxOutput
             // 

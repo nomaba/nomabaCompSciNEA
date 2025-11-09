@@ -28,8 +28,10 @@ namespace computerScienceNEA
 
 
             FormAccountLogin FormAccountLogin = new FormAccountLogin();
+            ConnectToRobot ConnectToRobot = new ConnectToRobot();
             this.Hide();
             FormAccountLogin.Show();
+            ConnectToRobot.Show();
         }
 
 
@@ -237,6 +239,16 @@ namespace computerScienceNEA
             }
 
             myConnection.Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxPorts_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

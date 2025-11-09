@@ -51,11 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="ConnectToRobot.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ConnectToRobot.Designer.cs">
+      <DependentUpon>ConnectToRobot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeveloperControls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeveloperControls.Designer.cs">
+      <DependentUpon>DeveloperControls.cs</DependentUpon>
     </Compile>
     <Compile Include="FormAccountRegister.cs">
       <SubType>Form</SubType>
@@ -69,10 +75,21 @@
     <Compile Include="FormAccountLogin.Designer.cs">
       <DependentUpon>FormAccountLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Home.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Home.Designer.cs">
+      <DependentUpon>Home.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LV.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="RobotConnection.cs" />
+    <EmbeddedResource Include="ConnectToRobot.resx">
+      <DependentUpon>ConnectToRobot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeveloperControls.resx">
+      <DependentUpon>DeveloperControls.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormAccountLogin.resx">
       <DependentUpon>FormAccountLogin.cs</DependentUpon>
