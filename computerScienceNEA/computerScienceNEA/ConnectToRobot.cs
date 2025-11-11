@@ -13,11 +13,21 @@ namespace computerScienceNEA
 {
     public partial class ConnectToRobot : Form
     {
-        class RobotConnectionUserInput : RobotConnection
+        public class RobotConnectionUserInput : RobotConnection
         {
-            public RobotConnectionUserInput(string localNameOfCOMPort, int localBaudRate, string localNewLineMarkings, bool localConnectedToBot) : base(localNameOfCOMPort, localBaudRate, localNewLineMarkings, localConnectedToBot)
+            private string messageBoxMessage = "";
+            public RobotConnectionUserInput(string localNameOfCOMPort, int localBaudRate, string localNewLineMarkings, bool localConnectedToBot, string localMessageBoxMessage) : base(localNameOfCOMPort, localBaudRate, localNewLineMarkings, localConnectedToBot)
             {
-                //this.fee = localFee;
+                this.messageBoxMessage = localMessageBoxMessage;
+            }
+
+            public void updateMessageVariable(string tempMessageBoxMessage)
+            {
+                messageBoxMessage = tempMessageBoxMessage;
+            }
+            public override void messageboxshow()
+            {
+                MessageBox.Show(messageBoxMessage);
             }
 
             public void createCOMPortsVariablesInheritance(int i, string tempCOMName)
@@ -28,6 +38,7 @@ namespace computerScienceNEA
 
         private void ConnectToRobot_Load(object sender, EventArgs e)
         {
+            ConnectToRobot.RobotConnectionUserInput messageBoxmessage = new ConnectToRobot.RobotConnectionUserInput("null", 9600, "\r\n", false, "messageBox");
 
             comboBoxPorts.Items.AddRange(SerialPort.GetPortNames());
 
@@ -39,7 +50,7 @@ namespace computerScienceNEA
             {
                 // port is the same as comPort[i] because its storing the same thign
                 int numberOfPorts = comPorts.Count;
-                RobotConnectionUserInput RobotConnectionUserInput = new RobotConnectionUserInput(tempCOMName, 9600, "\r\n", false);
+                RobotConnectionUserInput RobotConnectionUserInput = new RobotConnectionUserInput(tempCOMName, 9600, "\r\n", false, "messageBox");
                 RobotConnectionUserInput.createCOMPortsVariablesInheritance(i, tempCOMName);
 
                 if (numberOfPorts == 0)

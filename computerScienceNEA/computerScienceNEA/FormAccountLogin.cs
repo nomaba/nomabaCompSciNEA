@@ -199,6 +199,11 @@ namespace computerScienceNEA
                     SQLiteCommand myCommmandWhatAccountLoggedIn = new SQLiteCommand(queryWhatAccountLoggedIn, myConnection);
                     myCommmandWhatAccountLoggedIn.Parameters.AddWithValue("@username", username);
                     loggedInAccountID = Convert.ToInt32(myCommmandWhatAccountLoggedIn.ExecuteScalar());
+
+                    
+                    ConnectToRobot ConnectToRobot = new ConnectToRobot();
+                    this.Close();
+                    ConnectToRobot.Show();
                 }
                 else
                 {

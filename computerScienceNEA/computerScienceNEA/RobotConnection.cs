@@ -7,12 +7,14 @@ using System.IO.Ports;
 
 namespace computerScienceNEA
 {
-    class RobotConnection
+    public class RobotConnection
     {
         protected string nameOfCOMPort;
         protected int baudRate;
         protected string newLineMarkings;
         protected bool connectedToBot;
+
+        public string tempMessageBoxMessage;
 
         public RobotConnection(string localNameOfCOMPort, int localBaudRate, string localNewLineMarkings, bool localConnectedToBot)
         {
@@ -36,18 +38,36 @@ namespace computerScienceNEA
             serialPort.NewLine = newLineMarkings;
             serialPort.DataReceived += SerialPort_DataReceived; // this makes the SerialPort_DataReceived subroutine run every time a message is sent by the arduino
 
+            ConnectToRobot.RobotConnectionUserInput messageBoxmessage = new ConnectToRobot.RobotConnectionUserInput("null", 9600, "\r\n", false, "insert message here");
+
             try
             {
                 serialPort.Open();
+
+                tempMessageBoxMessage = "COM Port Connected Successfully";
+
+                messageBoxmessage.updateMessageVariable(tempMessageBoxMessage);
+                messageBoxmessage.messageboxshow();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error opening serial port: " + ex.Message);
+                tempMessageBoxMessage = "Error opening serial port: " + ex.Message;
+                //RobotConnection ctr = new RobotConnection("", 9600, "\r\n", false);
+
+                
+                
+                messageBoxmessage.updateMessageVariable(tempMessageBoxMessage);
+                messageBoxmessage.messageboxshow();
+                messageBoxmessage.messageboxshow();
+                //ctr.messageboxshow("");
+                //messageBoxmessage.tempMessageBoxMessage = "Error: Port failed to connect!";
+
+
             }
 
             if (serialPort.IsOpen)
             {
-                MessageBox.Show("Serial Port Connected Successfully");
+                tempMessageBoxMessage = "Serial Port Connected Successfully";
             }
         }
 
@@ -63,6 +83,24 @@ namespace computerScienceNEA
                 //textBoxOutput.AppendText(data + Environment.NewLine); // adds the message from the arduino into the text box along side the already existing text in a new line
             }
         }
+
+
+
+
+
+        public virtual void messageboxshow()
+        {
+
+        }
+
+
+
+
+
+
+
+
+
 
         public void moveForward()
         {

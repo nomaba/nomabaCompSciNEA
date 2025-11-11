@@ -28,10 +28,8 @@ namespace computerScienceNEA
 
 
             FormAccountLogin FormAccountLogin = new FormAccountLogin();
-            ConnectToRobot ConnectToRobot = new ConnectToRobot();
             this.Hide();
             FormAccountLogin.Show();
-            ConnectToRobot.Show();
         }
 
 
