@@ -275,7 +275,7 @@ namespace computerScienceNEA
             this.Controls.Add(this.textBoxDatabaseFirstName);
             this.Controls.Add(this.buttonInsert);
             this.Name = "FormAccountRegister";
-            this.Text = "FormRegisterAccount";
+            this.Text = "Register an account ";
             this.Load += new System.EventHandler(this.FormAccountRegister_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
