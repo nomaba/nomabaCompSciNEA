@@ -1,7 +1,7 @@
 ﻿
 namespace computerScienceNEA
 {
-    partial class RobotControls
+    partial class DeveloperControls
     {
         /// <summary>
         /// Required designer variable.

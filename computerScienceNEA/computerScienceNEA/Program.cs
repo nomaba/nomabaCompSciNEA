@@ -16,7 +16,7 @@ namespace computerScienceNEA
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new RobotControls());
+            Application.Run(new FormAccountLogin());
         }
     }
 }

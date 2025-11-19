@@ -13,11 +13,11 @@ using System.Data.SQLite;
 
 namespace computerScienceNEA
 {
-    public partial class RobotControls : Form
+    public partial class DeveloperControls : Form
     {
         SerialPort serialPort = new SerialPort();
 
-        public RobotControls()
+        public DeveloperControls()
         {
             InitializeComponent();
         }
@@ -26,10 +26,7 @@ namespace computerScienceNEA
         {
             comboBoxPorts.Items.AddRange(SerialPort.GetPortNames());
 
-
-            FormAccountLogin FormAccountLogin = new FormAccountLogin();
-            this.Hide();
-            FormAccountLogin.Show();
+            
         }
 
 

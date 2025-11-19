@@ -46,9 +46,9 @@ namespace computerScienceNEA
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(30, 9);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(225, 25);
+            this.label10.Size = new System.Drawing.Size(222, 25);
             this.label10.TabIndex = 53;
-            this.label10.Text = "Register an Account";
+            this.label10.Text = "Login to an Account";
             // 
             // label9
             // 

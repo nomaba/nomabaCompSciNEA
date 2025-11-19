@@ -200,10 +200,17 @@ namespace computerScienceNEA
                     myCommmandWhatAccountLoggedIn.Parameters.AddWithValue("@username", username);
                     loggedInAccountID = Convert.ToInt32(myCommmandWhatAccountLoggedIn.ExecuteScalar());
 
+                    if (loggedInAccountID == 0)
+                    {
+                        DeveloperControls DeveloperControls = new DeveloperControls();
+                        DeveloperControls.Show();
+                    }
+
                     
                     ConnectToRobot ConnectToRobot = new ConnectToRobot();
-                    this.Close();
+                    this.Hide();
                     ConnectToRobot.Show();
+
                 }
                 else
                 {
