@@ -174,7 +174,7 @@ namespace computerScienceNEA
                 myConnection = new SQLiteConnection("Data Source=database.db");
 
                 //write query
-                string query = "SELECT username, password FROM accounts WHERE username = @username AND password = @password";
+                string query = "SELECT username FROM accounts WHERE username = @username AND password = @password";
                 SQLiteCommand myCommmand = new SQLiteCommand(query, myConnection);
 
                 //elecute command
