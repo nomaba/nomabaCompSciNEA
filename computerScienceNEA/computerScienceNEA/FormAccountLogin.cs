@@ -164,7 +164,17 @@ namespace computerScienceNEA
 
         private void buttonLogin_Click(object sender, EventArgs e)
         {
-            int loggedInAccountID = 0;
+            int loggedInAccountID;          
+            string loggedInFirstName;
+            string loggedInLastName;
+            string loggedInUsername;
+            int loggedInBirthDay;
+            int loggedInBirthMonth;
+            int loggedInBirthYear;
+            int loggedInFavColourID;
+            int loggedInFavFoodID;
+            int loggedInLVe;
+            int loggedInPreviousStateID;
 
             if (!string.IsNullOrWhiteSpace(textBoxDatabaseLoginPassword.Text) &&
                 !string.IsNullOrWhiteSpace(textBoxDatabaseLoginUsername.Text))
@@ -195,21 +205,41 @@ namespace computerScienceNEA
 
 
                     //write query
-                    string queryWhatAccountLoggedIn = "SELECT accountID, password FROM accounts WHERE username = @username";
+                    string queryWhatAccountLoggedIn = "SELECT accountID, firstName, lastName, username, birthDay, birthMonth, birthYear, favColour, favFood, LV, previousState FROM accounts WHERE username = @username";
                     SQLiteCommand myCommmandWhatAccountLoggedIn = new SQLiteCommand(queryWhatAccountLoggedIn, myConnection);
-                    myCommmandWhatAccountLoggedIn.Parameters.AddWithValue("@username", username);
-                    loggedInAccountID = Convert.ToInt32(myCommmandWhatAccountLoggedIn.ExecuteScalar());
+                    myCommmandWhatAccountLoggedIn.Parameters.AddWithValue("@username", username);                   
 
-                    if (loggedInAccountID == 0)
+                    SQLiteDataReader accountDetails = myCommmandWhatAccountLoggedIn.ExecuteReader();
+                    while (accountDetails.Read())
                     {
-                        DeveloperControls DeveloperControls = new DeveloperControls();
-                        DeveloperControls.Show();
+                        loggedInAccountID = accountDetails.GetInt32(0);
+                        loggedInFirstName = accountDetails.GetString(1);
+                        loggedInLastName = accountDetails.GetString(2);
+                        loggedInUsername = accountDetails.GetString(3);
+                        loggedInBirthDay = accountDetails.GetInt32(4);
+                        loggedInBirthMonth = accountDetails.GetInt32(5);
+                        loggedInBirthYear = accountDetails.GetInt32(6);
+                        loggedInFavColourID = accountDetails.GetInt32(7);
+                        loggedInFavFoodID = accountDetails.GetInt32(8);
+                        loggedInLVe = accountDetails.GetInt32(9);
+                        loggedInPreviousStateID = accountDetails.GetInt32(9);
+
+                        LV loggedInAccountDetails = new LV(loggedInAccountID, loggedInFirstName, loggedInLastName, loggedInUsername, loggedInBirthDay, loggedInBirthMonth, loggedInBirthYear, loggedInFavColourID, loggedInFavFoodID, loggedInLVe, loggedInPreviousStateID);
+
+
+                        if (loggedInAccountID == 0)
+                        {
+                            DeveloperControls DeveloperControls = new DeveloperControls();
+                            DeveloperControls.Show();
+                        }
+
+                        ConnectToRobot ConnectToRobot = new ConnectToRobot();
+                        this.Hide();
+                        ConnectToRobot.Show();
                     }
 
+                                      
                     
-                    ConnectToRobot ConnectToRobot = new ConnectToRobot();
-                    this.Hide();
-                    ConnectToRobot.Show();
 
                 }
                 else

@@ -40,3 +40,4 @@ N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerSc
 N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.exe
 N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.pdb
 N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.DeveloperControls.resources
+N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.Home.resources
