@@ -9,18 +9,18 @@ namespace computerScienceNEA
 {
     class LV
     {
-        // use inheritance to manage the love value here
-        protected int accountID;
-        protected string firstName;
-        protected string  lastName;
-        protected string username;
-        protected int birthDay;
-        protected int birthMonth;
-        protected int birthYear;
-        protected int favColourID;
-        protected int favFoodID;
-        protected int LVe;
-        protected int PreviousStateID;
+        // use inheritance to manage the love value and other fields in the database here
+        protected int accountID; // Can't update
+        protected string firstName; // Can't update
+        protected string  lastName; // CaCan'tnt update
+        protected string username; // Can't update
+        protected int birthDay; // Can't update
+        protected int birthMonth; // Can't update
+        protected int birthYear; // Can't update
+        protected int favColourID; // Can update
+        protected int favFoodID; // Can update
+        protected int LVe; // Can update
+        protected int PreviousStateID; // Can update
 
 
         public LV(int accountIDLocal, string firstNameLocal, string lastNameLocal, string usernameLocal, int birthDayLocal, int birthMonthLocal, int birthYearLocal, int favColourIDLocal, int favFoodIDLocal, int LVeLocal, int previousStateIDLocal)
@@ -73,7 +73,7 @@ namespace computerScienceNEA
         {
             return birthYear;
         }
-        public string getFavColour()
+        public string getFavColour() // gets the colourName from the database because the object only has the ColourID
         {
             string colour = "null";
 
@@ -159,7 +159,19 @@ namespace computerScienceNEA
 
         public void updatePassword()
         {
+            string newPassword = "null";
 
+            SQLiteConnection myConnection; //created new vatiable callled my connection
+            myConnection = new SQLiteConnection("Data Source=database.db");
+
+            string queryupdatePassword = "SELECT stateName FROM robotStates WHERE stateID = @stateID";
+
+            SQLiteCommand myCommmandupdatePassword = new SQLiteCommand(queryupdatePassword, myConnection);
+            myCommmandupdatePassword.Parameters.AddWithValue("@stateID", newPassword);
+
+            myConnection.Open();
+            myCommmandupdatePassword.ExecuteNonQuery();
+            myConnection.Close();
         }
         public void updateFavColour()
         {
