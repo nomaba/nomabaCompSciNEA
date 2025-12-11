@@ -139,7 +139,10 @@ namespace computerScienceNEA
             }
         }
 
-        
+        static void moveForward()
+        {
+            SerialPort.WriteLine("moveForward");
+        }
 
         
     }
