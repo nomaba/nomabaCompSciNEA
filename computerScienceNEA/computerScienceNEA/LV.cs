@@ -157,22 +157,22 @@ namespace computerScienceNEA
 
 
 
-        public void updatePassword()
+        public void updatePassword(string newPassword)
         {
-            string newPassword = "null";
 
             SQLiteConnection myConnection; //created new vatiable callled my connection
             myConnection = new SQLiteConnection("Data Source=database.db");
 
-            string queryupdatePassword = "SELECT stateName FROM robotStates WHERE stateID = @stateID";
+            string queryupdatePassword = "UPDATE accounts SET password = @password WHERE accountID = @accountID";
 
             SQLiteCommand myCommmandupdatePassword = new SQLiteCommand(queryupdatePassword, myConnection);
-            myCommmandupdatePassword.Parameters.AddWithValue("@stateID", newPassword);
+            myCommmandupdatePassword.Parameters.AddWithValue("@password", newPassword);
 
             myConnection.Open();
             myCommmandupdatePassword.ExecuteNonQuery();
             myConnection.Close();
         }
+
         public void updateFavColour(string newFavColour)
         {
             int newFavColourID;
@@ -184,6 +184,7 @@ namespace computerScienceNEA
             string queryCheckColourExists = "SELECT colourName FROM colours WHERE colourName = @favColour";
             SQLiteCommand myCommmandCheckColourExists = new SQLiteCommand(queryCheckColourExists, myConnection); // Created new variable that stores the query
             myCommmandCheckColourExists.Parameters.AddWithValue("@favColour", newFavColour);
+            myConnection.Open();
             SQLiteDataReader resultCheckColourExists = myCommmandCheckColourExists.ExecuteReader();
             if (resultCheckColourExists.Read())
             {
@@ -215,9 +216,19 @@ namespace computerScienceNEA
             // the above gets the colourID and stores it in a variable
 
 
-        }
-        public void updateFavFood()
-        {
+
+
+            System.Threading.Thread.Sleep(2000);
+            string queryUpdateFavColour = "UPDATE accounts SET favColour = @favColour WHERE accountID = @accountID";
+            SQLiteCommand myCommmandUpdateFavColour = new SQLiteCommand(queryUpdateFavColour, myConnection); // Created new variable that stores the query
+            myCommmandUpdateFavColour.Parameters.AddWithValue("@favColour", newFavColourID);
+            myCommmandUpdateFavColour.ExecuteNonQuery();
+            myConnection.Close();
+
+            favColourID = newFavColourID;
+
+
+
 
         }
         public void updateLV(int ammount)
@@ -235,6 +246,8 @@ namespace computerScienceNEA
             myConnection.Open();
             myCommmandupdateLV.ExecuteNonQuery();
             myConnection.Close();
+
+            LVe = newLVe;
         }
         public void updatePreviousState()
         {
