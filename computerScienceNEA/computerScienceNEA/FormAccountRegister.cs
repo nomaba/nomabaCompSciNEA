@@ -134,6 +134,9 @@ namespace computerScienceNEA
                     else
                     {
                         System.Threading.Thread.Sleep(2000);
+
+
+
                         string queryAddNewFood = "INSERT INTO foods(foodName, foodColour) values (@foodName, @foodColour)";
                         SQLiteCommand myCommmandFood = new SQLiteCommand(queryAddNewFood, myConnection); // Created new variable that stores the query
                         myCommmandFood.Parameters.AddWithValue("@foodName", favouriteFood);

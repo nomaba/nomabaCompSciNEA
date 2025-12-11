@@ -173,17 +173,68 @@ namespace computerScienceNEA
             myCommmandupdatePassword.ExecuteNonQuery();
             myConnection.Close();
         }
-        public void updateFavColour()
+        public void updateFavColour(string newFavColour)
         {
+            int newFavColourID;
+
+            SQLiteConnection myConnection; //created new vatiable callled my connection
+            myConnection = new SQLiteConnection("Data Source=database.db");
+
+
+            string queryCheckColourExists = "SELECT colourName FROM colours WHERE colourName = @favColour";
+            SQLiteCommand myCommmandCheckColourExists = new SQLiteCommand(queryCheckColourExists, myConnection); // Created new variable that stores the query
+            myCommmandCheckColourExists.Parameters.AddWithValue("@favColour", newFavColour);
+            SQLiteDataReader resultCheckColourExists = myCommmandCheckColourExists.ExecuteReader();
+            if (resultCheckColourExists.Read())
+            {
+                // colour exists in database
+                System.Threading.Thread.Sleep(2000);
+            }
+            else
+            {
+                // colour not exist in databse
+                System.Threading.Thread.Sleep(2000);
+                string queryColours = "INSERT INTO colours(colourName) values (@favColour)";
+                SQLiteCommand myCommmandColours = new SQLiteCommand(queryColours, myConnection); // Created new variable that stores the query
+                myCommmandColours.Parameters.AddWithValue("@favColour", newFavColour);
+                myCommmandColours.ExecuteNonQuery();
+            }
+            //above works dont touch
+            // The above checks if the colour exists in the databse and if it doestnn then it adds the colour in the databse
+
+
+
+
+
+            System.Threading.Thread.Sleep(2000);
+            string queryFindColourID = "SELECT colourID FROM colours WHERE colourName = @favColour";
+            SQLiteCommand myCommmandFindColourID = new SQLiteCommand(queryFindColourID, myConnection); // Created new variable that stores the query
+            myCommmandFindColourID.Parameters.AddWithValue("@favColour", newFavColour);
+            myCommmandFindColourID.ExecuteNonQuery();
+            newFavColourID = Convert.ToInt32(myCommmandFindColourID.ExecuteScalar());
+            // the above gets the colourID and stores it in a variable
+
 
         }
         public void updateFavFood()
         {
 
         }
-        public void updateLV()
+        public void updateLV(int ammount)
         {
+            int newLVe = LVe + ammount;
 
+            SQLiteConnection myConnection; //created new vatiable callled my connection
+            myConnection = new SQLiteConnection("Data Source=database.db");
+
+            string queryupdateLV = "UPDATE accounts SET LV = @LV WHERE accountID = 0";
+
+            SQLiteCommand myCommmandupdateLV = new SQLiteCommand(queryupdateLV, myConnection);
+            myCommmandupdateLV.Parameters.AddWithValue("@LV", newLVe);
+
+            myConnection.Open();
+            myCommmandupdateLV.ExecuteNonQuery();
+            myConnection.Close();
         }
         public void updatePreviousState()
         {
