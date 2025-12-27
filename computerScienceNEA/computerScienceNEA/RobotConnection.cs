@@ -48,6 +48,12 @@ namespace computerScienceNEA
 
                 messageBoxmessage.updateMessageVariable(tempMessageBoxMessage);
                 messageBoxmessage.messageboxshow();
+
+                System.Threading.Thread.Sleep(2000);
+
+                LV loggedInAccountDetails = new LV();
+
+                serialPort.WriteLine(loggedInAccountDetails.getPreviousStateID().ToString());
             }
             catch (Exception ex)
             {

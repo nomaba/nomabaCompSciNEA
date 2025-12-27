@@ -123,27 +123,9 @@ namespace computerScienceNEA
         {
             return LVe;
         }
-        public string getPreviousState()
+        public int getPreviousStateID()
         {
-            string previousState = "null";
-
-            SQLiteConnection myConnection; //created new vatiable callled my connection
-            myConnection = new SQLiteConnection("Data Source=database.db");
-
-            string queryGetPreviousState = "SELECT stateName FROM robotStates WHERE stateID = @stateID";
-
-            SQLiteCommand myCommmandGetPreviousState = new SQLiteCommand(queryGetPreviousState, myConnection);
-            myCommmandGetPreviousState.Parameters.AddWithValue("@stateID", PreviousStateID);
-
-            myConnection.Open();
-            SQLiteDataReader State = myCommmandGetPreviousState.ExecuteReader();
-            while (State.Read())
-            {
-                previousState = State.GetString(0);
-            }
-            myConnection.Close();
-
-            return previousState;
+            return PreviousStateID;
         }
 
 
