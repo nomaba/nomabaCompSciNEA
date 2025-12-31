@@ -15,7 +15,8 @@
 
 String previousButtonPress = "null";
 String command = "null";
-int robotstate = 0; // 0 = idle, 1 = happy, 2 = sad
+int robotState = 0; // 0 = idle, 1 = happy, 2 = sad
+int lv = 50; // level of love received from computer application // 50 is the default value
 
 // ///
 
@@ -36,7 +37,38 @@ const int ENB = 43;
 const int statePin = 41;
 
 
+const int infraredLeftPin  = 39;
+const int infraredRightPin  = 37;
+
+const int soundSensorPin  = 35;
+void checkSoundSensor()
+{
+  if (digitalRead(soundSensorPin) == HIGH)
+  {
+    // loud sound detected
+    robotState = 7; // set robot state to scared
+  }
+  else
+  {
+    // no loud sound detected
+    // do nothing
+  }
+}
+
 const int tiltBallPin  = 40;
+void checkTiltBall()
+{
+  if (digitalRead(tiltBallPin) == HIGH)
+  {
+    // The robot is upright
+    // do nothing
+  }
+  else
+  {
+    // The robot is upside down
+    robotState = 5; // set robot state to upside down
+  }
+}
 
 
 // MAX7219 LED Dot Matrix Module
@@ -44,14 +76,15 @@ LedControl lc = LedControl(52, 48, 50, 2); // Created variable called ledMatrix 
 
 
 // IR Receiver
-int receiver = 46;
+const int receiver = 46;
 // Declare objects
 IRrecv irrecv(receiver);     // create instance of 'irrecv'
 decode_results results;      // create instance of 'decode_results'
 
 
-// LEDs
-const int onboardLedPin = 13; //LED L on the arduino board
+// LEDs and beeper
+const int beeperPin = 13; //beeper and LED L on the arduino board
+bool isBeeperOn = false;
 
 
 // DFPlayer Mini MP3 Module
@@ -81,42 +114,43 @@ long getDistanceFront()
 
 void checkForSerial1()
 {
-  if (Serial1.available()) // checks if the computer has sent anything to the arduino through the serialMonitor
+  unsigned long startTime = millis();
+  if ((millis() - startTime) > 1000) 
   {
-    command = Serial1.readStringUntil('\n'); //set the variable command to whatever was sent through the serialPort
-    command.trim(); // removes unneccecary things from the message (\r, \n)
+    // this will play every 1 second
+    startTime = millis();
 
-    //translateSerial();
 
-    if (command == "forward") 
+
+    if (Serial1.available()) // checks if the computer has sent anything to the arduino through the serialMonitor
     {
+      command = Serial1.readStringUntil('\n'); //set the variable command to whatever was sent through the serialPort
+      command.trim(); // removes unneccecary things from the message (\r, \n)
+
+
+      if (command == "forward") 
+      {
         Serial1.println("moving forwards");
         moveForward();
         delay(500);
-
-    } else if (command == "backward") 
-    {
+      } else if (command == "backward") 
+      {
         Serial1.println("moving backwards");
         moveBackward();
         delay(500);
-
-    } else if (command == "right")
-    {
+      } else if (command == "right")
+      {
         Serial1.println("turning right");
         turnRight();
         delay(500);
-
-    } else if (command == "left")
-    {
+      } else if (command == "left")
+      {
         Serial1.println("turning left");
         turnLeft();
         delay(500);
-    } 
-  } else
-  {
-    delay(500); //millis(); might be a better alternative because the arduino can check for things sent in the serial port while it waits [ask GPT for the difference between delay and millis]
-    //The arduino might miss the data sent from the computer if delay is used
-  }
+      } 
+    }
+  } 
 }
 
 void translateSerial1()
@@ -143,20 +177,26 @@ void translateSerial1()
   }
 }
 
+
+
+
+
 void checkForIR()
 {
-  if (irrecv.decode(&results)) // have we received an IR signal?
+  unsigned long startTime = millis();
+  if ((millis() - startTime) > 1000) 
   {
-    translateIR(); 
-    irrecv.resume(); // receive the next value
-    delay(600);
-  }
-  else{
-    
+    // this will play every 1 second
+    startTime = millis();
+
+    if (irrecv.decode(&results)) // have we received an IR signal?
+    {
+      translateIR(); 
+      irrecv.resume(); // receive the next value
+      delay(600);
+    }
   }
 }
-
-
 
 void translateIR() // takes action based on IR code received
 // describing Remote IR codes 
@@ -170,30 +210,28 @@ void translateIR() // takes action based on IR code received
     case 0xFFA857: Serial.println("VOL-"); moveBackward(); previousButtonPress = "VOL-"; break;
     case 0xFF906F: Serial.println("UP"); moveForward(); previousButtonPress = "UP"; break;
     case 0xFFFFFFFF: Serial.println(" REPEAT");
-      if (previousButtonPress == "VOL+"){
-        moveForward();
-      }
-      else if (previousButtonPress == "FAST BACK"){
-        turnLeft();
-      }
-      else if (previousButtonPress == "FAST FORWARD"){
-        turnRight();
-      }
-      else if (previousButtonPress == "DOWN"){
-        moveBackward();
-      }
-      else if (previousButtonPress == "VOL-"){
-        moveBackward();
-      }
-      else if (previousButtonPress == "UP"){
-        moveForward();
-      }
+    if (previousButtonPress == "VOL+"){
+      moveForward();
+    }
+    else if (previousButtonPress == "FAST BACK"){
+      turnLeft();
+    }
+    else if (previousButtonPress == "FAST FORWARD"){
+      turnRight();
+    }
+    else if (previousButtonPress == "DOWN"){
+      moveBackward();
+    }
+    else if (previousButtonPress == "VOL-"){
+      moveBackward();
+    }
+    else if (previousButtonPress == "UP"){
+      moveForward();
+    }
     break;  
-  default: 
+    default: 
     stopMotors();
-  }
-
-  //delay(100); // Do not get immediate repeat
+  } 
 }
 
 
@@ -233,11 +271,23 @@ void turnLeft() {
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
 }
+void strafeLeftSlow() 
+{
+  analogWrite(ENA, 100);  // Slow speed left motor
+  analogWrite(ENB, 180);  // normal speed right motor
+  moveForward();
+}
 void turnRight() {
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
+}
+void strafeRightSlow() 
+{
+  analogWrite(ENA, 180);  // normal speed left motor
+  analogWrite(ENB, 100);  // Slow speed right motor
+  moveForward();
 }
 void stopMotors() {
   digitalWrite(IN1, LOW);
@@ -245,6 +295,8 @@ void stopMotors() {
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
 }
+
+
 
 void motorSpin()
 {
@@ -736,6 +788,14 @@ void setup()
   delay(2000); // This is here so that all the components have time to start up properly
   
 
+  pinMode(beeperPin, OUTPUT); // Set beeperPin as output
+  pinMode(statePin, INPUT); // Set statePin as input // HIGH = connected to computer via bluetooth, LOW = not connected
+  pinMode(tiltBallPin, INPUT); // Set tiltBallPin as input
+  pinMode(infraredLeftPin, INPUT); // Set infraredLeftPin as input
+  pinMode(infraredRightPin, INPUT); // Set infraredRightPin as input
+  pinMode(soundSensorPin, INPUT); // Set loudSoundSensorPin as input
+
+
   randomSeed(analogRead(0));
 
 
@@ -770,6 +830,32 @@ void setup()
   else 
   {
     Serial.println("Connecting to DFPlayer Mini failed!");
+
+    bool error = true;
+    while (error == true) // play an alarm sound (high pitch then low pitch and repeat)
+    {
+      unsigned char i; //counter
+      while(1)
+      {
+        //output an frequency to the buzzer
+        for(i=0;i<80;i++)
+        {
+          digitalWrite(beeperPin,HIGH);
+          delay(1);
+          digitalWrite(beeperPin,LOW);
+          delay(1);
+        }
+        //output another frequency
+        for(i=0;i<100;i++)
+        {
+          digitalWrite(beeperPin,HIGH);
+          delay(2);
+          digitalWrite(beeperPin,LOW);
+          delay(2);
+        }
+      }
+      //green text
+    }
   }
 
 
@@ -787,9 +873,7 @@ void setup()
 
 
 
-  pinMode(onboardLedPin, OUTPUT); // Set onboardLedPin as output
-  pinMode(statePin, INPUT); // Set statePin as input // HIGH = connected to computer via bluetooth, LOW = not connected
-  pinMode(tiltBallPin, INPUT);
+
 
 
 
@@ -797,7 +881,7 @@ void setup()
 
 
   stopMotors(); // This is here just for good measure
-  digitalWrite(onboardLedPin, LOW);
+  digitalWrite(beeperPin, LOW);
 
   delay(1000); // This is here just cus
 
@@ -814,22 +898,92 @@ void setup()
 
   player.playMp3Folder(4); //The bluetooth device is coneccted successfully
 
-/*
-  bool stateRecieved = false;
-  while (stateRecieved == false)///////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  bool robotStateRecieved = false;
+  bool LVRecieved = false;
+  unsigned long startTime = millis() - 11000; // set to more than 10 seconds ago so that the sound plays immediately
+  while (robotStateRecieved == false || LVRecieved == false)
   {
+    if ((millis() - startTime) > 1000) 
+    {
+      startTime = millis();
+
+      if (isBeeperOn == false)
+      {
+        digitalWrite(beeperPin, HIGH); // turn beeper on
+        isBeeperOn = true;
+      } else 
+      {
+        digitalWrite(beeperPin, LOW); // turn beeper off
+        isBeeperOn = false;
+      }    
+    }
+
     if (Serial1.available()) // checks if the computer has sent anything to the arduino through the serialMonitor
     {
       command = Serial1.readStringUntil('\n'); //set the variable command to whatever was sent through the serialPort
       command.trim(); // removes unneccecary things from the message (\r, \n)
 
-      if (command == "happy")
+      if (command.startsWith("robotState: "))
       {
-        robotstate = "1"; //happy
-        stateRecieved = true;
-      }
+        // use string manipulation to get the robotState from the command
+        String robotStateString = command.substring(7);
+        robotState = robotStateString.toInt();
+
+        robotStateRecieved = true;
+      } else if (command.startsWith("LV: "))
+      {
+        // use string manipulation to get the LV from the command
+        String lvString = command.substring(4);
+        lv = lvString.toInt(); 
+
+        LVRecieved = true;
+      }      
     }
-  }*/
+  }
+
+
+
+
+  unsigned char i;
+  for (i = 0; i < 60; i++)
+  {
+    digitalWrite(beeperPin, HIGH);
+    delay(4);
+    digitalWrite(beeperPin, LOW);
+    delay(4);
+  }
+  delay(40);
+  for (i = 0; i < 60; i++)
+  {
+    digitalWrite(beeperPin, HIGH);
+    delay(3);
+    digitalWrite(beeperPin, LOW);
+    delay(3);
+  }
+  delay(40);
+  for (i = 0; i < 80; i++)
+  {
+    digitalWrite(beeperPin, HIGH);
+    delay(2);
+    digitalWrite(beeperPin, LOW);
+    delay(2);
+  }
 }
 
 
@@ -868,11 +1022,13 @@ void loop()
   
 
   checkForIR();
-
   checkForSerial1();
 
-  robotstate = 1;
-  doStateAction();
+  checkTiltBall();
+
+
+
+  dorobotStateAction();
 }
 
 
@@ -905,38 +1061,42 @@ void loop()
 
 
 
-void doStateAction()
+void dorobotStateAction()
 {
-  if (robotstate == 1) // happy
+  if (robotState == 1) // happy
   {
-    stateHappy();
+    robotStateHappy();
   }
-  else if (robotstate == 2) // angry
+  else if (robotState == 2) // angry
   {
-    stateAngry();
+    robotStateAngry();
   }
-  else if (robotstate == 3) // sad
+  else if (robotState == 3) // sad
   {
-    stateSad();
+    robotStateSad();
   }
-  else if (robotstate == 4) // sleepy
+  else if (robotState == 4) // sleepy
   {
-    stateSleepy();
+    robotStateSleepy();
   }
-  else if (robotstate == 5) // upsidedown
+  else if (robotState == 5) // upsidedown
   {
-    stateUpsidedown();
+    robotStateUpsidedown();
   }
-  else if (robotstate == 6) // Curious
+  else if (robotState == 6) // Curious
   {
-    stateCurious();
+    robotStateCurious();
   }
-  else if (robotstate == 7) // upside down
+  else if (robotState == 7) // scared
   {
-    stateIdle();
+    robotStateScared();
+  }
+  else if (robotState == 8) // idle
+  {
+    robotStateIdle();
   } else 
   {
-    stateIdle();
+    robotStateIdle();
   }
 }
 
@@ -958,7 +1118,7 @@ int randomNumber1to25()
   return randomNum;
 }
 
-void stateHappy()
+void robotStateHappy()
 {
   drawFrame(SMILE[0]);
 
@@ -1023,7 +1183,7 @@ void stateHappy()
   }
 }
 
-void stateAngry()
+void robotStateAngry()
 {
   drawFrame(SMILE[0]);
 
@@ -1071,7 +1231,7 @@ void stateAngry()
   }
 }
 
-void stateSad()
+void robotStateSad()
 {
 
   drawFrame(SMILE[0]);
@@ -1096,42 +1256,94 @@ void stateSad()
   }
 }
 
-void stateSleepy()
+void robotStateSleepy()
 {
-  // play sleeping animation and sound and sleep until upsidedown detected or ir remote input
+  // say im sleepy and then switch all screen LEDs off ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  drawFrame(SMILE[0]);////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // play sleeping sound //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  drawFrame(SMILE[0]);/////////////////////////////////////////////////////////////////////////////////////
-
-  bool wokeUp = false;
-  while (wokeUp == false)
-  {
-    checkForIR(); //////////////////////////////////////////////////////////////////////////
-    if (digitalRead(tiltBallPin) == LOW) // if robot is upside down
+  bool wokenUp = false;
+  while (wokenUp == false)
+  { 
+    // if any button on the ir remote is pressed then wake up
+    switch(results.value)
     {
-      wokeUp = true;
+      case 0xFFA25D:   wokenUp = true; break;
+      case 0xFFE21D:   wokenUp = true; break;
+      case 0xFF629D:   wokenUp = true; break;
+      case 0xFF22DD:   wokenUp = true; break;
+      case 0xFF02FD:   wokenUp = true; break;
+      case 0xFFC23D:   wokenUp = true; break;
+      case 0xFFE01F:   wokenUp = true; break;
+      case 0xFFA857:   wokenUp = true; break;
+      case 0xFF906F:   wokenUp = true; break;
+      case 0xFF9867:   wokenUp = true; break;
+      case 0xFFB04F:   wokenUp = true; break;
+      case 0xFF6897:   wokenUp = true; break;
+      case 0xFF30CF:   wokenUp = true; break;
+      case 0xFF18E7:   wokenUp = true; break;
+      case 0xFF7A85:   wokenUp = true; break;
+      case 0xFF10EF:   wokenUp = true; break;
+      case 0xFF38C7:   wokenUp = true; break;
+      case 0xFF5AA5:   wokenUp = true; break;
+      case 0xFF42BD:   wokenUp = true; break;
+      case 0xFF4AB5:   wokenUp = true; break;
+      case 0xFF52AD:   wokenUp = true; break;
+      case 0xFFFFFFFF: wokenUp = true; break;  
+
+      default: 
+      wokenUp = true;
     }
   }
 }
 
-void stateUpsidedown()
+void robotStateUpsidedown()
 {
-  // play nausious animation and sound then fart and sleep until IR remote input and right way round
-
-  // play upsidedown sound //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  drawFrame(SMILE[0]);/////////////////////////////////////////////////////////////////////////////////////
-  
-  bool wokeUp = false;
-  while (wokeUp == false)
+  if (digitalRead(tiltBallPin) == LOW) // if the robot is upside down
   {
-    checkForIR(); //////////////////////////////////////////////////////////////////////////
+    // play nausious animation and sound then fart and sleep until IR remote input and right way round//////////////////////////////////////////////////////////////////
+    drawFrame(SMILE[0]);////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // if ir recieved then wokeUp == true
+    bool wokenUp = false;
+    while (wokenUp == false && digitalRead(tiltBallPin) == LOW) // the robot is not upside down anymore and has been woken up by the ir remote
+    { 
+      // if any button on the ir remote is pressed then wake up
+      switch(results.value)
+      {
+        case 0xFFA25D:   wokenUp = true; break;
+        case 0xFFE21D:   wokenUp = true; break;
+        case 0xFF629D:   wokenUp = true; break;
+        case 0xFF22DD:   wokenUp = true; break;
+        case 0xFF02FD:   wokenUp = true; break;
+        case 0xFFC23D:   wokenUp = true; break;
+        case 0xFFE01F:   wokenUp = true; break;
+        case 0xFFA857:   wokenUp = true; break;
+        case 0xFF906F:   wokenUp = true; break;
+        case 0xFF9867:   wokenUp = true; break;
+        case 0xFFB04F:   wokenUp = true; break;
+        case 0xFF6897:   wokenUp = true; break;
+        case 0xFF30CF:   wokenUp = true; break;
+        case 0xFF18E7:   wokenUp = true; break;
+        case 0xFF7A85:   wokenUp = true; break;
+        case 0xFF10EF:   wokenUp = true; break;
+        case 0xFF38C7:   wokenUp = true; break;
+        case 0xFF5AA5:   wokenUp = true; break;
+        case 0xFF42BD:   wokenUp = true; break;
+        case 0xFF4AB5:   wokenUp = true; break;
+        case 0xFF52AD:   wokenUp = true; break;
+        case 0xFFFFFFFF: wokenUp = true; break;  
+
+        default: 
+        wokenUp = true;
+      }
+    }
+  } else
+  {
+    player.stop();
   }
 }
 
 
-void stateCurious()
+void robotStateCurious()
 {
   // go forward constantly and turn when obstacle detected
   motorSpeedNormal();
@@ -1141,7 +1353,7 @@ void stateCurious()
   stopMotors();
 }
 
-void stateIdle()
+void robotStateIdle()
 {
   drawFrame(SMILE[0]);
 
@@ -1166,5 +1378,45 @@ void stateIdle()
   } else 
   {
     // do nothing
+  }
+}
+
+void robotStateScared()
+{
+  // play scared sound //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  motorSpeedFast();
+  moveBackward();
+  delay(1000); // back away for 1 second
+  stopMotors();
+}
+
+void robotStateFollow()
+{
+  // use ultrasonic sensor and infared sensors to follow object infront
+
+  bool playGameFollow = true;
+  while (playGameFollow == true)
+  {
+    motorSpeedSlow();
+    // read ultrasonic sensor and infared sensors
+    if        ((digitalRead(infraredLeftPin) == LOW && digitalRead(infraredRightPin) == LOW && getDistanceFront() < 10) || (digitalRead(infraredLeftPin) == HIGH && digitalRead(infraredRightPin) == HIGH && getDistanceFront() < 10))
+    {
+      // object is in the centre
+      moveForward();
+    } else if (digitalRead(infraredLeftPin) == LOW && digitalRead(infraredRightPin) == HIGH)
+    {
+      // object is on the left
+      strafeLeftSlow(); 
+    } else if (digitalRead(infraredLeftPin) == HIGH && digitalRead(infraredRightPin) == LOW)
+    {
+      // object is on the right
+      strafeRightSlow(); 
+    } else 
+    {
+      // object is lost
+      stopMotors();
+    }
+
+
   }
 }
