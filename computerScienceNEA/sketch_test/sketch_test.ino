@@ -364,7 +364,7 @@ void forwardObstacleTurn(unsigned long duration)
 // run forward until obstacle detected 
 void forwardUntilObstacle()
 {
-  while (getDistanceFront() < 15)
+  while (getDistanceFront() > 15)
   {
     moveForward();
   }
@@ -651,6 +651,19 @@ const uint8_t GOINGTOSLEEP[][8] = {
 }};
 const int frameNumGoingToSleep = sizeof(GOINGTOSLEEP)/8;
 
+const uint8_t bluetoothLogo[][8] = {
+{
+  0b00000000,
+  0b00100100,
+  0b01011010,
+  0b11111111,
+  0b00011000,
+  0b00100100,
+  0b00000000,
+  0b00000000
+}};
+const int frameNumbluetoothLogo = sizeof(bluetoothLogo)/8;
+
 
 //
 //
@@ -663,9 +676,27 @@ const int frameNumGoingToSleep = sizeof(GOINGTOSLEEP)/8;
 // ////////////////////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////////////////////
 
-void drawFrame(const uint8_t frame[8]) {
-  for (int row = 0; row < 8; row++) {
+void drawFrame(const uint8_t frame[8]) // draws frame on both matrices
+{
+  for (int row = 0; row < 8; row++) 
+  {
     lc.setRow(0, row, frame[row]);
+    lc.setRow(1, row, frame[row]);
+  }
+}
+
+void drawFrameOnMatrix0(const uint8_t frame[8]) // draws frame on matrxix 0 only
+{
+  for (int row = 0; row < 8; row++) 
+  {
+    lc.setRow(0, row, frame[row]);
+  }
+}
+
+void drawFrameOnMatrix1(const uint8_t frame[8]) // draws frame on both matrix 1 only
+{
+  for (int row = 0; row < 8; row++) 
+  {
     lc.setRow(1, row, frame[row]);
   }
 }
@@ -825,7 +856,7 @@ void setup()
   {
     Serial.println("OK");
     player.volume(15); // Set volume to maximum (0 to 30)
-    player.playMp3Folder(3); // Play the "0003.mp3" in the "mp3" folder on the SD card
+    player.playMp3Folder(17); // Play the "0017.mp3" in the "mp3" folder on the SD card
   } 
   else 
   {
@@ -885,22 +916,60 @@ void setup()
 
   delay(1000); // This is here just cus
 
+
+  unsigned long startTime2 = millis();
   while (digitalRead(statePin) == LOW)
   {
+    for (int j = 0; j < frameNumbluetoothLogo; j++)
+    {
+      drawFrameOnMatrix1(bluetoothLogo[j]);
+    }
+    
     for (int i = 0; i < framesNumLoading; i++) 
     {
-      drawFrame(LOADING[i]);
+      drawFrameOnMatrix0(LOADING[i]);
+      
       delay(100); // 100ms wait time per frame
+    }
+
+    if ((millis() - startTime2) > 10000) 
+    {
+      startTime2 = millis();
+
+      player.playMp3Folder(17); // Play the "0017.mp3" in the "mp3" folder on the SD card
     }
   }
 
   drawFrame(SMILE[0]);
 
-  player.playMp3Folder(4); //The bluetooth device is coneccted successfully
 
 
 
 
+  unsigned char j;
+  for (j = 0; j < 60; j++)
+  {
+    digitalWrite(beeperPin, HIGH);
+    delay(10);
+    digitalWrite(beeperPin, LOW);
+    delay(10);
+  }
+  delay(40);
+  for (j = 0; j < 60; j++)
+  {
+    digitalWrite(beeperPin, HIGH);
+    delay(6);
+    digitalWrite(beeperPin, LOW);
+    delay(6);
+  }
+  delay(40);
+  for (j = 0; j < 80; j++)
+  {
+    digitalWrite(beeperPin, HIGH);
+    delay(2);
+    digitalWrite(beeperPin, LOW);
+    delay(2);
+  }
 
 
 
@@ -919,19 +988,17 @@ void setup()
   unsigned long startTime = millis() - 11000; // set to more than 10 seconds ago so that the sound plays immediately
   while (robotStateRecieved == false || LVRecieved == false)
   {
-    if ((millis() - startTime) > 1000) 
+    if (isBeeperOn && millis() - startTime >= 1000)
     {
+      digitalWrite(beeperPin, LOW);   // turn OFF after 1s
+      isBeeperOn = false;
       startTime = millis();
-
-      if (isBeeperOn == false)
-      {
-        digitalWrite(beeperPin, HIGH); // turn beeper on
-        isBeeperOn = true;
-      } else 
-      {
-        digitalWrite(beeperPin, LOW); // turn beeper off
-        isBeeperOn = false;
-      }    
+    }
+    else if (!isBeeperOn && millis() - startTime >= 5000)
+    {
+      digitalWrite(beeperPin, HIGH);  // turn ON after 5s
+      isBeeperOn = true;
+      startTime = millis();
     }
 
     if (Serial1.available()) // checks if the computer has sent anything to the arduino through the serialMonitor
@@ -1122,32 +1189,38 @@ void robotStateHappy()
 {
   drawFrame(SMILE[0]);
 
+  int randomNum = randomNumber1to50();
 
+  
 
-  if (randomNumber1to50() == 1)
+  if (randomNum == 1)
   {
     // run forward full speed until obstacle detected
     motorSpeedFast();
     forwardUntilObstacle();
+    Serial1.println("obstacle");
 
-      Serial1.println("obstacle");
+    stopMotors();
+    delay(5000); // wait for 5 seconds
 
-  } else if (randomNumber1to50() == 2)
+  } else if (randomNum == 2)
   {
     // play happy sound ////////////////////////////////////////////////////////////////////////////////////////////
       Serial1.println("happy sound");
   
-  } else if (randomNumber1to50() == 3)
+  } else if (randomNum == 3)
   {
     // spin for 5 seconds at full speed
     motorSpeedFast();
     spinForDuration(5000);
+    Serial1.println("spin");
 
-      Serial1.println("spin");
+    stopMotors();
+    delay(5000); // wait for 5 seconds
 
-  } else if (randomNumber1to50() == 4)
+  } else if (randomNum == 4)
   {
-  Serial1.println("FB");
+    Serial1.println("FB");
 
     // go forward and backwards 5 times
     motorSpeedFast();
@@ -1158,12 +1231,13 @@ void robotStateHappy()
       moveBackward();
       delay(200);
     }
+
     stopMotors();
+    delay(5000); // wait for 5 seconds
 
-  } else if (randomNumber1to50() == 5)
+  } else if (randomNum == 5)
   {
-
-      Serial1.println("LR");
+    Serial1.println("LR");
     // turn left then right 5 times
     motorSpeedFast();
     for (int i = 0; i < 5; i++) // 5x loop
@@ -1173,7 +1247,10 @@ void robotStateHappy()
       turnRight();
       delay(200);
     }
+    
+    
     stopMotors();
+    delay(5000); // wait for 5 seconds
 
 
 
