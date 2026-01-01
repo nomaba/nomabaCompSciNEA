@@ -110,16 +110,14 @@ long getDistanceFront()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // misc
 
-
+unsigned long startTimecheckForSerial1 = millis();
 
 void checkForSerial1()
 {
-  unsigned long startTime = millis();
-  if ((millis() - startTime) > 1000) 
+  if ((millis() - startTimecheckForSerial1) > 1000) 
   {
     // this will play every 1 second
-    startTime = millis();
-
+    startTimecheckForSerial1 = millis();
 
 
     if (Serial1.available()) // checks if the computer has sent anything to the arduino through the serialMonitor
@@ -178,16 +176,15 @@ void translateSerial1()
 }
 
 
-
+unsigned long startTimecheckForIR = millis();
 
 
 void checkForIR()
 {
-  unsigned long startTime = millis();
-  if ((millis() - startTime) > 1000) 
+  if ((millis() - startTimecheckForIR) > 1000) 
   {
     // this will play every 1 second
-    startTime = millis();
+    startTimecheckForIR = millis();
 
     if (irrecv.decode(&results)) // have we received an IR signal?
     {
@@ -436,220 +433,82 @@ const int framesNumLoading = sizeof(LOADING) / sizeof(LOADING[0]);
 
 const uint8_t SMILE[][8] = {
 {
-  0b00000000,0b00000000,0b00100100,0b00100100,0b00000000,0b01000010,0b00111100,0b00000000
+  0b00000000,
+  0b00110100,
+  0b00110010,
+  0b00000010,
+  0b00000010,
+  0b00110010,
+  0b00110100,
+  0b00000000
 }};
-const int frameNumSmile = sizeof(SMILE);
-
-//
-//
-//
-
-const uint8_t HAPPY[][8] = {
-{
-  0b01111110,0b11111111,0b11000011,0b10000001,0b10000001,0b10011001,0b11111111,0b01111110
-}};
-const int frameNumHappy = sizeof(HAPPY)/8;
-
-const uint8_t HAPPYBLINK[][8] = {
-{
-  0b01111110,0b11111111,0b11000011,0b10000001,0b10000001,0b10011001,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11000011,0b10000001,0b10000001,0b10011001,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11111111,0b10000001,0b10000001,0b11111111,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11111111,0b11111111,0b11111111,0b11111111,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11111111,0b11111111,0b11111111,0b11111111,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11111111,0b10000001,0b10000001,0b11111111,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11000011,0b10000001,0b10000001,0b10011001,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11000011,0b10000001,0b10000001,0b10011001,0b11111111,0b01111110
-}};
-const int frameNumHappyBlink = sizeof(HAPPYBLINK)/8;
-
-
-//
-//
-//
+const int SMILE_LENGTH = sizeof(SMILE)/8;
 
 const uint8_t SAD[][8] = {
 {
-  0b01111110,0b11111111,0b10011001,0b10000001,0b10000001,0b11000011,0b11111111,0b01111110
+  0b00000000,
+  0b00110010,
+  0b00110100,
+  0b00000100,
+  0b00000100,
+  0b00110100,
+  0b00110010,
+  0b00000000
 }};
-const int frameNumSad = sizeof(SAD)/8;
+const int SAD_LENGTH = sizeof(SAD)/8;
 
-const uint8_t SADBLINK[][8] = {
+const uint8_t ANGRY[][8] = {
 {
-  0b01111110,0b11111111,0b10011001,0b10000001,0b10000001,0b11000011,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b10011001,0b10000001,0b10000001,0b11000011,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11111111,0b10000001,0b10000001,0b11111111,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11111111,0b11111111,0b11111111,0b11111111,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b11111111,0b11111111,0b11111111,0b11111111,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b10011001,0b10000001,0b10000001,0b11000011,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b10011001,0b10000001,0b10000001,0b11000011,0b11111111,0b01111110
-},{
-  0b01111110,0b11111111,0b10011001,0b10000001,0b10000001,0b11000011,0b11111111,0b01111110
+  0b00000000,
+  0b10011001,
+  0b01011010,
+  0b00000010,
+  0b00000010,
+  0b01011010,
+  0b10011001,
+  0b00000000
 }};
-const int frameNumSadBlink = sizeof(SADBLINK)/8;
+const int ANGRY_LENGTH = sizeof(ANGRY)/8;
 
-
-//
-//
-//
-
-const uint8_t FACINGFORWARD[][8] = {
+const uint8_t CURIOUS[][8] = {
 {
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
+  0b00000000,
+  0b01011000,
+  0b01011001,
+  0b00000001,
+  0b00000001,
+  0b10011001,
+  0b10011000,
+  0b00000000
 }};
-const int frameNumFacingForward = sizeof(FACINGFORWARD)/8;
+const int CURIOUS_LENGTH = sizeof(CURIOUS)/8;
 
-const uint8_t FACINGFORWARDBLINK[][8] = {
+const uint8_t SCARED[][8] = {
 {
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
+  0b00100000,
+  0b01011001,
+  0b10011010,
+  0b00000010,
+  0b00000010,
+  0b10011010,
+  0b01011001,
+  0b00100000
 }};
-const int frameNumFacingForwardBlink = sizeof(FACINGFORWARDBLINK)/8;
+const int SCARED_LENGTH = sizeof(SCARED)/8;
 
-
-//
-//
-//
-
-const uint8_t LOOKINGLEFT[][8] = {
+const uint8_t IDLE[][8] = {
 {
-  0b01111110,0b11111111,0b10011111,0b00001111,0b00001111,0b10011111,0b11111111,0b01111110
+  0b00000000,
+  0b00110010,
+  0b00110010,
+  0b00000010,
+  0b00000010,
+  0b00110010,
+  0b00110010,
+  0b00000000
 }};
-const int frameNumLookingLeft = sizeof(LOOKINGLEFT)/8;
+const int IDLE_LENGTH = sizeof(IDLE)/8;
 
-//
-//
-//
-
-const uint8_t LOOKINGRIGHT[][8] = {
-{
-  0b01111110,0b11111111,0b11111001,0b11110000,0b11110000,0b11111001,0b11111111,0b01111110
-}};
-const int frameNumLookingRight = sizeof(LOOKINGRIGHT)/8;
-
-//
-//
-//
-
-const uint8_t SLEEPING[][8] = {
-{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-}};
-const int frameNumSleeping = sizeof(SLEEPING)/8;
-
-const uint8_t GOINGTOSLEEP[][8] = {
-{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00111100,0b01111110,0b01100110,0b01100110,0b01111110,0b00111100,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b01111110,0b01100110,0b01100110,0b01111110,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b01100110,0b01100110,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-},{
-  0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000
-}};
-const int frameNumGoingToSleep = sizeof(GOINGTOSLEEP)/8;
 
 const uint8_t bluetoothLogo[][8] = {
 {
@@ -685,6 +544,7 @@ void drawFrame(const uint8_t frame[8]) // draws frame on both matrices
   }
 }
 
+
 void drawFrameOnMatrix0(const uint8_t frame[8]) // draws frame on matrxix 0 only
 {
   for (int row = 0; row < 8; row++) 
@@ -700,104 +560,6 @@ void drawFrameOnMatrix1(const uint8_t frame[8]) // draws frame on both matrix 1 
     lc.setRow(1, row, frame[row]);
   }
 }
-
-// ////////////////////////////////////////////////////////////////////////////////////////////
-// ////////////////////////////////////////////////////////////////////////////////////////////
-// ////////////////////////////////////////////////////////////////////////////////////////////
-// ////////////////////////////////////////////////////////////////////////////////////////////
-// ////////////////////////////////////////////////////////////////////////////////////////////
-
-// Facial expressions for the MAX7219 LED Dot Matrix Module
-
-void matrixLoading() //done
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(LOADING[8]);
-}
-
-void matrixHappyFace() //done
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-void matrixIdleFace() 
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-void matrixSadFace()
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-void matrixAngryFace()
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-void matrixBoredFace()
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-void matrixTiredFace()
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-void matrixLookingAroundFace()
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-void matrixLookingLeft()
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-void matrixLookingRight()
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-void matrixSleepingFace()
-{
-  lc.clearDisplay(0); // Clear the display (turn off all LEDs)
-  lc.clearDisplay(1); // Clear the display (turn off all LEDs)
-
-  drawFrame(SMILE[0]);
-}
-
-
 
 
 
@@ -940,14 +702,14 @@ void setup()
     }
   }
 
-  drawFrame(SMILE[0]);
 
 
+  lc.clearDisplay(1);
 
 
 
   unsigned char j;
-  for (j = 0; j < 60; j++)
+  for (j = 0; j < 40; j++)
   {
     digitalWrite(beeperPin, HIGH);
     delay(10);
@@ -955,12 +717,12 @@ void setup()
     delay(10);
   }
   delay(40);
-  for (j = 0; j < 60; j++)
+  for (j = 0; j < 50; j++)
   {
     digitalWrite(beeperPin, HIGH);
-    delay(6);
+    delay(5);
     digitalWrite(beeperPin, LOW);
-    delay(6);
+    delay(5);
   }
   delay(40);
   for (j = 0; j < 80; j++)
@@ -1011,6 +773,8 @@ void setup()
         // use string manipulation to get the robotState from the command
         String robotStateString = command.substring(7);
         robotState = robotStateString.toInt();
+        Serial1.println(robotStateString);
+        Serial1.println(robotState);
 
         robotStateRecieved = true;
       } else if (command.startsWith("LV: "))
@@ -1083,6 +847,9 @@ void setup()
 
 
 
+bool stateActionPerformed = false;
+unsigned long startTimeStateAction = millis();
+
 void loop() 
 {
   // put your main code here, to run repeatedly:
@@ -1094,8 +861,28 @@ void loop()
   checkTiltBall();
 
 
+  if (robotState == 8) // follow state
+  {
+    robotStateFollow();
+  }
+  
+  if (stateActionPerformed == false)
+  {
+    
+    dorobotStateAction();
+    stateActionPerformed = true;
+  }
 
-  dorobotStateAction();
+
+  if ((millis() - startTimeStateAction) > 8000) 
+  {
+    stateActionPerformed = false;
+    
+  }
+
+  stopMotors(); // This is here just for good measure
+
+  
 }
 
 
@@ -1130,6 +917,12 @@ void loop()
 
 void dorobotStateAction()
 {
+
+  digitalWrite(beeperPin, HIGH);
+  delay(100);
+  digitalWrite(beeperPin, LOW);
+
+
   if (robotState == 1) // happy
   {
     robotStateHappy();
@@ -1158,7 +951,11 @@ void dorobotStateAction()
   {
     robotStateScared();
   }
-  else if (robotState == 8) // idle
+  else if (robotState == 8) // Follow
+  {
+    robotStateFollow();
+  }
+  else if (robotState == 9) // idle
   {
     robotStateIdle();
   } else 
@@ -1173,9 +970,9 @@ int randomNumber1to75()
   return randomNum;
 }
 
-int randomNumber1to50()
+int randomNumber1to5()
 {
-  int randomNum = random(0, 50);
+  int randomNum = random(0, 5);
   return randomNum;
 }
 
@@ -1187,21 +984,32 @@ int randomNumber1to25()
 
 void robotStateHappy()
 {
-  drawFrame(SMILE[0]);
 
-  int randomNum = randomNumber1to50();
+
+
+
+  for (int j = 0; j < SMILE_LENGTH; j++)
+  {
+    drawFrame(SMILE[j]);
+  }
+
+
+
+
+  digitalWrite(beeperPin, HIGH);
+  
+  
+  int randomNum = randomNumber1to5();
 
   
 
   if (randomNum == 1)
   {
     // run forward full speed until obstacle detected
+    player.playMp3Folder(7); // Play the "0007.mp3" in the "mp3" folder on the SD card
     motorSpeedFast();
     forwardUntilObstacle();
     Serial1.println("obstacle");
-
-    stopMotors();
-    delay(5000); // wait for 5 seconds
 
   } else if (randomNum == 2)
   {
@@ -1211,18 +1019,17 @@ void robotStateHappy()
   } else if (randomNum == 3)
   {
     // spin for 5 seconds at full speed
+    player.playMp3Folder(7); // Play the "0007.mp3" in the "mp3" folder on the SD card
     motorSpeedFast();
     spinForDuration(5000);
     Serial1.println("spin");
-
-    stopMotors();
-    delay(5000); // wait for 5 seconds
 
   } else if (randomNum == 4)
   {
     Serial1.println("FB");
 
     // go forward and backwards 5 times
+    player.playMp3Folder(14); // Play the "0014.mp3" in the "mp3" folder on the SD card
     motorSpeedFast();
     for (int i = 0; i < 5; i++) // 5x loop
     {
@@ -1230,15 +1037,13 @@ void robotStateHappy()
       delay(200);
       moveBackward();
       delay(200);
-    }
-
-    stopMotors();
-    delay(5000); // wait for 5 seconds
+    } 
 
   } else if (randomNum == 5)
   {
     Serial1.println("LR");
     // turn left then right 5 times
+    player.playMp3Folder(14); // Play the "0014.mp3" in the "mp3" folder on the SD card
     motorSpeedFast();
     for (int i = 0; i < 5; i++) // 5x loop
     {
@@ -1247,24 +1052,35 @@ void robotStateHappy()
       turnRight();
       delay(200);
     }
-    
-    
-    stopMotors();
-    delay(5000); // wait for 5 seconds
-
-
 
   } else 
   {
     // do nothing
   }
+
+  startTimeStateAction = millis();
 }
 
 void robotStateAngry()
 {
-  drawFrame(SMILE[0]);
+  for (int j = 0; j < ANGRY_LENGTH; j++)
+  {
+    drawFrame(ANGRY[j]);
+  }
 
-  if (randomNumber1to50() == 1)
+
+
+
+  for (int j = 0; j < frameNumbluetoothLogo; j++)
+    {
+      drawFrameOnMatrix1(bluetoothLogo[j]);
+    }
+
+
+
+
+  
+  if (randomNumber1to5() == 1)
   {
     // keep on moving forward slowly for 30 seconds
     motorSpeedSlow();
@@ -1272,25 +1088,25 @@ void robotStateAngry()
     delay(30000);
     stopMotors();
 
-  } else if (randomNumber1to50() == 2)
+  } else if (randomNumber1to5() == 2)
   {
     // keep on moving backward slowly for 30 seconds
     motorSpeedSlow();
     moveBackward();
     delay(30000);
     stopMotors();
-  } else if (randomNumber1to50() == 3)
+  } else if (randomNumber1to5() == 3)
   {
     // play angry sound///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  } else if (randomNumber1to50() == 4)
+  } else if (randomNumber1to5() == 4)
   {
     // run forward until obstacle detected at full speed and play angry sound
     motorSpeedFast();
     forwardUntilObstacle();
     // play angry sound///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  } else if (randomNumber1to50() == 6)
+  } else if (randomNumber1to5() == 6)
   {
     // turn left then right 5 times
     motorSpeedFast();
@@ -1306,12 +1122,17 @@ void robotStateAngry()
   {
     // do nothing
   }
+
+  startTimeStateAction = millis();
 }
 
 void robotStateSad()
 {
 
-  drawFrame(SMILE[0]);
+  for (int j = 0; j < SAD_LENGTH; j++)
+  {
+    drawFrame(SAD[j]);
+  }
 
 
   // if obstacle detected is infront turn around
@@ -1331,12 +1152,15 @@ void robotStateSad()
   {
     // do nothing
   }
+
+  startTimeStateAction = millis();
 }
 
 void robotStateSleepy()
 {
   // say im sleepy and then switch all screen LEDs off ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  drawFrame(SMILE[0]);////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+
 
   bool wokenUp = false;
   while (wokenUp == false)
@@ -1371,10 +1195,19 @@ void robotStateSleepy()
       wokenUp = true;
     }
   }
+
+
+  // use LV to determine the next state ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void robotStateUpsidedown()
 {
+  for (int j = 0; j < SAD_LENGTH; j++)
+  {
+    drawFrame(SAD[j]);
+  }
+
+
   if (digitalRead(tiltBallPin) == LOW) // if the robot is upside down
   {
     // play nausious animation and sound then fart and sleep until IR remote input and right way round//////////////////////////////////////////////////////////////////
@@ -1417,22 +1250,33 @@ void robotStateUpsidedown()
   {
     player.stop();
   }
+
+  //use LV to determine the next state ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 
 void robotStateCurious()
 {
+  for (int j = 0; j < CURIOUS_LENGTH; j++)
+  {
+    drawFrame(CURIOUS[j]);
+  }
+
   // go forward constantly and turn when obstacle detected
   motorSpeedNormal();
   forwardUntilObstacle();
   turnRight();
   delay(100); // turn for 100 milliseconds
   stopMotors();
+  startTimeStateAction = millis();
 }
 
 void robotStateIdle()
 {
-  drawFrame(SMILE[0]);
+  for (int j = 0; j < IDLE_LENGTH; j++)
+  {
+    drawFrame(IDLE[j]);
+  }
 
 
   if (randomNumber1to25() == 1)
@@ -1456,19 +1300,31 @@ void robotStateIdle()
   {
     // do nothing
   }
+  startTimeStateAction = millis();
 }
 
 void robotStateScared()
 {
+
+  for (int j = 0; j < SCARED_LENGTH; j++)
+  {
+    drawFrame(SCARED[j]);
+  }
   // play scared sound //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   motorSpeedFast();
   moveBackward();
   delay(1000); // back away for 1 second
   stopMotors();
+  // use LV to determine the next state ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void robotStateFollow()
 {
+
+  for (int j = 0; j < CURIOUS_LENGTH; j++)
+  {
+    drawFrame(CURIOUS[j]);
+  }
   // use ultrasonic sensor and infared sensors to follow object infront
 
   bool playGameFollow = true;
@@ -1496,4 +1352,7 @@ void robotStateFollow()
 
 
   }
+  
+
+  
 }
