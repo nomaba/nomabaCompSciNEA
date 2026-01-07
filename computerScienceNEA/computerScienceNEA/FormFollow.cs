@@ -23,5 +23,10 @@ namespace computerScienceNEA
             this.Close();
             Home.Show();
         }
+
+        private void FormFollow_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

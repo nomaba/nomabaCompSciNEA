@@ -958,23 +958,11 @@ void turnLeft() {
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
 }
-void strafeLeftSlow() 
-{
-  analogWrite(ENA, 100);  // Slow speed left motor
-  analogWrite(ENB, 180);  // normal speed right motor
-  moveForward();
-}
 void turnRight() {
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-}
-void strafeRightSlow() 
-{
-  analogWrite(ENA, 180);  // normal speed left motor
-  analogWrite(ENB, 100);  // Slow speed right motor
-  moveForward();
 }
 void stopMotors() {
   digitalWrite(IN1, LOW);
@@ -982,6 +970,19 @@ void stopMotors() {
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, LOW);
 }
+void strafeLeftSlow() 
+{
+  analogWrite(ENA, 100);  // Slow speed left motor
+  analogWrite(ENB, 180);  // normal speed right motor
+  moveForward();
+}
+void strafeRightSlow() 
+{
+  analogWrite(ENA, 180);  // normal speed left motor
+  analogWrite(ENB, 100);  // Slow speed right motor
+  moveForward();
+}
+
 
 
 

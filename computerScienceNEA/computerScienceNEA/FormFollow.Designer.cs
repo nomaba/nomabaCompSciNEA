@@ -75,6 +75,7 @@ namespace computerScienceNEA
             this.Controls.Add(this.label1);
             this.Name = "FormFollow";
             this.Text = "FormFollow";
+            this.Load += new System.EventHandler(this.FormFollow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
