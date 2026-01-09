@@ -63,6 +63,20 @@ void bool checkSoundSensorForLoudSound()
 }
 
 const int tiltBallPin  = 40;
+bool upsideDown()
+{
+  if (digitalRead(tiltBallPin) == HIGH)
+  {
+    // The robot is upright
+    // do nothing
+    return false;
+  }
+  else
+  {
+    // The robot is upside down
+    return true;
+  }
+}
 void checkTiltBall()
 {
   if (digitalRead(tiltBallPin) == HIGH)
@@ -1896,9 +1910,16 @@ void robotStateScared()
     drawFrame(SCARED[j]);
   }
   player.playMp3Folder(15); // Play the "0015.mp3" in the "mp3" folder on the SD card // scared
-  motorSpeedFast();
-  moveBackward();
-  delay(1000); // back away for 1 second
+  motorSpeedSlow();
+  moveForward();
+  int stopBeingScared = false;
+  while (stopBeingScared == false)
+  {
+    if (checkTiltBall() == true)
+    {
+      stopBeingScared = true;
+    }
+  }
   stopMotors();
   robotState = 0;
   loudSoundTimer = false;
