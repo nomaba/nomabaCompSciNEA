@@ -283,5 +283,10 @@ namespace computerScienceNEA
         {
 
         }
+
+        public void MessageBoxShow(string messageBoxMessage)
+        {
+            messageBox.Show(messageBoxMessage)
+        }
     }
 }

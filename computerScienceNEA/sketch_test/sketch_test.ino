@@ -15,6 +15,7 @@
 
 String previousButtonPress = "null";
 String command = "null";
+bool soundSensorActive = true;
 int robotState = 0; // 0 = idle, 1 = happy, 2 = sad
 int lv = 50; // level of love received from computer application // 50 is the default value
 
@@ -41,18 +42,23 @@ const int infraredLeftPin  = 39;
 const int infraredRightPin  = 37;
 
 const int soundSensorPin  = 35;
-void checkSoundSensor()
+void bool checkSoundSensorForLoudSound()
 {
-  if (digitalRead(soundSensorPin) == HIGH)
+  if (soundSensorActive == true)
   {
-    // loud sound detected
-    robotState = 7; // set robot state to scared
-    changeLVByValue(-5); // decrease LV by 5
-  }
-  else
-  {
-    // no loud sound detected
-    // do nothing
+    if (digitalRead(soundSensorPin) == HIGH)
+    {
+      // loud sound detected
+      robotState = 7; // set robot state to scared
+      changeLVByValue(-5); // decrease LV by 5
+      return true; // there was a loud sound
+    }
+    else
+    {
+      // no loud sound detected
+      // do nothing
+      return false; // there was no loud sound
+    }
   }
 }
 
@@ -924,7 +930,7 @@ void setRobotStateViaLV()
 void changeLVByValue(int value)
 {
   lv = lv + value;
-  Serial1.println("Update LV: " + lv);
+  Serial1.println("UPDATE LV: " + lv);
 }
 
 
@@ -1403,19 +1409,14 @@ void loop()
 
 
 
-
-
-
   if (robotState == 14)
   {
     for (int j = 0; j < LOADING2_LENGTH; j++)
     {
       drawFrame(LOADING2[j]);
     }
-  }
-
-  
-  if (robotState == 0) // state pending. to be recieved via LV
+  } 
+  else if (robotState == 0) // state pending. to be recieved via LV
   {
     setRobotStateViaLV();
   }
@@ -1431,7 +1432,6 @@ void loop()
       drawFrame(GUN[j]);
     }
   }
-  
   else if (robotState == 8) // follow state
   {
     robotStateFollow();
@@ -1450,12 +1450,19 @@ void loop()
 
   if (robotState == 1 || robotState == 2 || robotState == 3 ||
       robotState == 4 || robotState == 5 || robotState == 6 ||
-      robotState == 7 || robotState == 9)
+      robotState == 7 || robotState == 9 || robotState == 10)
   {
+
+    if (checkSoundSensorForLoudSound() == true)
+    {
+      loudSoundTimer = true;
+      dorobotStateAction();
+    }
     if (stateActionPerformed == false)
     {
       
       dorobotStateAction();
+      
       stateActionPerformed = true;
     }
   }
@@ -1884,17 +1891,17 @@ void robotStateIdle()
 
 void robotStateScared()
 {
-
   for (int j = 0; j < SCARED_LENGTH; j++)
   {
     drawFrame(SCARED[j]);
   }
-  // play scared sound //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  player.playMp3Folder(15); // Play the "0015.mp3" in the "mp3" folder on the SD card // scared
   motorSpeedFast();
   moveBackward();
   delay(1000); // back away for 1 second
   stopMotors();
-  // use LV to determine the next state ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  robotState = 0;
+  loudSoundTimer = false;
 }
 
 

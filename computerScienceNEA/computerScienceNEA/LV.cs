@@ -383,7 +383,24 @@ namespace computerScienceNEA
             myCommmandupdateLV.Parameters.AddWithValue("@accountID", accountID);
 
             myConnection.Open();
-            myCommmandupdateLV.ExecuteNonQuery();
+            try
+            {
+                myCommmandupdateLV.ExecuteNonQuery();
+            }
+            catch (SQLiteException ex)
+            {
+                if (ex.Message.Contains("database is locked"))
+                {
+                    FormAccountLogin FormAccountLogin = new FormAccountLogin(); // im calling form login because this form never closes (unless the user closes it) as it is the primary form
+                    FormAccountLogin.showMessageBox("Database is busy. Please restart the application");
+                    myConnection.Close();
+                    return; // stops the subroutine due to an error. this keeps the LV value in the object and the database consistent
+                }
+                else
+                {
+                    throw; // try again
+                }
+            }
             myConnection.Close();
 
             LVe = newLVe;

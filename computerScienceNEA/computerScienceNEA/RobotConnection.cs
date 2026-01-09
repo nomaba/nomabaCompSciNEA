@@ -113,6 +113,15 @@ namespace computerScienceNEA
                 messageBoxmessage.updateMessageVariable(tempMessageBoxMessage);
                 messageBoxmessage.messageboxshow();
             }
+            else if (command.StartsWith("UPDATE LV: "))
+            {
+                // use string manipulation to get the LV from the command
+                string lvString = command.Substring(11);
+                int lv = int.Parse(lvString);
+
+                tempclass.LoggedInAccountDetailsTemp.updateLV(lv);
+            }
+
         }
 
 
