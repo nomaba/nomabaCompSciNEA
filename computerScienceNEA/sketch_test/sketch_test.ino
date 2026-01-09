@@ -17,7 +17,7 @@ String previousButtonPress = "null";
 String command = "null";
 bool soundSensorActive = true;
 int robotState = 0; // 0 = idle, 1 = happy, 2 = sad
-int lv = 50; // level of love received from computer application // 50 is the default value
+int lv = 50; // Relationship value received from computer application // 50 is the default value
 
 // ///
 
