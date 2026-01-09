@@ -1506,6 +1506,7 @@ void loop()
   stopMotors(); // This is here just for good measure
 
 
+  robotStateUpsidedown();
 
   if (robotState == 1 || robotState == 2 || robotState == 3 ||
       robotState == 4 || robotState == 5 || robotState == 6 ||
@@ -1789,7 +1790,7 @@ void robotStateSleepy()
 {
   // say im sleepy and then switch all screen LEDs off ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-  player.playMp3Folder(13); // Play the "0010.mp3" in the "mp3" folder on the SD card // faint
+  player.playMp3Folder(13); // Play the "0013.mp3" in the "mp3" folder on the SD card // faint
   emptyScreen(); 
 
   bool wokenUp = false;
@@ -1832,16 +1833,16 @@ void robotStateSleepy()
 
 void robotStateUpsidedown()
 {
-  for (int j = 0; j < SAD_LENGTH; j++)
-  {
-    drawFrame(SAD[j]);
-  }
-
-
   if (digitalRead(tiltBallPin) == LOW) // if the robot is upside down
   {
     // play nausious animation and sound then fart and sleep until IR remote input and right way round//////////////////////////////////////////////////////////////////
-    drawFrame(SMILE[0]);////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    player.playMp3Folder(15); // Play the "0015.mp3" in the "mp3" folder on the SD card // scream
+    
+    for (int j = 0; j < SCARED_LENGTH; j++)
+    {
+      drawFrame(SCARED[j]);
+    }
 
     bool wokenUp = false;
     while (wokenUp == false && digitalRead(tiltBallPin) == LOW) // the robot is not upside down anymore and has been woken up by the ir remote
@@ -1876,12 +1877,10 @@ void robotStateUpsidedown()
         wokenUp = true;
       }
     }
-  } else
-  {
-    player.stop();
-  }
+    robotState = 0; // set robot state to pending so that it can be set via LV again
+  } 
 
-  //use LV to determine the next state ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
 }
 
 
