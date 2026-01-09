@@ -459,6 +459,15 @@ void drawFrameOnMatrix1(const uint8_t frame[8]) // draws frame on both matrix 1 
   }
 }
 
+void emptyScreen() 
+{
+    for (int row = 0; row < 8; row++) 
+    {
+        lc.setRow(0, row, 0); //turn off every light in a row
+        lc.setRow(1, row, 0);  
+    }
+}
+
 
 
 
@@ -1408,14 +1417,19 @@ void setup()
 
 
 
-
+unsigned long 5minTimerstartTime = millis();
+bool 5minTimerStarted = false;
 bool stateActionPerformed = false;
 unsigned long startTimeStateAction = millis();
 
 int followCounter = 0;
 
+int previousState = 0;
+
 void loop() 
 {
+  
+
   // put your main code here, to run repeatedly:
   checkForIR();
   checkForSerial1();
@@ -1491,7 +1505,27 @@ void loop()
   
   stopMotors(); // This is here just for good measure
 
+
+
+  if (robotState == 1 || robotState == 2 || robotState == 3 ||
+      robotState == 4 || robotState == 5 || robotState == 6 ||
+      robotState == 7 || robotState == 9 || robotState == 10)
+  {
+    if (previousState != robotState)
+    {
+      previousState = robotState;
+      5minTimerstartTime = millis(); //start timer
+      5minTimerStarted = true;
+    }
+  }
   
+  if ((millis() - 5minTimerstartTime >= 300000) && 5minTimerStarted == true)
+  {
+    // 5 minutes have passed
+
+    robotStateSleepy();
+  }
+
 }
 
 
@@ -1608,20 +1642,20 @@ void robotStateHappy()
   if (randomNum == 1)
   {
     // run forward full speed until obstacle detected
-    player.playMp3Folder(7); // Play the "0007.mp3" in the "mp3" folder on the SD card
+    player.playMp3Folder(14); // Play the "0014.mp3" in the "mp3" folder on the SD card // laugh
     motorSpeedFast();
     forwardUntilObstacle();
     Serial1.println("obstacle");
 
   } else if (randomNum == 2)
   {
-    // play happy sound ////////////////////////////////////////////////////////////////////////////////////////////
-      Serial1.println("happy sound");
-  
+    // play happy sound 
+    player.playMp3Folder(7); // Play the "0007.mp3" in the "mp3" folder on the SD card // cheer
+
   } else if (randomNum == 3)
   {
     // spin for 5 seconds at full speed
-    player.playMp3Folder(7); // Play the "0007.mp3" in the "mp3" folder on the SD card
+    player.playMp3Folder(7); // Play the "0007.mp3" in the "mp3" folder on the SD card // cheer
     motorSpeedFast();
     spinForDuration(5000);
     Serial1.println("spin");
@@ -1631,7 +1665,7 @@ void robotStateHappy()
     Serial1.println("FB");
 
     // go forward and backwards 5 times
-    player.playMp3Folder(14); // Play the "0014.mp3" in the "mp3" folder on the SD card
+    player.playMp3Folder(14); // Play the "0014.mp3" in the "mp3" folder on the SD card // laugh
     motorSpeedFast();
     for (int i = 0; i < 5; i++) // 5x loop
     {
@@ -1645,7 +1679,7 @@ void robotStateHappy()
   {
     Serial1.println("LR");
     // turn left then right 5 times
-    player.playMp3Folder(14); // Play the "0014.mp3" in the "mp3" folder on the SD card
+    player.playMp3Folder(7); // Play the "0007.mp3" in the "mp3" folder on the SD card // cheer
     motorSpeedFast();
     for (int i = 0; i < 5; i++) // 5x loop
     {
@@ -1678,6 +1712,7 @@ void robotStateAngry()
   if (randomNum == 1)
   {
     // keep on moving forward slowly for 30 seconds
+    player.playMp3Folder(10); // Play the "0010.mp3" in the "mp3" folder on the SD card // angry
     motorSpeedSlow();
     moveForward();
     delay(30000);
@@ -1686,24 +1721,27 @@ void robotStateAngry()
   } else if (randomNum == 2)
   {
     // keep on moving backward slowly for 30 seconds
+    player.playMp3Folder(10); // Play the "0010.mp3" in the "mp3" folder on the SD card // angry
     motorSpeedSlow();
     moveBackward();
     delay(30000);
     stopMotors();
   } else if (randomNum == 3)
   {
-    // play angry sound///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // play angry sound
+    player.playMp3Folder(10); // Play the "0010.mp3" in the "mp3" folder on the SD card // angry
 
   } else if (randomNum == 4)
   {
     // run forward until obstacle detected at full speed and play angry sound
+    player.playMp3Folder(10); // Play the "0010.mp3" in the "mp3" folder on the SD card // angry
     motorSpeedFast();
     forwardUntilObstacle();
-    // play angry sound///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   } else if (randomNum == 5)
   {
     // turn left then right 5 times
+    player.playMp3Folder(10); // Play the "0010.mp3" in the "mp3" folder on the SD card // angry
     motorSpeedFast();
     for (int i = 0; i < 5; i++) // 5x loop
     {
@@ -1728,16 +1766,9 @@ void robotStateSad()
   {
     drawFrame(SAD[j]);
   }
+  
+  player.playMp3Folder(11); // Play the "0011.mp3" in the "mp3" folder on the SD card // cry
 
-  int randomNum = randomNumber1to2();
-
-  if (randomNum == 1)
-  {
-    // play sad sound //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  } else 
-  {
-    // do nothing
-  }
 
   // if obstacle detected is infront turn around
   motorSpeedSlow();
@@ -1758,7 +1789,8 @@ void robotStateSleepy()
 {
   // say im sleepy and then switch all screen LEDs off ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
-
+  player.playMp3Folder(13); // Play the "0010.mp3" in the "mp3" folder on the SD card // faint
+  emptyScreen(); 
 
   bool wokenUp = false;
   while (wokenUp == false)
@@ -1794,8 +1826,8 @@ void robotStateSleepy()
     }
   }
 
-
-  // use LV to determine the next state ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  setRobotStateViaLV(); // set robot state via LV again after waking up
+  5minTimerstartTime = millis(); // reset 5 min timer 
 }
 
 void robotStateUpsidedown()
@@ -1912,7 +1944,7 @@ void robotStateScared()
   player.playMp3Folder(15); // Play the "0015.mp3" in the "mp3" folder on the SD card // scared
   motorSpeedSlow();
   moveForward();
-  int stopBeingScared = false;
+  bool stopBeingScared = false;
   while (stopBeingScared == false)
   {
     if (checkTiltBall() == true)
