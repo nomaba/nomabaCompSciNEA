@@ -83,6 +83,8 @@ namespace computerScienceNEA
         private void buttonLogOut_Click(object sender, EventArgs e)
         {
             // send SQL commands to save the user data into the database and then close the application////////////////////////////////////////////////////////////////
+
+            Application.Exit();
         }
 
         private void buttonSettings_Click(object sender, EventArgs e)
@@ -97,6 +99,9 @@ namespace computerScienceNEA
         private void buttonAccountDetails_Click(object sender, EventArgs e)
         {
             // open account details form 
+            FormAccountDetails FormAccountDetails = new FormAccountDetails();
+            this.Close();
+            FormAccountDetails.Show();
         }
 
         // user config buttons
@@ -110,6 +115,9 @@ namespace computerScienceNEA
             // open FormPet and hide Home // form pet shows the state of the robot and the LV and does nothing else // has a button to go back to home
             // set robot state to one that relies on LV
             tempclass.finalisedCOMPortsTemp.setStateToValue(0);
+            FormGamePet FormGamePet = new FormGamePet();
+            this.Close();
+            FormGamePet.Show();
         }
 
         private void buttonPlayCarBot_Click(object sender, EventArgs e)

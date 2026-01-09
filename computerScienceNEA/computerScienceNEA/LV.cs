@@ -119,6 +119,64 @@ namespace computerScienceNEA
 
             return food;
         }
+        public string getFavFoodColour()
+        {
+            int? foodColourID = 0;
+            string foodColourName = "";
+
+            SQLiteConnection myConnection; //created new vatiable callled my connection
+            myConnection = new SQLiteConnection("Data Source=database.db");
+
+            string queryGetFavFoodColourID = "SELECT foodColour FROM foods WHERE foodID = @foodID";
+
+            SQLiteCommand myCommmandGetFavFoodColourID = new SQLiteCommand(queryGetFavFoodColourID, myConnection);
+            myCommmandGetFavFoodColourID.Parameters.AddWithValue("@foodID", favFoodID);
+
+            myConnection.Open();
+
+            try
+            {
+                foodColourID = Convert.ToInt32(myCommmandGetFavFoodColourID.ExecuteScalar());
+            }
+            catch (SQLiteException ex)
+            {
+                foodColourID = null; 
+            }
+
+
+
+
+
+
+
+            if (foodColourID == null)
+            {
+                foodColourName = "null";
+            }
+            else
+            {
+                string queryGetFavFoodColour = "SELECT colourName FROM colours WHERE ColourID = @ColourID";
+
+                SQLiteCommand myCommmandGetFavFoodColour = new SQLiteCommand(queryGetFavFoodColour, myConnection);
+                myCommmandGetFavFoodColour.Parameters.AddWithValue("@ColourID", foodColourID);
+
+                try
+                {
+                    foodColourName = myCommmandGetFavFoodColour.ExecuteScalar().ToString();
+                }
+                catch (SQLiteException ex)
+                {
+                    foodColourName = "null";
+                }
+            }
+
+
+            myConnection.Close();
+
+
+
+            return foodColourName;
+        }
         public int getLV()
         {
             return LVe;
@@ -318,10 +376,11 @@ namespace computerScienceNEA
             SQLiteConnection myConnection; //created new vatiable callled my connection
             myConnection = new SQLiteConnection("Data Source=database.db");
 
-            string queryupdateLV = "UPDATE accounts SET LV = @LV WHERE accountID = 0";
+            string queryupdateLV = "UPDATE accounts SET LV = @LV WHERE accountID = @accountID";
 
             SQLiteCommand myCommmandupdateLV = new SQLiteCommand(queryupdateLV, myConnection);
             myCommmandupdateLV.Parameters.AddWithValue("@LV", newLVe);
+            myCommmandupdateLV.Parameters.AddWithValue("@accountID", accountID);
 
             myConnection.Open();
             myCommmandupdateLV.ExecuteNonQuery();

@@ -47,3 +47,5 @@ N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerSc
 N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.FormGameCarBot.resources
 N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.FormFollow.resources
 N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.FormSettings.resources
+N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.FormAccountDetails.resources
+N:\computerScienceNEA\computerScienceNEA\computerScienceNEA\obj\Debug\computerScienceNEA.FormGamePet.resources

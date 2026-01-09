@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace computerScienceNEA
 {
-    public partial class FormGameDice : Form
+    public partial class FormGamePet : Form
     {
-        public FormGameDice()
+        public FormGamePet()
         {
             InitializeComponent();
         }
 
-        private void FormGameDice_Load(object sender, EventArgs e)
+        private void FormGamePet_Load(object sender, EventArgs e)
         {
             // get user's favourite colour and then make that the background colour          
             Color newColor = Color.FromName(tempclass.LoggedInAccountDetailsTemp.getFavFoodColour());
@@ -31,16 +31,10 @@ namespace computerScienceNEA
                 // use the default colour (white)
                 this.BackColor = Color.White;
             }
-        }
 
-        private void buttonRollOneDice_Click(object sender, EventArgs e)
-        {
-            tempclass.finalisedCOMPortsTemp.sendCustomMessage("roll 1 dice");
-        }
+            labelLV.Text = "LV:" + tempclass.LoggedInAccountDetailsTemp.getLV();
 
-        private void buttonRollTwoDice_Click(object sender, EventArgs e)
-        {
-            tempclass.finalisedCOMPortsTemp.sendCustomMessage("roll 2 dice");
+            timer1Second.Start();
         }
 
         private void buttonGoHome_Click(object sender, EventArgs e)
@@ -48,6 +42,16 @@ namespace computerScienceNEA
             Home Home = new Home();
             this.Close();
             Home.Show();
+        }
+
+        private void timer1Second_Tick(object sender, EventArgs e)
+        {
+            labelLV.Text = "LV:" + tempclass.LoggedInAccountDetailsTemp.getLV();
+        }
+
+        private void FormGamePet_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            timer1Second.Stop();
         }
     }
 }

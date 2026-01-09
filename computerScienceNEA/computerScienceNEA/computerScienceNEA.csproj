@@ -63,6 +63,12 @@
     <Compile Include="DeveloperControls.Designer.cs">
       <DependentUpon>DeveloperControls.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAccountDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAccountDetails.Designer.cs">
+      <DependentUpon>FormAccountDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormAccountRegister.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,12 @@
     <Compile Include="FormGameDice.Designer.cs">
       <DependentUpon>FormGameDice.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormGamePet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormGamePet.Designer.cs">
+      <DependentUpon>FormGamePet.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormGameRR.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +140,9 @@
     <EmbeddedResource Include="DeveloperControls.resx">
       <DependentUpon>DeveloperControls.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormAccountDetails.resx">
+      <DependentUpon>FormAccountDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormAccountLogin.resx">
       <DependentUpon>FormAccountLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -145,6 +160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormGameDice.resx">
       <DependentUpon>FormGameDice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGamePet.resx">
+      <DependentUpon>FormGamePet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormGameRR.resx">
       <DependentUpon>FormGameRR.cs</DependentUpon>

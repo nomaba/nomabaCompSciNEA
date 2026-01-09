@@ -57,7 +57,7 @@ namespace computerScienceNEA
             // buttonGoHome
             // 
             this.buttonGoHome.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonGoHome.Location = new System.Drawing.Point(120, 243);
+            this.buttonGoHome.Location = new System.Drawing.Point(138, 245);
             this.buttonGoHome.Name = "buttonGoHome";
             this.buttonGoHome.Size = new System.Drawing.Size(158, 37);
             this.buttonGoHome.TabIndex = 29;

@@ -32,7 +32,7 @@ namespace computerScienceNEA
         private void FormGameRR_Load(object sender, EventArgs e)
         {
             // get user's favourite colour and then make that the background colour          
-            Color newColor = Color.FromName(tempclass.LoggedInAccountDetailsTemp.getFavColour());
+            Color newColor = Color.FromName(tempclass.LoggedInAccountDetailsTemp.getFavFoodColour());
             // Check if the colour is an actual colour
             if (newColor.IsKnownColor)
             {
