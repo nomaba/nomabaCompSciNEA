@@ -84,39 +84,31 @@ namespace computerScienceNEA
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e) // SerialDataReceivedEventArgs e makes the sub run when an event stated above happens // object sender is a variable that stores what activated the event
         {
             string data = serialPort.ReadLine(); // Read line from Arduino and store it in variable
-            data = data.Trim();
-            if (data == "RRLive") // .trim gets rid of the extra characters the arduino sends when it sends a serial message // if the words "clear" are sent by the arduino then the screen clears
+            data = data.Trim(); // .trim gets rid of the extra characters the arduino sends when it sends a serial message // if the words "clear" are sent by the arduino then the screen clears
+            if (data == "RRLive") 
             {
-                ConnectToRobot.RobotConnectionUserInput messageBoxmessage = new ConnectToRobot.RobotConnectionUserInput("null", 9600, "\r\n", false, "insert message here");
-                tempMessageBoxMessage = "Oh No. It was live. You got shot";
-                messageBoxmessage.updateMessageVariable(tempMessageBoxMessage);
-                messageBoxmessage.messageboxshow();
+                FormGameRR FormGameRR = new FormGameRR();
+                FormGameRR.RRLive();
             }
             else if (data == "RRBlank")
             {
-                ConnectToRobot.RobotConnectionUserInput messageBoxmessage = new ConnectToRobot.RobotConnectionUserInput("null", 9600, "\r\n", false, "insert message here");
-                tempMessageBoxMessage = "You got lucky. It was a blank";
-                messageBoxmessage.updateMessageVariable(tempMessageBoxMessage);
-                messageBoxmessage.messageboxshow();
+                FormGameRR FormGameRR = new FormGameRR();
+                FormGameRR.RRBlank();
             } 
             else if (data == "object hit")
             {
-                ConnectToRobot.RobotConnectionUserInput messageBoxmessage = new ConnectToRobot.RobotConnectionUserInput("null", 9600, "\r\n", false, "insert message here");
-                tempMessageBoxMessage = "Congragulations. You hit the pins";
-                messageBoxmessage.updateMessageVariable(tempMessageBoxMessage);
-                messageBoxmessage.messageboxshow();
+                FormGameBowling FormGameBowling = new FormGameBowling();
+                FormGameBowling.bowlingBottlesHit();
             } 
             else if (data == "object not hit")
             {
-                ConnectToRobot.RobotConnectionUserInput messageBoxmessage = new ConnectToRobot.RobotConnectionUserInput("null", 9600, "\r\n", false, "insert message here");
-                tempMessageBoxMessage = "Unlucky, You missed the pins";
-                messageBoxmessage.updateMessageVariable(tempMessageBoxMessage);
-                messageBoxmessage.messageboxshow();
+                FormGameBowling FormGameBowling = new FormGameBowling();
+                FormGameBowling.bowlingBottlesMissed();
             }
-            else if (command.StartsWith("UPDATE LV: "))
+            else if (data.StartsWith("UPDATE LV: "))
             {
                 // use string manipulation to get the LV from the command
-                string lvString = command.Substring(11);
+                string lvString = data.Substring(11);
                 int lv = int.Parse(lvString);
 
                 tempclass.LoggedInAccountDetailsTemp.updateLV(lv);

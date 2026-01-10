@@ -29,15 +29,19 @@ namespace computerScienceNEA
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGameRR));
             this.buttonShoot = new System.Windows.Forms.Button();
             this.buttonGoHome = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelHighScore = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.labelScore = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonShoot
             // 
             this.buttonShoot.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonShoot.Location = new System.Drawing.Point(105, 100);
+            this.buttonShoot.Location = new System.Drawing.Point(110, 268);
             this.buttonShoot.Name = "buttonShoot";
             this.buttonShoot.Size = new System.Drawing.Size(158, 37);
             this.buttonShoot.TabIndex = 11;
@@ -48,7 +52,7 @@ namespace computerScienceNEA
             // buttonGoHome
             // 
             this.buttonGoHome.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonGoHome.Location = new System.Drawing.Point(220, 227);
+            this.buttonGoHome.Location = new System.Drawing.Point(225, 408);
             this.buttonGoHome.Name = "buttonGoHome";
             this.buttonGoHome.Size = new System.Drawing.Size(158, 37);
             this.buttonGoHome.TabIndex = 14;
@@ -66,11 +70,42 @@ namespace computerScienceNEA
             this.label1.TabIndex = 15;
             this.label1.Text = "Welcome to Russian Roulette";
             // 
+            // labelHighScore
+            // 
+            this.labelHighScore.AutoSize = true;
+            this.labelHighScore.Location = new System.Drawing.Point(147, 239);
+            this.labelHighScore.Name = "labelHighScore";
+            this.labelHighScore.Size = new System.Drawing.Size(78, 13);
+            this.labelHighScore.TabIndex = 26;
+            this.labelHighScore.Text = "High Score: 00";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(6, 53);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(377, 147);
+            this.textBox1.TabIndex = 25;
+            this.textBox1.Text = resources.GetString("textBox1.Text");
+            // 
+            // labelScore
+            // 
+            this.labelScore.AutoSize = true;
+            this.labelScore.Location = new System.Drawing.Point(165, 330);
+            this.labelScore.Name = "labelScore";
+            this.labelScore.Size = new System.Drawing.Size(50, 13);
+            this.labelScore.TabIndex = 23;
+            this.labelScore.Text = "Score: 0 ";
+            // 
             // FormGameRR
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(390, 276);
+            this.ClientSize = new System.Drawing.Size(390, 455);
+            this.Controls.Add(this.labelHighScore);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.labelScore);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonGoHome);
             this.Controls.Add(this.buttonShoot);
@@ -87,5 +122,8 @@ namespace computerScienceNEA
         private System.Windows.Forms.Button buttonShoot;
         private System.Windows.Forms.Button buttonGoHome;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelHighScore;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label labelScore;
     }
 }

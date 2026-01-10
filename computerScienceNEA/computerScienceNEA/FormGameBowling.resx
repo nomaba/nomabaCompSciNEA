@@ -117,4 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>How to play:
+Place one or more plastic bottles on the floor near each other.
+Then aim the robot so that when it moves forwards, it will hit the bottles.
+Finally press the "roll the ball" button to shoot the robot towards the bottles.
+
+You get a point if you hit the bottles in the middle of the robot.
+You can only miss the pins 2 times before the game is over and your score is recorded.</value>
+  </data>
 </root>

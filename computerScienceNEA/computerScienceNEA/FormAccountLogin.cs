@@ -179,6 +179,9 @@ namespace computerScienceNEA
             int loggedInFavFoodID;
             int loggedInLVe;
             int? loggedInFavGameID; // the question mark allows it to store null values
+            string loggedInDateLastUsed;
+            int loggedInBowlingHighScore;
+            int loggedInRRHighScore;
 
             if (!string.IsNullOrWhiteSpace(textBoxDatabaseLoginPassword.Text) &&
                 !string.IsNullOrWhiteSpace(textBoxDatabaseLoginUsername.Text))
@@ -212,7 +215,7 @@ namespace computerScienceNEA
 
 
                     //write query
-                    string queryWhatAccountLoggedIn = "SELECT accountID, firstName, lastName, username, birthDay, birthMonth, birthYear, favColour, favFood, LV, favGameID FROM accounts WHERE username = @username";
+                    string queryWhatAccountLoggedIn = "SELECT accountID, firstName, lastName, username, birthDay, birthMonth, birthYear, favColour, favFood, LV, favGameID, dateLastUsed, bowlingHighScore, RRHighScore FROM accounts WHERE username = @username";
                     SQLiteCommand myCommmandWhatAccountLoggedIn = new SQLiteCommand(queryWhatAccountLoggedIn, myConnection);
                     myCommmandWhatAccountLoggedIn.Parameters.AddWithValue("@username", username);
                     
@@ -237,12 +240,22 @@ namespace computerScienceNEA
                         {
                             loggedInFavGameID = accountDetails.GetInt32(10);
                         }
+                        if (accountDetails.IsDBNull(11))
+                        {
+                            loggedInDateLastUsed = null;
+                        }
+                        else
+                        {
+                            loggedInDateLastUsed = accountDetails.GetString(11);
+                        }
+                        loggedInBowlingHighScore = accountDetails.GetInt32(12);
+                        loggedInRRHighScore = accountDetails.GetInt32(13);
 
 
 
-                        LV loggedInAccountDetails = new LV(loggedInAccountID, loggedInFirstName, loggedInLastName, loggedInUsername, loggedInBirthDay, loggedInBirthMonth, loggedInBirthYear, loggedInFavColourID, loggedInFavFoodID, loggedInLVe, loggedInFavGameID);
+                        LV loggedInAccountDetails = new LV(loggedInAccountID, loggedInFirstName, loggedInLastName, loggedInUsername, loggedInBirthDay, loggedInBirthMonth, loggedInBirthYear, loggedInFavColourID, loggedInFavFoodID, loggedInLVe, loggedInFavGameID, loggedInDateLastUsed, loggedInBowlingHighScore, loggedInRRHighScore);
 
-                        tempclass.LoggedInAccountDetailsTemp = new LV(loggedInAccountID, loggedInFirstName, loggedInLastName, loggedInUsername, loggedInBirthDay, loggedInBirthMonth, loggedInBirthYear, loggedInFavColourID, loggedInFavFoodID, loggedInLVe, loggedInFavGameID);
+                        tempclass.LoggedInAccountDetailsTemp = new LV(loggedInAccountID, loggedInFirstName, loggedInLastName, loggedInUsername, loggedInBirthDay, loggedInBirthMonth, loggedInBirthYear, loggedInFavColourID, loggedInFavFoodID, loggedInLVe, loggedInFavGameID, loggedInDateLastUsed, loggedInBowlingHighScore, loggedInRRHighScore);
                         // this is not temp anymore // rename this 
                         
 
@@ -286,7 +299,7 @@ namespace computerScienceNEA
 
         public void MessageBoxShow(string messageBoxMessage)
         {
-            messageBox.Show(messageBoxMessage)
+            MessageBox.Show(messageBoxMessage);
         }
     }
 }

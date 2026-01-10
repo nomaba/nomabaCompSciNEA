@@ -156,7 +156,7 @@ namespace computerScienceNEA
                     progressBar.Value = 80;
 
                     //write query
-                    string queryAccounts = "INSERT INTO accounts(firstName, lastName, password, username, birthDay, birthMonth, birthYear, favColour, favFood, LV) values (@firstName, @lastName, @password, @username, @birthDay, @birthMonth, @birthYear, @favColour, @favFood, 50)";
+                    string queryAccounts = "INSERT INTO accounts(firstName, lastName, password, username, birthDay, birthMonth, birthYear, favColour, favFood, LV, bowlingHighScore, RRHighScore) values (@firstName, @lastName, @password, @username, @birthDay, @birthMonth, @birthYear, @favColour, @favFood, 50, 0, 0)";
                     SQLiteCommand myCommmandAccounts = new SQLiteCommand(queryAccounts, myConnection); // Created new variable that stores the query
 
 

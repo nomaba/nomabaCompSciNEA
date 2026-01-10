@@ -21,9 +21,12 @@ namespace computerScienceNEA
         protected int favFoodID; // Can update
         protected int LVe; // Can update
         protected int? favGameID; // Can update // the question mark allows it to store null values
+        protected string dateLastUsed; // can update
+        protected int bowlingHighScore; // can update
+        protected int RRHighScore;
 
 
-        public LV(int accountIDLocal, string firstNameLocal, string lastNameLocal, string usernameLocal, int birthDayLocal, int birthMonthLocal, int birthYearLocal, int favColourIDLocal, int favFoodIDLocal, int LVeLocal, int? favGameIDLocal)
+        public LV(int accountIDLocal, string firstNameLocal, string lastNameLocal, string usernameLocal, int birthDayLocal, int birthMonthLocal, int birthYearLocal, int favColourIDLocal, int favFoodIDLocal, int LVeLocal, int? favGameIDLocal, string dateLastUsedLocal, int bowlingHighScoreLocal, int RRHighScoreLocal)
         {
             this.accountID = accountIDLocal;
             this.firstName = firstNameLocal;
@@ -36,6 +39,9 @@ namespace computerScienceNEA
             this.favFoodID = favFoodIDLocal;
             this.LVe = LVeLocal;
             this.favGameID = favGameIDLocal;
+            this.dateLastUsed = dateLastUsedLocal;
+            this.bowlingHighScore = bowlingHighScoreLocal;
+            this.RRHighScore = RRHighScoreLocal;
         }
 
         
@@ -138,7 +144,7 @@ namespace computerScienceNEA
             {
                 foodColourID = Convert.ToInt32(myCommmandGetFavFoodColourID.ExecuteScalar());
             }
-            catch (SQLiteException ex)
+            catch
             {
                 foodColourID = null; 
             }
@@ -164,7 +170,7 @@ namespace computerScienceNEA
                 {
                     foodColourName = myCommmandGetFavFoodColour.ExecuteScalar().ToString();
                 }
-                catch (SQLiteException ex)
+                catch
                 {
                     foodColourName = "null";
                 }
@@ -214,6 +220,29 @@ namespace computerScienceNEA
                 return gameNametemp;
             }
         }
+        public int getBowlingHighScore()
+        {
+            return bowlingHighScore;
+        }
+        public int getRRHighScore()
+        {
+            return RRHighScore;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -392,7 +421,7 @@ namespace computerScienceNEA
                 if (ex.Message.Contains("database is locked"))
                 {
                     FormAccountLogin FormAccountLogin = new FormAccountLogin(); // im calling form login because this form never closes (unless the user closes it) as it is the primary form
-                    FormAccountLogin.showMessageBox("Database is busy. Please restart the application");
+                    FormAccountLogin.MessageBoxShow("Database is busy. Please restart the application");
                     myConnection.Close();
                     return; // stops the subroutine due to an error. this keeps the LV value in the object and the database consistent
                 }
@@ -404,6 +433,7 @@ namespace computerScienceNEA
             myConnection.Close();
 
             LVe = newLVe;
+            tempclass.finalisedCOMPortsTemp.sendCustomMessage("LV: " + LVe);
         }
         public void updateFavGameID(int game)
         {
@@ -503,6 +533,144 @@ namespace computerScienceNEA
             myConnection.Close();
 
             lastName = nametemp;
+        }
+        public void updateDateLastUsed()
+        {
+            string dateToday = DateTime.Today.ToString("yyyy-MM-dd");
+
+            SQLiteConnection myConnection; //created new vatiable callled my connection
+            myConnection = new SQLiteConnection("Data Source=database.db");
+
+            string queryupdateDateLastUsed = "UPDATE accounts SET dateLastUsed = @dateLastUsed WHERE accountID = @accountID";
+
+            SQLiteCommand myCommmandupdateDateLastUsed = new SQLiteCommand(queryupdateDateLastUsed, myConnection);
+            myCommmandupdateDateLastUsed.Parameters.AddWithValue("@dateLastUsed", dateToday);
+            myCommmandupdateDateLastUsed.Parameters.AddWithValue("@accountID", accountID);
+
+            myConnection.Open();
+            try
+            {
+                myCommmandupdateDateLastUsed.ExecuteNonQuery();
+            }
+            catch
+            {
+                myConnection.Close();
+                return; // stop the subroutine because an error occured
+
+            }
+
+            myConnection.Close();
+
+            dateLastUsed = dateToday;
+
+            FormAccountLogin FormAccountLogin = new FormAccountLogin(); // im calling form login because this form never closes (unless the user closes it) as it is the primary form
+            FormAccountLogin.MessageBoxShow("updated the date last used");
+        }
+        public void updateBowlingHighScore(int newHighScore)
+        {
+
+            SQLiteConnection myConnection; //created new vatiable callled my connection
+            myConnection = new SQLiteConnection("Data Source=database.db");
+
+            string queryupdateBowlingHighScore = "UPDATE accounts SET bowlingHighScore = @bowlingHighScore WHERE accountID = @accountID";
+
+            SQLiteCommand myCommmandupdateBowlingHighScore = new SQLiteCommand(queryupdateBowlingHighScore, myConnection);
+            myCommmandupdateBowlingHighScore.Parameters.AddWithValue("@bowlingHighScore", newHighScore);
+            myCommmandupdateBowlingHighScore.Parameters.AddWithValue("@accountID", accountID);
+
+            myConnection.Open();
+            try
+            {
+                myCommmandupdateBowlingHighScore.ExecuteNonQuery();
+            }
+            catch
+            {
+                myConnection.Close();
+                return;
+            }
+            myConnection.Close();
+
+            bowlingHighScore = newHighScore;
+        }
+        public void updateRRHighScore(int newHighScore)
+        {
+            SQLiteConnection myConnection; //created new vatiable callled my connection
+            myConnection = new SQLiteConnection("Data Source=database.db");
+
+            string queryupdateRRHighScore = "UPDATE accounts SET bowlingHighScore = @bowlingHighScore WHERE accountID = @accountID";
+
+            SQLiteCommand myCommmandupdateRRHighScore = new SQLiteCommand(queryupdateRRHighScore, myConnection);
+            myCommmandupdateRRHighScore.Parameters.AddWithValue("@bowlingHighScore", newHighScore);
+            myCommmandupdateRRHighScore.Parameters.AddWithValue("@accountID", accountID);
+
+            myConnection.Open();
+            try
+            {
+                myCommmandupdateRRHighScore.ExecuteNonQuery();
+            }
+            catch
+            {
+                myConnection.Close();
+                return;
+            }
+            myConnection.Close();
+
+            RRHighScore = newHighScore;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public void comparedate()
+        {
+            bool updateDate = true; // if this is false then the date in the database and the date today are the same meaning no change is neccecary
+
+            if (!(dateLastUsed == null))
+            {
+                DateTime tempDateLastUsed = DateTime.Parse(dateLastUsed); // converts dateLastUsed (string) into a DateTime object
+                DateTime tempDateToday = DateTime.Today; // gets todays date and stores it in a DateTime object
+
+                if (tempDateLastUsed == tempDateToday)
+                {
+                    // the program was last used in the same day
+                    updateDate = false;
+                }
+                else
+                {
+                    TimeSpan differenceBetweenDays = tempDateToday - tempDateLastUsed; // subtracts the two dates from each other and stores the result as a timespan object 
+                    int numberOfDaysBetweenTodayAndLastUse = differenceBetweenDays.Days; // removes everything that differenceBetweenDays stores except for the number of days and stores it in an int
+
+                    if (numberOfDaysBetweenTodayAndLastUse > 29)
+                    {
+                        // the robot was not used for 30 days or more
+                        updateLV(-10);
+                        FormAccountLogin FormAccountLogin = new FormAccountLogin(); // im calling form login because this form never closes (unless the user closes it) as it is the primary form
+                        FormAccountLogin.MessageBoxShow("Oh no. You didn't use the robot for " + numberOfDaysBetweenTodayAndLastUse + " days in a row. Your LV has decreased by 10");
+                    }
+                }
+            }
+
+            if (updateDate == true)
+            {
+                // change dateLastUsed to today and update database
+                updateDateLastUsed();
+            }
         }
     }
 }

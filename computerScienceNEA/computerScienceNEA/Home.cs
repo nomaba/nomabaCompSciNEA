@@ -19,6 +19,8 @@ namespace computerScienceNEA
 
         private void Home_Load(object sender, EventArgs e)
         {
+            tempclass.LoggedInAccountDetailsTemp.comparedate();
+
             // get user's first name and display it on labelHelloTag 
             labelHelloTag.Text = "Hello " + tempclass.LoggedInAccountDetailsTemp.getUsername();
 
