@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -218,34 +218,29 @@ namespace computerScienceNEA
             {
                 MessageBox.Show("You havent selected a favourite game yet. You can set it in the settings page");
             }
-
-            if (tempFavGameID == null)
-            {
-                tempFavGameName = "No Favourite game found";
-            }
             else if (tempFavGameID == 1)
             {
-                tempFavGameName = "Play pet game";
+                buttonPlayPet_Click(sender, e);
             }
             else if (tempFavGameID == 2)
             {
-                tempFavGameName = "Play car bot game";
+                buttonPlayCarBot_Click(sender, e);
             }
             else if (tempFavGameID == 3)
             {
-                tempFavGameName = "Play follow game";
+                buttonPlayFollow_Click(sender, e);
             }
             else if (tempFavGameID == 4)
             {
-                tempFavGameName = "Play dice game";
+                buttonPlayDice_Click(sender, e);
             }
             else if (tempFavGameID == 5)
             {
-                tempFavGameName = "Play russian roulette";
+                buttonPlayRussianR_Click(sender, e);
             }
             else if (tempFavGameID == 6)
             {
-                tempFavGameName = "Play bowling game";
+                buttonPlayBowling_Click(sender, e);
             }
             else
             {
