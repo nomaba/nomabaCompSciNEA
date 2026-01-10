@@ -48,7 +48,11 @@ namespace computerScienceNEA
             string tempFavGameName = "";
             tempFavGameID = tempclass.LoggedInAccountDetailsTemp.getfavGameID();
 
-            if (tempFavGameID == 1)
+            if (tempFavGameID == null)
+            {
+                tempFavGameName = "No Favourite game found";
+            }
+            else if (tempFavGameID == 1)
             {
                 tempFavGameName = "Play pet game";
             }
@@ -71,6 +75,10 @@ namespace computerScienceNEA
             else if (tempFavGameID == 6)
             {
                 tempFavGameName = "Play bowling game";
+            }
+            else
+            {
+                tempFavGameName = "No Favourite game found";
             }
 
             buttonFavGame.Text = tempFavGameName;
@@ -203,6 +211,46 @@ namespace computerScienceNEA
         private void buttonFavGame_Click(object sender, EventArgs e)
         {
             // runs a subroutine that runs the user's favourite game
+            int? tempFavGameID;
+            tempFavGameID = tempclass.LoggedInAccountDetailsTemp.getfavGameID();
+
+            if (tempFavGameID == null)
+            {
+                MessageBox.Show("You havent selected a favourite game yet. You can set it in the settings page");
+            }
+
+            if (tempFavGameID == null)
+            {
+                tempFavGameName = "No Favourite game found";
+            }
+            else if (tempFavGameID == 1)
+            {
+                tempFavGameName = "Play pet game";
+            }
+            else if (tempFavGameID == 2)
+            {
+                tempFavGameName = "Play car bot game";
+            }
+            else if (tempFavGameID == 3)
+            {
+                tempFavGameName = "Play follow game";
+            }
+            else if (tempFavGameID == 4)
+            {
+                tempFavGameName = "Play dice game";
+            }
+            else if (tempFavGameID == 5)
+            {
+                tempFavGameName = "Play russian roulette";
+            }
+            else if (tempFavGameID == 6)
+            {
+                tempFavGameName = "Play bowling game";
+            }
+            else
+            {
+                tempFavGameName = "No Favourite game found";
+            }
         }
 
         // games

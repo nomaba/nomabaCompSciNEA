@@ -49,8 +49,8 @@ namespace computerScienceNEA
             labelFavFood.Text = "Favourite Food: " + tempclass.LoggedInAccountDetailsTemp.getFavFood();
             labelFavGame.Text = "Favourite game: " + tempclass.LoggedInAccountDetailsTemp.getFavGameName();
 
-            labelHighScoreRR.Text = "Highest score in Russian Roulette: " + tempclass.LoggedInAccountDetailsTemp.getFirstName();
-            labelHighScoreBowling.Text = "Highest score in Bowling game: " + tempclass.LoggedInAccountDetailsTemp.getFirstName();
+            labelHighScoreRR.Text = "Highest score in Russian Roulette: " + tempclass.LoggedInAccountDetailsTemp.getRRHighScore();
+            labelHighScoreBowling.Text = "Highest score in Bowling game: " + tempclass.LoggedInAccountDetailsTemp.getBowlingHighScore();
         }
     }
 }
