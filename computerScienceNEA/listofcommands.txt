@@ -4,6 +4,7 @@ LIST OF COMMANDS
 COMMANDS THAT CAN BE RUN AT ANY TIME
 =============================================================
 robotState: <number>
+playAudio: <number>
 
 
 =============================================================

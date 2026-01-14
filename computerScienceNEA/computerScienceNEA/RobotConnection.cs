@@ -9,15 +9,13 @@ namespace computerScienceNEA
 {
    public class RobotConnection
     {
-        
+        public string tempMessageBoxMessage;
 
 
         protected string nameOfCOMPort;
         protected int baudRate;
         protected string newLineMarkings;
         protected bool connectedToBot;
-
-        public string tempMessageBoxMessage;
 
         public RobotConnection(string localNameOfCOMPort, int localBaudRate, string localNewLineMarkings, bool localConnectedToBot)
         {
@@ -44,7 +42,7 @@ namespace computerScienceNEA
             serialPort.NewLine = newLineMarkings;
             serialPort.DataReceived += SerialPort_DataReceived; // this makes the SerialPort_DataReceived subroutine run every time a message is sent by the arduino
 
-            ConnectToRobot.RobotConnectionUserInput messageBoxmessage = new ConnectToRobot.RobotConnectionUserInput("null", 9600, "\r\n", false, "insert message here");
+            FormAccountLogin.RobotConnectionUserInput messageBoxmessage = new FormAccountLogin.RobotConnectionUserInput("null", 9600, "\r\n", false, "insert message here");
 
             try
             {
@@ -188,62 +186,9 @@ namespace computerScienceNEA
                 serialPort.WriteLine("stopMotors");
             }   
         }
-        public void forwardUntilObstacle()
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.WriteLine("forwardUntilObstacle");
-            }   
-        }
-        public void spinForDuration(int time)
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.WriteLine("spinForDuration Time: " + time);
-            }   
-        }
-        public void forwardObstacleTurn(int time)
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.WriteLine("forwardObstacleTurn Time: " + time);
-            }   
-        }
-        public void motorSpeedSlow()
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.WriteLine("motorSpeedSlow");
-            }   
-        }
-        public void motorSpeedNormal()
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.WriteLine("motorSpeedNormal");
-            }   
-        }
-        public void motorSpeedFast()
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.WriteLine("motorSpeedFast");
-            }   
-        }
-        public void playAudio(int audioNumber)
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.WriteLine("playAudio: " + audioNumber);
-            }   
-        }
-        public void changeRobotState(int stateID)
-        {
-            if (serialPort.IsOpen)
-            {
-                serialPort.WriteLine("robotState: " + stateID);
-            }   
-        }
+
+
+
 
 
 

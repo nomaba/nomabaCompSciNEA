@@ -852,6 +852,15 @@ void translateSerial1()
     }
   }
 
+  if (command.startsWith("playAudio: "))
+  {
+    // use string manipulation to get the robotState from the command
+    String audioNum = command.substring(11);
+    audioNum = audioNum.toInt();
+
+    player.playMp3Folder(audioNum); // Play the specified track in the "mp3" folder on the SD card
+  }
+
 
 
 

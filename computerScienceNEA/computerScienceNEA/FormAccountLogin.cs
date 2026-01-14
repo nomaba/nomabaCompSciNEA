@@ -14,6 +14,27 @@ namespace computerScienceNEA
 {
     public partial class FormAccountLogin : Form
     {
+        public class RobotConnectionUserInput : RobotConnection
+        {
+            private string messageBoxMessage = "";
+            public RobotConnectionUserInput(string localNameOfCOMPort, int localBaudRate, string localNewLineMarkings, bool localConnectedToBot, string localMessageBoxMessage) : base(localNameOfCOMPort, localBaudRate, localNewLineMarkings, localConnectedToBot)
+            {
+                this.messageBoxMessage = localMessageBoxMessage;
+            }
+
+            public void updateMessageVariable(string tempMessageBoxMessage)
+            {
+                messageBoxMessage = tempMessageBoxMessage;
+            }
+            public override void messageboxshow()
+            {
+                MessageBox.Show(messageBoxMessage);
+            }
+        }
+
+
+
+
         public FormAccountLogin()
         {
             InitializeComponent();

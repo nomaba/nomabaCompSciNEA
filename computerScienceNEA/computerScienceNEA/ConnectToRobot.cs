@@ -13,32 +13,11 @@ namespace computerScienceNEA
 {
     public partial class ConnectToRobot : Form
     {
-        public class RobotConnectionUserInput : RobotConnection
-        {
-            private string messageBoxMessage = "";
-            public RobotConnectionUserInput(string localNameOfCOMPort, int localBaudRate, string localNewLineMarkings, bool localConnectedToBot, string localMessageBoxMessage) : base(localNameOfCOMPort, localBaudRate, localNewLineMarkings, localConnectedToBot) 
-            {
-                this.messageBoxMessage = localMessageBoxMessage;
-            }
-
-            public void updateMessageVariable(string tempMessageBoxMessage)
-            {
-                messageBoxMessage = tempMessageBoxMessage;
-            }
-            public override void messageboxshow()
-            {
-                MessageBox.Show(messageBoxMessage);
-            }
-
-            public void createCOMPortsVariablesInheritance(int i, string tempCOMName)
-            {
-
-            }
-        }
+        
 
         private void ConnectToRobot_Load(object sender, EventArgs e)
         {
-            ConnectToRobot.RobotConnectionUserInput messageBoxmessage = new ConnectToRobot.RobotConnectionUserInput("null", 9600, "\r\n", false, "messageBox");
+            FormAccountLogin.RobotConnectionUserInput messageBoxmessage = new FormAccountLogin.RobotConnectionUserInput("null", 0, "null", false, "messageBox");
 
             comboBoxPorts.Items.AddRange(SerialPort.GetPortNames());
 
@@ -50,8 +29,7 @@ namespace computerScienceNEA
             {
                 // port is the same as comPort[i] because its storing the same thign
                 int numberOfPorts = comPorts.Count;
-                RobotConnectionUserInput RobotConnectionUserInput = new RobotConnectionUserInput(tempCOMName, 9600, "\r\n", false, "messageBox");
-                RobotConnectionUserInput.createCOMPortsVariablesInheritance(i, tempCOMName);
+                FormAccountLogin.RobotConnectionUserInput RobotConnectionUserInput = new FormAccountLogin.RobotConnectionUserInput(tempCOMName, 9600, "\r\n", false, "messageBox");
 
                 if (numberOfPorts == 0)
                 {
