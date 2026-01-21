@@ -5,7 +5,7 @@
       "includePath": [
         "${workspaceFolder}/**",
         "${workspaceFolder}/Libraries/**",
-        "D:\\computerScienceNEA\\computerScienceNEA\\Libraries"
+        "N:\\computerScienceNEA\\computerScienceNEA\\Libraries"
       ],
       "defines": [
         "_DEBUG",
