@@ -36,11 +36,12 @@ namespace computerScienceNEA
             this.buttonForwards = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonGoHome = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // buttonStop
             // 
-            this.buttonStop.Location = new System.Drawing.Point(137, 213);
+            this.buttonStop.Location = new System.Drawing.Point(136, 195);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(117, 49);
             this.buttonStop.TabIndex = 26;
@@ -50,7 +51,7 @@ namespace computerScienceNEA
             // 
             // buttonLeft
             // 
-            this.buttonLeft.Location = new System.Drawing.Point(14, 158);
+            this.buttonLeft.Location = new System.Drawing.Point(13, 195);
             this.buttonLeft.Name = "buttonLeft";
             this.buttonLeft.Size = new System.Drawing.Size(117, 49);
             this.buttonLeft.TabIndex = 25;
@@ -60,7 +61,7 @@ namespace computerScienceNEA
             // 
             // buttonRight
             // 
-            this.buttonRight.Location = new System.Drawing.Point(260, 158);
+            this.buttonRight.Location = new System.Drawing.Point(259, 195);
             this.buttonRight.Name = "buttonRight";
             this.buttonRight.Size = new System.Drawing.Size(117, 49);
             this.buttonRight.TabIndex = 24;
@@ -70,7 +71,7 @@ namespace computerScienceNEA
             // 
             // buttonBackwards
             // 
-            this.buttonBackwards.Location = new System.Drawing.Point(137, 158);
+            this.buttonBackwards.Location = new System.Drawing.Point(136, 250);
             this.buttonBackwards.Name = "buttonBackwards";
             this.buttonBackwards.Size = new System.Drawing.Size(117, 49);
             this.buttonBackwards.TabIndex = 23;
@@ -80,7 +81,7 @@ namespace computerScienceNEA
             // 
             // buttonForwards
             // 
-            this.buttonForwards.Location = new System.Drawing.Point(137, 103);
+            this.buttonForwards.Location = new System.Drawing.Point(136, 140);
             this.buttonForwards.Name = "buttonForwards";
             this.buttonForwards.Size = new System.Drawing.Size(117, 49);
             this.buttonForwards.TabIndex = 22;
@@ -101,7 +102,7 @@ namespace computerScienceNEA
             // buttonGoHome
             // 
             this.buttonGoHome.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonGoHome.Location = new System.Drawing.Point(221, 320);
+            this.buttonGoHome.Location = new System.Drawing.Point(221, 329);
             this.buttonGoHome.Name = "buttonGoHome";
             this.buttonGoHome.Size = new System.Drawing.Size(158, 37);
             this.buttonGoHome.TabIndex = 28;
@@ -109,11 +110,22 @@ namespace computerScienceNEA
             this.buttonGoHome.UseVisualStyleBackColor = true;
             this.buttonGoHome.Click += new System.EventHandler(this.buttonGoHome_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(26, 86);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(341, 24);
+            this.textBox1.TabIndex = 29;
+            this.textBox1.Text = "Tell the robot which direction to move in by pressing the buttons below\r\n";
+            // 
             // FormGameCarBot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(391, 369);
+            this.ClientSize = new System.Drawing.Size(391, 377);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.buttonGoHome);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonStop);
@@ -138,5 +150,6 @@ namespace computerScienceNEA
         private System.Windows.Forms.Button buttonForwards;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonGoHome;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

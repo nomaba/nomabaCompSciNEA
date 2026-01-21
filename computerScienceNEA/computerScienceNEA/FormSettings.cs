@@ -81,7 +81,7 @@ namespace computerScienceNEA
             }
             else
             {
-                MessageBox.Show("You did not select a favourite game");
+                MessageBox.Show("You did not select a favourite game. Your Favourite game has not been updated");
             }
         }
 
@@ -97,6 +97,11 @@ namespace computerScienceNEA
             if (!(textBoxNameFirst.Text == null))
             {
                 tempclass.LoggedInAccountDetailsTemp.updateNameFirst(textBoxNameFirst.Text);
+                MessageBox.Show("First Name Updated");
+            }
+            else
+            {
+                MessageBox.Show("The textBox is empty. Your name has not been updated");
             }
         }
 
@@ -105,6 +110,11 @@ namespace computerScienceNEA
             if (!(textBoxNameLast.Text == null))
             {
                 tempclass.LoggedInAccountDetailsTemp.updateNameLast(textBoxNameLast.Text);
+                MessageBox.Show("Last Name Updated");
+            }
+            else
+            {
+                MessageBox.Show("The textBox is empty. Your name has not been updated");
             }
         }
 
@@ -112,7 +122,20 @@ namespace computerScienceNEA
         {
             if (!(textBoxFavColour.Text == null))
             {
-                tempclass.LoggedInAccountDetailsTemp.updateFavColour(textBoxFavColour.Text);
+                Color newColor = Color.FromName(textBoxFavColour.Text);
+
+                if (newColor.IsKnownColor)
+                {
+                    tempclass.LoggedInAccountDetailsTemp.updateFavColour(textBoxFavColour.Text);
+                    MessageBox.Show("Favourite Colour Updated");
+                } else
+                {
+                    MessageBox.Show("Your Favourite colour is not a valid colour. Your favourite colour has not been updated. Try making the first character a capital.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("The textBox is empty. Your favourite colour has not been updated");
             }
         }
     }

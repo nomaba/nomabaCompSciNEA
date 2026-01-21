@@ -120,4 +120,11 @@
   <metadata name="timer1Second.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>The bot will now act like it is your pet.
+
+If you do things that the robot likes to increase your LV (your relationship with the robot) 
+
+If you do things that the robot does not like then your LV will decrease.</value>
+  </data>
 </root>

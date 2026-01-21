@@ -95,17 +95,17 @@ namespace computerScienceNEA
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
-            /*progressBar.Value = 10;
-            System.Threading.Thread.Sleep(2000);
+            progressBar.Value = 10;
+            System.Threading.Thread.Sleep(500);
             progressBar.Value = 20;
             System.Threading.Thread.Sleep(1000);
             progressBar.Value = 50;
-            System.Threading.Thread.Sleep(5000); // this big delay is here to make sure everything initialises in the background properly and the progress bar is to trick the user into thinking its loading
+            System.Threading.Thread.Sleep(5000); // this big delay is here to make sure everything initialises in the background properly (like the robot itself) and the progress bar is to trick the user into thinking its loading
             progressBar.Value = 60;
             System.Threading.Thread.Sleep(4000);
             progressBar.Value = 80;
-            System.Threading.Thread.Sleep(3000);
-            progressBar.Value = 90;*/
+            System.Threading.Thread.Sleep(500);
+            progressBar.Value = 90;
             if (!(comboBoxPorts.SelectedItem == null)) // if the comboBox(the menu to select your port) is not empty
             {
                 if (serialPort.IsOpen) // If the port is open, close it first

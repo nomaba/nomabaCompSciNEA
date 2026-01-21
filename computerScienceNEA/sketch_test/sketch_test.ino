@@ -937,7 +937,11 @@ void translateIR() // takes action based on IR code received
 
 void setRobotStateViaLV()
 {
-  if (lv >= 1 && lv <= 19)
+  if (lv <= 0)
+  {
+    robotState = 7; // scared
+  }
+  else if (lv >= 1 && lv <= 19)
   {
     robotState = 2; // angry
   }
@@ -1961,6 +1965,7 @@ void robotStateScared()
     }
   }
   stopMotors();
+  changeLVByValue(5); // increase LV by 5
   robotState = 0;
   loudSoundTimer = false;
 }

@@ -635,8 +635,14 @@ namespace computerScienceNEA
                 {
                     TimeSpan differenceBetweenDays = tempDateToday - tempDateLastUsed; // subtracts the two dates from each other and stores the result as a timespan object 
                     int numberOfDaysBetweenTodayAndLastUse = differenceBetweenDays.Days; // removes everything that differenceBetweenDays stores except for the number of days and stores it in an int
-
-                    if (numberOfDaysBetweenTodayAndLastUse > 29)
+                    if (numberOfDaysBetweenTodayAndLastUse == 1)
+                    {
+                        // the robot was not used for 2 days in a row
+                        updateLV(1);
+                        FormAccountLogin FormAccountLogin = new FormAccountLogin(); // im calling form login because this form never closes (unless the user closes it) as it is the primary form
+                        FormAccountLogin.MessageBoxShow("You used the robot for 2 days in a row. Your LV has increased by 1 ");
+                    }
+                    else if (numberOfDaysBetweenTodayAndLastUse > 29)
                     {
                         // the robot was not used for 30 days or more
                         updateLV(-10);
