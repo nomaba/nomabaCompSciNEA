@@ -35,21 +35,25 @@ namespace computerScienceNEA
             progressBar.Value = 7;
 
         
-            Color newColor = Color.FromName(textBoxDatabaseFavouriteColour.Text);
+            
+            
 
-            if (newColor.IsKnownColor)
+            if (int.TryParse(textBoxDatabaseBirthDay.Text, out int day) &&
+            int.TryParse(textBoxDatabaseBirthMonth.Text, out int month) &&
+            day >= 1 && day <= 31 &&
+            month >= 1 && month <= 12 &&
+            !string.IsNullOrWhiteSpace(textBoxDatabaseFirstName.Text) &&
+            !string.IsNullOrWhiteSpace(textBoxDatabaseLastName.Text) &&
+            !string.IsNullOrWhiteSpace(textBoxDatabasePassword.Text) &&
+            !string.IsNullOrWhiteSpace(textBoxDatabaseUsername.Text) &&
+            !string.IsNullOrWhiteSpace(textBoxDatabaseFavouriteColour.Text) &&
+            !string.IsNullOrWhiteSpace(textBoxDatabaseFavouriteFood.Text) &&
+            !string.IsNullOrWhiteSpace(textBoxFavouriteFoodColour.Text))
             {
-                if (int.TryParse(textBoxDatabaseBirthDay.Text, out int day) &&
-                int.TryParse(textBoxDatabaseBirthMonth.Text, out int month) &&
-                day >= 1 && day <= 31 &&
-                month >= 1 && month <= 12 &&
-                !string.IsNullOrWhiteSpace(textBoxDatabaseFirstName.Text) &&
-                !string.IsNullOrWhiteSpace(textBoxDatabaseLastName.Text) &&
-                !string.IsNullOrWhiteSpace(textBoxDatabasePassword.Text) &&
-                !string.IsNullOrWhiteSpace(textBoxDatabaseUsername.Text) &&
-                !string.IsNullOrWhiteSpace(textBoxDatabaseFavouriteColour.Text) &&
-                !string.IsNullOrWhiteSpace(textBoxDatabaseFavouriteFood.Text) &&
-                !string.IsNullOrWhiteSpace(textBoxFavouriteFoodColour.Text))
+                Color newFavColor = Color.FromName(textBoxDatabaseFavouriteColour.Text);
+                Color newFoodColor = Color.FromName(textBoxFavouriteFoodColour.Text);
+
+                if (newFavColor.IsKnownColor && newFoodColor.IsKnownColor)
                 {
                     //Date inputted is valid
 
@@ -114,6 +118,25 @@ namespace computerScienceNEA
 
 
                         progressBar.Value = 40;
+
+                        //works dont touch
+                        string queryCheckFoodColourExists = "SELECT colourName FROM colours WHERE colourName = @foodColour";
+                        SQLiteCommand myCommmandCheckFoodColourExists = new SQLiteCommand(queryCheckFoodColourExists, myConnection); // Created new variable that stores the query
+                        myCommmandCheckFoodColourExists.Parameters.AddWithValue("@foodColour", favouriteFoodColour);
+                        SQLiteDataReader resultCheckFoodColourExists = myCommmandCheckFoodColourExists.ExecuteReader();
+                        if (resultCheckFoodColourExists.Read())
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            System.Threading.Thread.Sleep(2000);
+                            string queryFoodColours = "INSERT INTO colours(colourName) values (@foodColour)";
+                            SQLiteCommand myCommmandFoodColours = new SQLiteCommand(queryFoodColours, myConnection); // Created new variable that stores the query
+                            myCommmandFoodColours.Parameters.AddWithValue("@foodColour", favouriteFoodColour);
+                            myCommmandFoodColours.ExecuteNonQuery();
+                        }
+                        //above works dont touch
 
 
                         System.Threading.Thread.Sleep(2000);
@@ -201,12 +224,12 @@ namespace computerScienceNEA
                 }
                 else
                 {
-                    MessageBox.Show("One or more of the data you inputted is invaled. Please ensure that you have filled all boxes and a valid date has been provided"); // just read the text behind me
+                    MessageBox.Show("Your Favourite colour or Favourite food colour is not a valid colour. Try making the first character a capital.");
                 }
             }
             else
             {
-                MessageBox.Show("Your Favourite colour is not a valid colour. Try making the first character a capital.");
+                MessageBox.Show("One or more of the data you inputted is invaled. Please ensure that you have filled all boxes and a valid date has been provided"); // just read the text behind me
             }
 
             
