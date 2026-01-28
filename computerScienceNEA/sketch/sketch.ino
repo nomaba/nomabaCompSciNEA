@@ -1,4 +1,6 @@
 #include <DFRobotDFPlayerMini.h>
+
+#include <DFRobotDFPlayerMini.h>
 #include "IRremote.h"
 #include "LedControl.h"
 #include "SR04.h"
@@ -42,7 +44,7 @@ const int infraredLeftPin  = 39;
 const int infraredRightPin  = 37;
 
 const int soundSensorPin  = 35;
-void bool checkSoundSensorForLoudSound()
+bool checkSoundSensorForLoudSound()
 {
   if (soundSensorActive == true)
   {
@@ -89,6 +91,20 @@ void checkTiltBall()
     // The robot is upside down
     robotState = 5; // set robot state to upside down
     changeLVByValue(-5); // decrease LV by 5
+  }
+}
+
+bool isRobotUpsideDown()
+{
+  if (digitalRead(tiltBallPin) == HIGH)
+  {
+    //the robot is upright
+    return false;
+  }
+  else
+  {
+    // the robot is upside down
+    return true;
   }
 }
 
@@ -855,10 +871,10 @@ void translateSerial1()
   if (command.startsWith("playAudio: "))
   {
     // use string manipulation to get the robotState from the command
-    String audioNum = command.substring(11);
-    audioNum = audioNum.toInt();
+    String stringAudioNum = command.substring(11);
+    int intAudioNum = stringAudioNum.toInt();
 
-    player.playMp3Folder(audioNum); // Play the specified track in the "mp3" folder on the SD card
+    player.playMp3Folder(intAudioNum); // Play the specified track in the "mp3" folder on the SD card
   }
 
 
@@ -1430,8 +1446,8 @@ void setup()
 
 
 
-unsigned long 5minTimerstartTime = millis();
-bool 5minTimerStarted = false;
+unsigned long fiveMinTimerStartTime = millis();
+bool fiveMinTimerStarted = false;
 bool stateActionPerformed = false;
 unsigned long startTimeStateAction = millis();
 
@@ -1496,7 +1512,6 @@ void loop()
 
     if (checkSoundSensorForLoudSound() == true)
     {
-      loudSoundTimer = true;
       dorobotStateAction();
     }
     if (stateActionPerformed == false)
@@ -1528,12 +1543,12 @@ void loop()
     if (previousState != robotState)
     {
       previousState = robotState;
-      5minTimerstartTime = millis(); //start timer
-      5minTimerStarted = true;
+      fiveMinTimerStartTime = millis(); //start timer
+      fiveMinTimerStarted = true;
     }
   }
   
-  if ((millis() - 5minTimerstartTime >= 300000) && 5minTimerStarted == true)
+  if ((millis() - fiveMinTimerStartTime >= 300000) && fiveMinTimerStarted == true)
   {
     // 5 minutes have passed
 
@@ -1841,7 +1856,7 @@ void robotStateSleepy()
   }
 
   setRobotStateViaLV(); // set robot state via LV again after waking up
-  5minTimerstartTime = millis(); // reset 5 min timer 
+  fiveMinTimerStartTime = millis(); // reset 5 min timer 
 }
 
 void robotStateUpsidedown()
@@ -1959,7 +1974,7 @@ void robotStateScared()
   bool stopBeingScared = false;
   while (stopBeingScared == false)
   {
-    if (checkTiltBall() == true)
+    if (isRobotUpsideDown() == true)
     {
       stopBeingScared = true;
     }
@@ -1967,7 +1982,6 @@ void robotStateScared()
   stopMotors();
   changeLVByValue(5); // increase LV by 5
   robotState = 0;
-  loudSoundTimer = false;
 }
 
 
@@ -1995,7 +2009,7 @@ void robotStateFollow()
   {
     motorSpeedSlow();
     // read ultrasonic sensor and infared sensors
-    if        ((digitalRead(infraredLeftPin) == LOW && digitalRead(infraredRightPin) == LOW && getDistanceFront() < 10) || (digitalRead(infraredLeftPin) == HIGH && digitalRead(infraredRightPin) == HIGH && getDistanceFront() < 10))
+    if((digitalRead(infraredLeftPin) == LOW && digitalRead(infraredRightPin) == LOW && getDistanceFront() < 10) || (digitalRead(infraredLeftPin) == HIGH && digitalRead(infraredRightPin) == HIGH && getDistanceFront() < 10))
     {
       // object is in the centre
       moveForward();
