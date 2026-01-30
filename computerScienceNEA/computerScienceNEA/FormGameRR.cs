@@ -12,8 +12,8 @@ namespace computerScienceNEA
 {
     public partial class FormGameRR : Form
     {
-        public int score = 0;
-
+        public static int score = 17;
+        public static bool gameOver = false;
         public FormGameRR()
         {
             InitializeComponent();
@@ -21,14 +21,25 @@ namespace computerScienceNEA
 
         private void buttonShoot_Click(object sender, EventArgs e)
         {
-            tempclass.finalisedCOMPortsTemp.sendCustomMessage("shootRR");
+            if (gameOver == true)
+            {
+                MessageBox.Show("The game is over. Go back to the home page");
+            } else
+            {
+                tempclass.finalisedCOMPortsTemp.sendCustomMessage("shootRR");
+                
+            }
+            labelScore.Text = "Score: " + score;
         }
 
         private void buttonGoHome_Click(object sender, EventArgs e)
         {
+            score = 0;
+            gameOver = false;
             Home Home = new Home();
-            this.Close();
+            
             Home.Show();
+            this.Close();
         }
 
         private void FormGameRR_Load(object sender, EventArgs e)
@@ -51,11 +62,24 @@ namespace computerScienceNEA
 
         public void RRBlank()
         {
-            score = score + 1;
+            BlankShot();
+        }
+
+
+        private void BlankShot() 
+        {
+            //score = score + 1
             MessageBox.Show("You got lucky. It was a blank");
             labelScore.Text = "Score: " + score;
         }
+
+
         public void RRLive()
+        {
+            LiveShot();
+        }
+
+        private void LiveShot()
         {
             MessageBox.Show("Oh No. It was live. You got shot");
 
@@ -63,13 +87,11 @@ namespace computerScienceNEA
 
             if (score > tempclass.LoggedInAccountDetailsTemp.getRRHighScore())
             {
+                tempclass.finalisedCOMPortsTemp.sendCustomMessage("newHighScore");
                 MessageBox.Show("NEW HIGH SCORE");
                 tempclass.LoggedInAccountDetailsTemp.updateRRHighScore(score);
             }
-            Home Home = new Home();
-            this.Close();
-            Home.Show();
-            
+            gameOver = true;
         }
     }
 }

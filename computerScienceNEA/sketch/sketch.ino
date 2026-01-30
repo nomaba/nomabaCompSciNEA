@@ -62,6 +62,7 @@ bool checkSoundSensorForLoudSound()
       return false; // there was no loud sound
     }
   }
+  return false;
 }
 
 const int tiltBallPin  = 40;
@@ -603,6 +604,7 @@ void translateSerial1()
   {
     if (command == "roll 1 dice")
     {
+      player.playMp3Folder(22); // Play the "0022.mp3" in the "mp3" folder on the SD card // dice throw sound
       // matrix 1 display dice1 roll number
 
       for (int j = 0; j < LOADING2_LENGTH; j++)
@@ -665,6 +667,7 @@ void translateSerial1()
     }
     else if (command == "roll 2 dice")
     {
+      player.playMp3Folder(22); // Play the "0022.mp3" in the "mp3" folder on the SD card // dice throw sound
       // matrix 1 display dice1 roll number
       // matrix 2 display dice2 roll number 
 
@@ -783,7 +786,7 @@ void translateSerial1()
       int randomNum = randomNumber1to6();
       if (randomNum == 1)
       {
-        player.playMp3Folder(7); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        player.playMp3Folder(18); // Play the "0018.mp3" in the "mp3" folder on the SD card // gun shot sound
         delay(100);
         for (int j = 0; j < GUNSHOT_LENGTH; j++)
         {
@@ -795,7 +798,7 @@ void translateSerial1()
       }
       else 
       {
-        player.playMp3Folder(7); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        player.playMp3Folder(19); // Play the "0019.mp3" in the "mp3" folder on the SD card // empty gun shot sound
         delay(100);
         for (int i = 0; i < BLANK_LENGTH; i++) 
         {
@@ -816,7 +819,6 @@ void translateSerial1()
       bool objectHit = false;
       unsigned long timerBowling = millis();
       moveForward();
-      player.playMp3Folder(7); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       while (timerComplete == false)
       {
         if (millis() - timerBowling >= 3000) 
@@ -825,7 +827,7 @@ void translateSerial1()
           timerComplete = true;
           
         }
-        if (getDistanceFront() < 7)
+        if (getDistanceFront() < 7 || digitalRead(infraredLeftPin) == LOW || digitalRead(infraredRightPin) == LOW)
         {
           objectHit = true;
         }
@@ -834,10 +836,13 @@ void translateSerial1()
       {
         stopMotors();
         Serial1.println("object hit");
-        player.playMp3Folder(7); //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        player.playMp3Folder(21); // Play the "0021.mp3" in the "mp3" folder on the SD card // bowling pin strike sound
+        delay(5000);
+        player.playMp3Folder(20); // Play the "0020.mp3" in the "mp3" folder on the SD card // celebration sound
       } else 
       {
         Serial1.println("object not hit");
+        player.playMp3Folder(10); // Play the "0021.mp3" in the "mp3" folder on the SD card // bowling pin strike sound
       }
       stopMotors();
     }
@@ -877,7 +882,10 @@ void translateSerial1()
     player.playMp3Folder(intAudioNum); // Play the specified track in the "mp3" folder on the SD card
   }
 
-
+  if (command == "newHighScore")
+  {
+    player.playMp3Folder(20); // Play the "0020.mp3" in the "mp3" folder on the SD card // celebration sound
+  }
 
 
 }
@@ -1054,8 +1062,8 @@ void motorSpin()
 
 void motorSpeedSlow()
 {
-  analogWrite(ENA, 100);  // Slow speed left motor
-  analogWrite(ENB, 100);  // Slow speed right motor
+  analogWrite(ENA, 130);  // Slow speed left motor
+  analogWrite(ENB, 130);  // Slow speed right motor
 }
 
 void motorSpeedNormal()
@@ -2005,22 +2013,42 @@ void robotStateFollow()
   // use ultrasonic sensor and infared sensors to follow object infront
 
   bool playGameFollow = true;
+  motorSpeedSlow();
+  unsigned long soundlastPlayTime = 0;
+  const unsigned long soundplayInterval = 5000; // 5 seconds
+  bool lastAudioPlayedIs12 = false;
   while (playGameFollow == true)
   {
-    motorSpeedSlow();
+    if (millis() - soundlastPlayTime >= soundplayInterval) 
+    {
+      if (lastAudioPlayedIs12 == false)
+      {
+        player.playMp3Folder(12); // Play the "0012.mp3" in the "mp3" folder on the SD card // evil laugh
+        lastAudioPlayedIs12 = true;
+      }
+      else
+      {
+        player.playMp3Folder(9); // Play the "0009.mp3" in the "mp3" folder on the SD card // amazed
+        lastAudioPlayedIs12 = false;
+      }
+    soundlastPlayTime = millis();
+    }
     // read ultrasonic sensor and infared sensors
-    if((digitalRead(infraredLeftPin) == LOW && digitalRead(infraredRightPin) == LOW && getDistanceFront() < 10) || (digitalRead(infraredLeftPin) == HIGH && digitalRead(infraredRightPin) == HIGH && getDistanceFront() < 10))
+    if((digitalRead(infraredLeftPin) == LOW && digitalRead(infraredRightPin) == LOW) || (getDistanceFront() < 10))
     {
       // object is in the centre
       moveForward();
+      delay(50);
     } else if (digitalRead(infraredLeftPin) == LOW && digitalRead(infraredRightPin) == HIGH)
     {
       // object is on the left
-      strafeLeftSlow(); 
+      turnLeft();
+      delay(50);
     } else if (digitalRead(infraredLeftPin) == HIGH && digitalRead(infraredRightPin) == LOW)
     {
       // object is on the right
-      strafeRightSlow(); 
+      turnRight();
+      delay(50);
     } else 
     {
       // object is lost

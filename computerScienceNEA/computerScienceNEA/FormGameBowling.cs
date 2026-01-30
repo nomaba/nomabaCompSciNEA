@@ -12,8 +12,9 @@ namespace computerScienceNEA
 {
     public partial class FormGameBowling : Form
     {
-        public int score = 0;
-        public int lives = 2;
+        public static int score = 0;
+        public static int lives = 2;
+        public static bool gameOver = false;
         public FormGameBowling()
         {
             InitializeComponent();
@@ -21,16 +22,27 @@ namespace computerScienceNEA
 
         private void buttonRoll_Click(object sender, EventArgs e)
         {
-            tempclass.finalisedCOMPortsTemp.sendCustomMessage("rollTheBall");
+            labelScore.Text = "Score: " + score;
+            if (gameOver == true)
+            {
+                MessageBox.Show("The game is over. Go to the home page.");
+            }
+            else
+            {
+                tempclass.finalisedCOMPortsTemp.sendCustomMessage("rollTheBall");
+            }
         }
 
         
 
         private void buttonGoHome_Click(object sender, EventArgs e)
         {
+            score = 0;
+            lives = 2;
+            gameOver = false;
             Home Home = new Home();
-            this.Close();
             Home.Show();
+            this.Close();
         }
 
         private void FormGameBowling_Load(object sender, EventArgs e)
@@ -55,7 +67,7 @@ namespace computerScienceNEA
         {
             score = score + 1;
             MessageBox.Show("Congragulations. You hit the pins");
-            labelScore.Text = "Score: " + score;
+
         }
         public void bowlingBottlesMissed()
         {
@@ -68,12 +80,11 @@ namespace computerScienceNEA
 
                 if (score > tempclass.LoggedInAccountDetailsTemp.getBowlingHighScore())
                 {
+                    tempclass.finalisedCOMPortsTemp.sendCustomMessage("newHighScore");
                     MessageBox.Show("NEW HIGH SCORE");
                     tempclass.LoggedInAccountDetailsTemp.updateBowlingHighScore(score);
                 }
-                Home Home = new Home();
-                this.Close();
-                Home.Show();
+                gameOver = true;
             }
         }
     }

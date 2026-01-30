@@ -577,10 +577,10 @@ namespace computerScienceNEA
             SQLiteConnection myConnection; //created new vatiable callled my connection
             myConnection = new SQLiteConnection("Data Source=database.db");
 
-            string queryupdateRRHighScore = "UPDATE accounts SET bowlingHighScore = @bowlingHighScore WHERE accountID = @accountID";
+            string queryupdateRRHighScore = "UPDATE accounts SET RRHighScore = @RRHighScore WHERE accountID = @accountID";
 
             SQLiteCommand myCommmandupdateRRHighScore = new SQLiteCommand(queryupdateRRHighScore, myConnection);
-            myCommmandupdateRRHighScore.Parameters.AddWithValue("@bowlingHighScore", newHighScore);
+            myCommmandupdateRRHighScore.Parameters.AddWithValue("@RRHighScore", newHighScore);
             myCommmandupdateRRHighScore.Parameters.AddWithValue("@accountID", accountID);
 
             myConnection.Open();
