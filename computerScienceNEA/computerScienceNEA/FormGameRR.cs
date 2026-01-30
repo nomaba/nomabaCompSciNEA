@@ -68,7 +68,7 @@ namespace computerScienceNEA
 
         private void BlankShot() 
         {
-            score = score + 1
+            score = score + 1;
             MessageBox.Show("You got lucky. It was a blank");
             labelScore.Text = "Score: " + score;
         }
