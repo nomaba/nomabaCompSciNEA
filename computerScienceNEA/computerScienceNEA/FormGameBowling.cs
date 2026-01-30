@@ -22,7 +22,7 @@ namespace computerScienceNEA
 
         private void buttonRoll_Click(object sender, EventArgs e)
         {
-            labelScore.Text = "Score: " + score;
+            
             if (gameOver == true)
             {
                 MessageBox.Show("The game is over. Go to the home page.");
@@ -71,7 +71,7 @@ namespace computerScienceNEA
         }
         public void bowlingBottlesMissed()
         {
-            labelLives.Text = "Lives remaining: " + lives;
+            
             lives = lives - 1;
             MessageBox.Show("Unlucky, You missed the pins");
             if (lives == 0)
@@ -86,6 +86,12 @@ namespace computerScienceNEA
                 }
                 gameOver = true;
             }
+        }
+
+        private void timerUpdateLabel_Tick(object sender, EventArgs e)
+        {
+            labelScore.Text = "Score: " + score;
+            labelLives.Text = "Lives remaining: " + lives;
         }
     }
 }

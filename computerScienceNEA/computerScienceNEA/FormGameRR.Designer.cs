@@ -69,6 +69,7 @@ namespace computerScienceNEA
             this.label1.Size = new System.Drawing.Size(378, 32);
             this.label1.TabIndex = 15;
             this.label1.Text = "Welcome to Russian Roulette";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // labelHighScore
             // 

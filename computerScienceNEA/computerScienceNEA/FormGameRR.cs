@@ -12,7 +12,7 @@ namespace computerScienceNEA
 {
     public partial class FormGameRR : Form
     {
-        public static int score = 17;
+        public static int score = 0;
         public static bool gameOver = false;
         public FormGameRR()
         {
@@ -68,7 +68,7 @@ namespace computerScienceNEA
 
         private void BlankShot() 
         {
-            //score = score + 1
+            score = score + 1
             MessageBox.Show("You got lucky. It was a blank");
             labelScore.Text = "Score: " + score;
         }
@@ -92,6 +92,11 @@ namespace computerScienceNEA
                 tempclass.LoggedInAccountDetailsTemp.updateRRHighScore(score);
             }
             gameOver = true;
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

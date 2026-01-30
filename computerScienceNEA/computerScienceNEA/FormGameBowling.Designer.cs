@@ -29,6 +29,7 @@ namespace computerScienceNEA
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGameBowling));
             this.label1 = new System.Windows.Forms.Label();
             this.buttonGoHome = new System.Windows.Forms.Button();
@@ -37,6 +38,7 @@ namespace computerScienceNEA
             this.labelLives = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.labelHighScore = new System.Windows.Forms.Label();
+            this.timerUpdateLabel = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label1
@@ -108,6 +110,12 @@ namespace computerScienceNEA
             this.labelHighScore.TabIndex = 22;
             this.labelHighScore.Text = "High Score: 00";
             // 
+            // timerUpdateLabel
+            // 
+            this.timerUpdateLabel.Enabled = true;
+            this.timerUpdateLabel.Interval = 1000;
+            this.timerUpdateLabel.Tick += new System.EventHandler(this.timerUpdateLabel_Tick);
+            // 
             // FormGameBowling
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -137,5 +145,6 @@ namespace computerScienceNEA
         private System.Windows.Forms.Label labelLives;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label labelHighScore;
+        private System.Windows.Forms.Timer timerUpdateLabel;
     }
 }

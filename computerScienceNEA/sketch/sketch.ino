@@ -819,11 +819,12 @@ void translateSerial1()
       bool objectHit = false;
       unsigned long timerBowling = millis();
       moveForward();
+      motorSpeedNormal();
       while (timerComplete == false)
       {
-        if (millis() - timerBowling >= 3000) 
+        if (millis() - timerBowling >= 2000) 
         {
-          // 3 seconds have passed
+          // 2 seconds have passed
           timerComplete = true;
           
         }
@@ -842,7 +843,7 @@ void translateSerial1()
       } else 
       {
         Serial1.println("object not hit");
-        player.playMp3Folder(10); // Play the "0021.mp3" in the "mp3" folder on the SD card // bowling pin strike sound
+        player.playMp3Folder(10); // Play the "0010.mp3" in the "mp3" folder on the SD card // angry sound
       }
       stopMotors();
     }

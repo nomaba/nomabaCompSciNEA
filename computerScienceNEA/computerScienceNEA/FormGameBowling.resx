@@ -126,4 +126,7 @@ Finally press the "roll the ball" button to shoot the robot towards the bottles.
 You get a point if you hit the bottles in the middle of the robot.
 You can only miss the pins 2 times before the game is over and your score is recorded.</value>
   </data>
+  <metadata name="timerUpdateLabel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>
