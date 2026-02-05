@@ -1,22 +1,14 @@
 #include <DFRobotDFPlayerMini.h>
-
-#include <DFRobotDFPlayerMini.h>
 #include "IRremote.h"
 #include "LedControl.h"
 #include "SR04.h"
-
-// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// notes:
-// * get a local version of dfrobotdfplayermini and ledControl
-// * 
-// 
-// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 // PIN variables and other variables and some code for components
 
 String previousButtonPress = "null";
 String command = "null";
+bool playGameFollow = false;
 bool soundSensorActive = true;
 int robotState = 0; // 0 = idle, 1 = happy, 2 = sad
 int lv = 50; // Relationship value received from computer application // 50 is the default value
@@ -80,18 +72,23 @@ bool upsideDown()
     return true;
   }
 }
+
+unsigned long tiltBallMillisTimer = 0;
 void checkTiltBall()
 {
   if (digitalRead(tiltBallPin) == HIGH)
   {
     // The robot is upright
     // do nothing
+    if (robotState == 5)
+    {
+      robotState = 0; // set robot state to upright
+    } 
   }
   else
   {
     // The robot is upside down
-    robotState = 5; // set robot state to upside down
-    changeLVByValue(-5); // decrease LV by 5
+    robotState = 5;
   }
 }
 
@@ -856,6 +853,8 @@ void translateSerial1()
     String robotStateString = command.substring(12);
     robotState = robotStateString.toInt();
 
+    playGameFollow = false;
+
     unsigned char i;
     for (i = 0; i < 60; i++)
     {
@@ -873,6 +872,12 @@ void translateSerial1()
       delay(5);
     }
   }
+  else if (command.startsWith("LV: "))
+  {
+    // use string manipulation to get the LV from the command
+    String lvString = command.substring(4);
+    lv = lvString.toInt(); 
+  }  
 
   if (command.startsWith("playAudio: "))
   {
@@ -991,7 +996,19 @@ void setRobotStateViaLV()
 void changeLVByValue(int value)
 {
   lv = lv + value;
-  Serial1.println("UPDATE LV: " + lv);
+
+  if (lv < 0)
+  {
+    lv = 0;
+  }
+  else if (lv > 99)
+  {
+    lv = 99;
+  }
+
+  Serial1.print("UPDATE LV: ");
+  Serial1.println(lv);
+
 }
 
 
@@ -1379,11 +1396,11 @@ void setup()
         String robotStateString = command.substring(12);
         robotState = robotStateString.toInt();
 
-        Serial1.println(robotState);
 
         robotStateRecieved = true;
       } else if (command.startsWith("LV: "))
       {
+
         // use string manipulation to get the LV from the command
         String lvString = command.substring(4);
         lv = lvString.toInt(); 
@@ -1395,6 +1412,7 @@ void setup()
 
 
 
+  delay(1000); // This is here just to make sure there isnt any conflict between data and comonents
 
   unsigned char i;
   for (i = 0; i < 60; i++)
@@ -1481,7 +1499,11 @@ void loop()
     {
       drawFrame(LOADING2[j]);
     }
-  } 
+  }
+  else if (robotState == 5)
+  {
+    dorobotStateAction();
+  }
   else if (robotState == 0) // state pending. to be recieved via LV
   {
     setRobotStateViaLV();
@@ -1543,7 +1565,7 @@ void loop()
   stopMotors(); // This is here just for good measure
 
 
-  robotStateUpsidedown();
+
 
   if (robotState == 1 || robotState == 2 || robotState == 3 ||
       robotState == 4 || robotState == 5 || robotState == 6 ||
@@ -1683,7 +1705,7 @@ void robotStateHappy()
     player.playMp3Folder(14); // Play the "0014.mp3" in the "mp3" folder on the SD card // laugh
     motorSpeedFast();
     forwardUntilObstacle();
-    Serial1.println("obstacle");
+
 
   } else if (randomNum == 2)
   {
@@ -1696,11 +1718,10 @@ void robotStateHappy()
     player.playMp3Folder(7); // Play the "0007.mp3" in the "mp3" folder on the SD card // cheer
     motorSpeedFast();
     spinForDuration(5000);
-    Serial1.println("spin");
+
 
   } else if (randomNum == 4)
   {
-    Serial1.println("FB");
 
     // go forward and backwards 5 times
     player.playMp3Folder(14); // Play the "0014.mp3" in the "mp3" folder on the SD card // laugh
@@ -1715,7 +1736,6 @@ void robotStateHappy()
 
   } else if (randomNum == 5)
   {
-    Serial1.println("LR");
     // turn left then right 5 times
     player.playMp3Folder(7); // Play the "0007.mp3" in the "mp3" folder on the SD card // cheer
     motorSpeedFast();
@@ -1870,54 +1890,21 @@ void robotStateSleepy()
 
 void robotStateUpsidedown()
 {
+
   if (digitalRead(tiltBallPin) == LOW) // if the robot is upside down
   {
-    // play nausious animation and sound then fart and sleep until IR remote input and right way round//////////////////////////////////////////////////////////////////
-
-    player.playMp3Folder(15); // Play the "0015.mp3" in the "mp3" folder on the SD card // scream
-    
-    for (int j = 0; j < SCARED_LENGTH; j++)
+    if (millis() - tiltBallMillisTimer >= 15000) 
     {
-      drawFrame(SCARED[j]);
-    }
-
-    bool wokenUp = false;
-    while (wokenUp == false && digitalRead(tiltBallPin) == LOW) // the robot is not upside down anymore and has been woken up by the ir remote
-    { 
-      // if any button on the ir remote is pressed then wake up
-      switch(results.value)
+      // this will run every 15 seconds while upside down
+      player.playMp3Folder(15); // Play the "0015.mp3" in the "mp3" folder on the SD card // scream
+      tiltBallMillisTimer = millis();
+      changeLVByValue(-5); // decrease LV by 5
+      for (int j = 0; j < SCARED_LENGTH; j++)
       {
-        case 0xFFA25D:   wokenUp = true; break;
-        case 0xFFE21D:   wokenUp = true; break;
-        case 0xFF629D:   wokenUp = true; break;
-        case 0xFF22DD:   wokenUp = true; break;
-        case 0xFF02FD:   wokenUp = true; break;
-        case 0xFFC23D:   wokenUp = true; break;
-        case 0xFFE01F:   wokenUp = true; break;
-        case 0xFFA857:   wokenUp = true; break;
-        case 0xFF906F:   wokenUp = true; break;
-        case 0xFF9867:   wokenUp = true; break;
-        case 0xFFB04F:   wokenUp = true; break;
-        case 0xFF6897:   wokenUp = true; break;
-        case 0xFF30CF:   wokenUp = true; break;
-        case 0xFF18E7:   wokenUp = true; break;
-        case 0xFF7A85:   wokenUp = true; break;
-        case 0xFF10EF:   wokenUp = true; break;
-        case 0xFF38C7:   wokenUp = true; break;
-        case 0xFF5AA5:   wokenUp = true; break;
-        case 0xFF42BD:   wokenUp = true; break;
-        case 0xFF4AB5:   wokenUp = true; break;
-        case 0xFF52AD:   wokenUp = true; break;
-        case 0xFFFFFFFF: wokenUp = true; break;  
-
-        default: 
-        wokenUp = true;
+        drawFrame(SCARED[j]);
       }
     }
-    robotState = 0; // set robot state to pending so that it can be set via LV again
-  } 
-
-  
+  }
 }
 
 
@@ -1989,6 +1976,15 @@ void robotStateScared()
     }
   }
   stopMotors();
+  while (isRobotUpsideDown() == false)
+  {
+    // wait until robot is upright again
+    digitalWrite(beeperPin, HIGH);
+    delay(100);
+    digitalWrite(beeperPin, LOW);
+
+  }
+  delay(2000);
   changeLVByValue(5); // increase LV by 5
   robotState = 0;
 }
@@ -2004,6 +2000,8 @@ void robotStateAttached()
   } 
 }
 
+
+
 void robotStateFollow()
 {
 
@@ -2013,14 +2011,20 @@ void robotStateFollow()
   }
   // use ultrasonic sensor and infared sensors to follow object infront
 
-  bool playGameFollow = true;
+  playGameFollow = true;
   motorSpeedSlow();
   unsigned long soundlastPlayTime = 0;
-  const unsigned long soundplayInterval = 5000; // 5 seconds
+  unsigned long lvLastUpdated = 0;
   bool lastAudioPlayedIs12 = false;
   while (playGameFollow == true)
   {
-    if (millis() - soundlastPlayTime >= soundplayInterval) 
+    checkForSerial1();
+    if (millis() - lvLastUpdated >= 30000) 
+    {
+      changeLVByValue(1); // increase LV by 1 every 30 seconds
+      lvLastUpdated = millis();
+    }
+    if (millis() - soundlastPlayTime >= 5000) 
     {
       if (lastAudioPlayedIs12 == false)
       {

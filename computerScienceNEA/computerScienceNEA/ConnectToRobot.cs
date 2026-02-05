@@ -106,6 +106,7 @@ namespace computerScienceNEA
             progressBar.Value = 80;
             System.Threading.Thread.Sleep(500);
             progressBar.Value = 90;
+            
             if (!(comboBoxPorts.SelectedItem == null)) // if the comboBox(the menu to select your port) is not empty
             {
                 if (serialPort.IsOpen) // If the port is open, close it first

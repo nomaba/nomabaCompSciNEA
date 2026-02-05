@@ -86,7 +86,7 @@ namespace computerScienceNEA
                         // Username is not used by someone else
 
                         //works dont touch
-                        string queryCheckColourExists = "SELECT colourName FROM colours WHERE colourName = @favColour";
+                        string queryCheckColourExists = "SELECT colourName FROM colours WHERE colourName = @favColour"; //checks if the user's favourite colour exists in the database
                         SQLiteCommand myCommmandCheckColourExists = new SQLiteCommand(queryCheckColourExists, myConnection); // Created new variable that stores the query
                         myCommmandCheckColourExists.Parameters.AddWithValue("@favColour", favouriteColour);
                         SQLiteDataReader resultCheckColourExists = myCommmandCheckColourExists.ExecuteReader();
@@ -110,7 +110,7 @@ namespace computerScienceNEA
 
 
                         System.Threading.Thread.Sleep(2000);
-                        string queryFindColourID = "SELECT colourID FROM colours WHERE colourName = @favColour";
+                        string queryFindColourID = "SELECT colourID FROM colours WHERE colourName = @favColour"; //gets the colourID of the user's favourite colour
                         SQLiteCommand myCommmandFindColourID = new SQLiteCommand(queryFindColourID, myConnection); // Created new variable that stores the query
                         myCommmandFindColourID.Parameters.AddWithValue("@favColour", favouriteColour);
                         myCommmandFindColourID.ExecuteNonQuery();
@@ -120,7 +120,7 @@ namespace computerScienceNEA
                         progressBar.Value = 40;
 
                         //works dont touch
-                        string queryCheckFoodColourExists = "SELECT colourName FROM colours WHERE colourName = @foodColour";
+                        string queryCheckFoodColourExists = "SELECT colourName FROM colours WHERE colourName = @foodColour";//checks if the user's favourite food's colour exists in the database
                         SQLiteCommand myCommmandCheckFoodColourExists = new SQLiteCommand(queryCheckFoodColourExists, myConnection); // Created new variable that stores the query
                         myCommmandCheckFoodColourExists.Parameters.AddWithValue("@foodColour", favouriteFoodColour);
                         SQLiteDataReader resultCheckFoodColourExists = myCommmandCheckFoodColourExists.ExecuteReader();
@@ -140,7 +140,7 @@ namespace computerScienceNEA
 
 
                         System.Threading.Thread.Sleep(2000);
-                        string queryFindFoodColourID = "SELECT colourID FROM colours WHERE colourName = @foodColour";
+                        string queryFindFoodColourID = "SELECT colourID FROM colours WHERE colourName = @foodColour"; //gets the colourID of the user's favourite foods colour
                         SQLiteCommand myCommmandFindFoodColourID = new SQLiteCommand(queryFindFoodColourID, myConnection); // Created new variable that stores the query
                         myCommmandFindFoodColourID.Parameters.AddWithValue("@foodColour", favouriteFoodColour);
                         myCommmandFindFoodColourID.ExecuteNonQuery();
@@ -150,7 +150,7 @@ namespace computerScienceNEA
 
 
                         //works dont touch
-                        string queryCheckFoodExists = "SELECT foodName FROM foods WHERE foodName = @favFood";
+                        string queryCheckFoodExists = "SELECT foodName FROM foods WHERE foodName = @favFood"; //checks if the user's favourite food exists in the database
                         SQLiteCommand myCommmandCheckFoodExists = new SQLiteCommand(queryCheckFoodExists, myConnection); // Created new variable that stores the query
                         myCommmandCheckFoodExists.Parameters.AddWithValue("@favFood", favouriteFood);
                         SQLiteDataReader resultCheckFoodExists = myCommmandCheckFoodExists.ExecuteReader();

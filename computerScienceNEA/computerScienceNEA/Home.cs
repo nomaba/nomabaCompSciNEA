@@ -44,7 +44,7 @@ namespace computerScienceNEA
 
 
             // set the favourite game
-            int? tempFavGameID;
+            int ? tempFavGameID;
             string tempFavGameName = "";
             tempFavGameID = tempclass.LoggedInAccountDetailsTemp.getfavGameID();
 
@@ -184,7 +184,6 @@ namespace computerScienceNEA
             // set robot state to RR
 
             // nothing special, its just russian roulette
-            //the robot moves backwards a little bit when the gun is fired
 
             tempclass.finalisedCOMPortsTemp.setStateToValue(12);
 
@@ -199,7 +198,7 @@ namespace computerScienceNEA
 
             // bowling state moves the robot forward for 3 seconds every time the roll button is pressed on the PC
             // if an object was detected within 3 cm then the user is given a point
-            // if they miss 3 shots then the game ends and the user is shown their points and then the high scores are saved in the database
+            // if they miss 2 shots then the game ends and the user is shown their points and then the high scores are saved in the database
 
             tempclass.finalisedCOMPortsTemp.setStateToValue(13);
 

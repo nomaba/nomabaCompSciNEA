@@ -66,6 +66,7 @@ namespace computerScienceNEA
             this.label1.Size = new System.Drawing.Size(430, 32);
             this.label1.TabIndex = 12;
             this.label1.Text = "How many dice do you want to roll";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // buttonGoHome
             // 

@@ -62,9 +62,6 @@ namespace computerScienceNEA
 
                 
 
-                serialPort.WriteLine("robotState: 14");
-                System.Threading.Thread.Sleep(1000);
-                serialPort.WriteLine("LV: " + "50");
             }
             catch (Exception ex)
             {
@@ -109,7 +106,7 @@ namespace computerScienceNEA
                 string lvString = data.Substring(11);
                 int lv = int.Parse(lvString);
 
-                tempclass.LoggedInAccountDetailsTemp.updateLV(lv);
+                tempclass.LoggedInAccountDetailsTemp.updateLVTo(lv);
             }
 
         }
@@ -189,16 +186,8 @@ namespace computerScienceNEA
 
 
 
-
-
-
-
         // use inheritance to manage all of the robot com ports
-
         // use inheritance to check if the serial port is open before a message is sent.   
-
         // since we cant send message boxes in this console, we can use inheritance to send a message box from this class into the connectToRobot class and then display it on the form there
-
-        // change lines 59 and 63 and 45 and 50
     }
 }
